@@ -69,7 +69,7 @@ let s:V2 = [ '#0E3B4F' , '#FF9DA5' , 232 , 202 ]
 let s:V3 = [ '#ffffff' , '#FF5B6F' , 15  , 52  ]
 let g:airline#themes#qwq#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
 let g:airline#themes#qwq#palette.visual_modified = {
-      \ 'airline_c': [ '#ffffff' , 'FF003F' , 255     , 53      , ''     ] ,
+      \ 'airline_c': [ '#ffffff' , '#FF003F' , 255     , 53      , ''     ] ,
       \ }
 
 " inactive

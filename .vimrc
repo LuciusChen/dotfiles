@@ -85,7 +85,8 @@
     Plugin 'scrooloose/nerdtree'
     Plugin 'tpope/vim-fugitive'
     Plugin 'mattn/emmet-vim'
-    Plugin 'Valloric/YouCompleteMe'
+    "Plugin 'Valloric/YouCompleteMe'
+    Plugin 'Shougo/neocomplete.vim'
     Plugin 'scrooloose/syntastic'
     Plugin 'vim-airline/vim-airline'
     Plugin 'easymotion/vim-easymotion'
@@ -95,37 +96,111 @@
     filetype plugin indent on
 "}
 
+"vim-neocomplete {
+    "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+        \ 'default' : '',
+        \ 'vimshell' : $HOME.'/.vimshell_hist',
+        \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+      return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+      " For no inserting <CR> key.
+      "return pumvisible() ? "\<C-y>" : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " Close popup by <Space>.
+    "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+    " AutoComplPop like behavior.
+    "let g:neocomplete#enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt+=longest
+    "let g:neocomplete#enable_auto_select = 1
+    "let g:neocomplete#disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    " For perlomni.vim setting.
+    " https://github.com/c9s/perlomni.vim
+    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+"}
+
 "vim-YouCompleteMe {
     "=====================
     "dependencies:
     "brew install CMake
     "=====================
     "默认配置文件路径
-    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+    "let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
     "打开vim时不再询问是否加载ycm_extra_conf.py配置"
-    let g:ycm_confirm_extra_conf=0
+    "let g:ycm_confirm_extra_conf=0
 
-    set completeopt=longest,menu
+    "set completeopt=longest,menu
     "python解释器路径"
-    let g:ycm_path_to_python_interpreter='/usr/local/Cellar/python/2.7.12_1/bin/python2.7'
-    "let g:ycm_path_to_python_interpreter='/usr/bin/python'
+    "let g:ycm_path_to_python_interpreter='/usr/local/Cellar/python/2.7.12_1/bin/python2.7'
+    "let g:ycm_path_to_python_interpreter='/usr/local/bin/python'
     "是否开启语义补全"
-    let g:ycm_seed_identifiers_with_syntax=1
+    "let g:ycm_seed_identifiers_with_syntax=1
     "是否在注释中也开启补全"
-    let g:ycm_complete_in_comments=1
-    let g:ycm_collect_identifiers_from_comments_and_strings = 0
+    "let g:ycm_complete_in_comments=1
+    "let g:ycm_collect_identifiers_from_comments_and_strings = 0
     "开始补全的字符数"
-    let g:ycm_min_num_of_chars_for_completion=2
+    "let g:ycm_min_num_of_chars_for_completion=2
     "补全后自动关机预览窗口"
-    let g:ycm_autoclose_preview_window_after_completion=1
+    "let g:ycm_autoclose_preview_window_after_completion=1
     " 禁止缓存匹配项,每次都重新生成匹配项"
-    let g:ycm_cache_omnifunc=0
+    "let g:ycm_cache_omnifunc=0
     "字符串中也开启补全"
-    let g:ycm_complete_in_strings = 1
+    "let g:ycm_complete_in_strings = 1
     "离开插入模式后自动关闭预览窗口"
-    autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+    "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
     "回车即选中当前项"
-    inoremap <expr> <CR>       pumvisible() ? '<C-y>' : '<CR>'
+    "inoremap <expr> <CR>       pumvisible() ? '<C-y>' : '<CR>'
 "}
 
 " vim-Airline {
@@ -339,4 +414,3 @@
     nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
     nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 "}
-

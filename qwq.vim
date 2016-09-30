@@ -73,8 +73,8 @@ let g:airline#themes#qwq#palette.visual_modified = {
       \ }
 
 " inactive
-let s:IA1 = [ '#0E3B4F' , '#F2DFCD' , 239 , 234 , '' ]
-let s:IA2 = [ '#ffffff' , '#DDC6AF' , 239 , 235 , '' ]
+let s:IA1 = [ '#0E3B4F' , '#FEFCF9' , 239 , 234 , '' ]
+let s:IA2 = [ '#0E3B4F' , '#DDC6AF' , 239 , 235 , '' ]
 let s:IA3 = [ '#ffffff' , '#B9A695' , 239 , 236 , '' ]
 let g:airline#themes#qwq#palette.inactive = airline#themes#generate_color_map(s:IA1, s:IA2, s:IA3)
 let g:airline#themes#qwq#palette.inactive_modified = {

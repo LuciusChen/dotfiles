@@ -75,6 +75,9 @@
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
     Plugin 'L9'
+    " The tabular plugin must come before vim-markdown.
+    Plugin 'godlygeek/tabular'
+    Plugin 'plasticboy/vim-markdown'
     Plugin 'dyng/ctrlsf.vim' " 全局搜索
     Plugin 'ctrlpvim/ctrlp.vim' " 文件内搜索
     Plugin 'tpope/vim-surround'
@@ -94,6 +97,18 @@
     Plugin 'vim-airline/vim-airline-themes'
     call vundle#end()
     filetype plugin indent on
+" }
+
+" vim-markdown {
+    " URL: https://github.com/plasticboy/vim-markdown
+    " This option only controls Vim Markdown
+    " specific folding configuration.
+    let g:vim_markdown_folding_disabled = 1
+    " To fold in a style like python-mode
+    let g:vim_markdown_folding_style_pythonic = 1
+    " Allow for the TOC window to auto-fit
+    " when it's possible for it to shrink
+    let g:vim_markdown_toc_autofit = 1
 " }
 
 " vim-neocomplete {

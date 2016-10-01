@@ -1,3 +1,3 @@
-# vim 配置
+# Lucius's dotfiles
 
-vim 配置
+just for backup

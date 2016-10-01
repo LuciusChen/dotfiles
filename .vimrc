@@ -20,10 +20,10 @@
     " 允许用指定语法高亮配色方案替换默认方案
     syntax on
     " solarized主题设置在终端下的设置
-    "let g:solarized_termcolors=256
+    let g:solarized_termcolors=256
     " 设置背景色
     set background=dark
-    colorscheme Spacedust
+    colorscheme solarized
     " 设置不折行
     set nowrap
     " 设置以unix的格式保存文件
@@ -260,6 +260,19 @@
     " brew install ctags
     " =====================
     nmap <F8> :TagbarToggle<CR>
+    let g:tagbar_autofocus = 1
+    " tags are sorted according to their order in the source file
+    let g:tagbar_sort = 0
+    function! TagbarStatusFunc(current, sort, fname, flags, ...) abort
+        let colour = a:current ? '%#StatusLine#' : '%#StatusLineNC#'
+        let flagstr = join(flags, '')
+        if flagstr != ''
+            let flagstr = '[' . flagstr . '] '
+        endif
+        return colour . '[' . sort . '] ' . flagstr . fname
+    endfunction
+    let g:tagbar_status_func = 'TagbarStatusFunc'
+
 " }
 
 " vim-indentLine {
@@ -301,6 +314,9 @@
     xnoremap <S-Tab> <gv
     nnoremap > >>_
     nnoremap < <<_
+    " press <F7> whenever you want to format
+    " your file(re-indent your entire file)
+    map <F7> mzgg=G`z
 " }
 
 " vim-emment {

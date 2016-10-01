@@ -55,7 +55,7 @@ let g:airline#themes#qwq#palette.accents = { 'red': [ '#ffffff', '', 160, '' ] }
 if !get(g:, 'loaded_ctrlp', 0)
   finish
 endif
-let s:C1 = [ '#0E3B4F' , '#FEFCF9' , 189 , 55  , '' ]
-let s:C2 = [ '#0E3B4F' , '#DDC6AF' , 231 , 98  , '' ]
-let s:C3 = [ '#ffffff' , '#B9A695' , 55  , 231 , '' ]
+let s:C1 = [ '#0E3B4F' , '#FAD792' , 189 , 55  , '' ]
+let s:C2 = [ '#ffffff' , '#F1A068' , 231 , 98  , '' ]
+let s:C3 = [ '#0E3B4F' , '#F3EEDF' , 55  , 231 , '' ]
 let g:airline#themes#qwq#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(s:C1, s:C2, s:C3)

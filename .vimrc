@@ -78,8 +78,14 @@
     " The tabular plugin must come before vim-markdown.
     Plugin 'godlygeek/tabular'
     Plugin 'plasticboy/vim-markdown'
-    Plugin 'dyng/ctrlsf.vim' " 全局搜索
-    Plugin 'ctrlpvim/ctrlp.vim' " 文件内搜索
+    " auxiliar markdown
+    "Plugin 'jszakmeister/markdown2ctags'
+    "Plugin 'suan/vim-instant-markdown'
+    "Plugin 'mzlogin/vim-markdown-toc'
+    " 全局搜索
+    Plugin 'dyng/ctrlsf.vim'
+    " 文件内搜索
+    Plugin 'ctrlpvim/ctrlp.vim'
     Plugin 'tpope/vim-surround'
     Plugin 'Yggdroot/indentLine'
     Plugin 'Raimondi/delimitMate'
@@ -88,6 +94,7 @@
     Plugin 'scrooloose/nerdtree'
     Plugin 'tpope/vim-fugitive'
     Plugin 'mattn/emmet-vim'
+    Plugin 'scrooloose/nerdcommenter'
     "Plugin 'Valloric/YouCompleteMe'
     Plugin 'Shougo/neocomplete.vim'
     Plugin 'scrooloose/syntastic'
@@ -109,6 +116,17 @@
     " Allow for the TOC window to auto-fit
     " when it's possible for it to shrink
     let g:vim_markdown_toc_autofit = 1
+    " To disable conceal regardless of conceallevel setting
+    let g:vim_markdown_conceal = 0
+    " vim-instant-markdown {
+        " =====================
+        " dependencies:
+        " `npm -g install instant-markdown-d`
+        " =====================
+        " close auto preview
+        let g:instant_markdown_autostart = 0
+        nmap <F10> :InstantMarkdownPreview<CR>
+    " }
 " }
 
 " vim-neocomplete {
@@ -188,39 +206,6 @@
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }
 
-" vim-YouCompleteMe {
-    " =====================
-    " dependencies:
-    " brew install CMake
-    " =====================
-    " 默认配置文件路径
-    "let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-    " 打开vim时不再询问是否加载ycm_extra_conf.py配置"
-    "let g:ycm_confirm_extra_conf=0
-
-    "set completeopt=longest,menu
-    " python解释器路径"
-    "let g:ycm_path_to_python_interpreter='/usr/local/Cellar/python/2.7.12_1/bin/python2.7'
-    "let g:ycm_path_to_python_interpreter='/usr/local/bin/python'
-    " 是否开启语义补全"
-    "let g:ycm_seed_identifiers_with_syntax=1
-    " 是否在注释中也开启补全"
-    "let g:ycm_complete_in_comments=1
-    "let g:ycm_collect_identifiers_from_comments_and_strings = 0
-    " 开始补全的字符数"
-    "let g:ycm_min_num_of_chars_for_completion=2
-    " 补全后自动关机预览窗口"
-    "let g:ycm_autoclose_preview_window_after_completion=1
-    " 禁止缓存匹配项,每次都重新生成匹配项"
-    "let g:ycm_cache_omnifunc=0
-    " 字符串中也开启补全"
-    "let g:ycm_complete_in_strings = 1
-    " 离开插入模式后自动关闭预览窗口"
-    "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-    " 回车即选中当前项"
-    "inoremap <expr> <CR>       pumvisible() ? '<C-y>' : '<CR>'
-" }
-
 " vim-Airline {
     " =====================
     " dependencies:
@@ -258,6 +243,9 @@
     " =====================
     " dependencies:
     " brew install ctags
+    "
+    " Support for additional filetypes
+    " https://github.com/majutsushi/tagbar/wiki
     " =====================
     nmap <F8> :TagbarToggle<CR>
     let g:tagbar_autofocus = 1
@@ -272,12 +260,28 @@
         return colour . '[' . sort . '] ' . flagstr . fname
     endfunction
     let g:tagbar_status_func = 'TagbarStatusFunc'
-
+    "markdown2ctags {
+        " Add support for markdown files in tagbar.
+        let g:tagbar_type_markdown = {
+            \ 'ctagstype': 'markdown',
+            \ 'ctagsbin' : '~/.vim/bundle/markdown2ctags/markdown2ctags.py',
+            \ 'ctagsargs' : '-f - --sort=yes',
+            \ 'kinds' : [
+                \ 's:sections',
+                \ 'i:images'
+            \ ],
+            \ 'sro' : '|',
+            \ 'kind2scope' : {
+                \ 's' : 'section',
+            \ },
+            \ 'sort': 0,
+        \ }
+    "}
 " }
 
 " vim-indentLine {
-    let g:indentLine_char='┆'
     let g:indentLine_enabled=1
+    let g:indentLine_char='┆'
 " }
 
 " vim-easymotion {
@@ -371,12 +375,11 @@
 " vim-multiple-cursor {
     let g:multi_cursor_use_default_mapping=0
     " Default mapping
-    let g:multi_cursor_next_key='<C-m>'
+    let g:multi_cursor_next_key='<C-n>'
     let g:multi_cursor_prev_key='<C-p>'
     let g:multi_cursor_skip_key='<C-x>'
     let g:multi_cursor_quit_key='<Esc>'
 "}
-
 
 " NERDTree {
     " NERDTree 子窗口中不显示冗余帮助信息
@@ -400,6 +403,29 @@
     " let g:airline#extensions#branch#format = 1
     " enable/disable syntastic integration
     let g:airline#extensions#syntastic#enabled = 1
+" }
+
+" nerdcommenter {
+    " Add spaces after comment delimiters by default
+    let g:NERDSpaceDelims = 1
+
+    " Use compact syntax for prettified multi-line comments
+    let g:NERDCompactSexyComs = 1
+
+    " Align line-wise comment delimiters flush left instead of following code indentation
+    let g:NERDDefaultAlign = 'left'
+
+    " Set a language to use its alternate delimiters by default
+    let g:NERDAltDelims_java = 1
+
+    " Add your own custom formats or override the defaults
+    "let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+    " Allow commenting and inverting empty lines (useful when commenting a region)
+    let g:NERDCommentEmptyLines = 1
+
+    " Enable trimming of trailing whitespace when uncommenting
+    let g:NERDTrimTrailingWhitespace = 1
 " }
 
 " vim-function {

@@ -4,4 +4,4 @@ just for backup
 
 ## airline-theme-qwq
 
-![qwq theme](/images/qwq.jpeg)
+![qwq theme](/images/qwq.jpg)

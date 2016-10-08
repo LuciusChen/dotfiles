@@ -1,11 +1,5 @@
 " vim-general {
-    " 开启文件类型侦测
-    filetype on
-    " 根据侦测到的不同类型加载对应的插件
-    filetype plugin on
-    " 去掉vi的一致性
     set nocompatible
-    " 显示行号
     set number
     " 隐藏滚动条
     set guioptions-=r
@@ -68,19 +62,22 @@
     set cursorcolumn
     " 定义快捷键的前缀，即<Leader>
     let mapleader=";"
+    "set conceallevel=3
+    "set concealcursor=nc
 " }
 
 " vim-Vundle {
     filetype off
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
+    Plugin 'VundleVim/Vundle.vim'
     Plugin 'L9'
     " The tabular plugin must come before vim-markdown.
     Plugin 'godlygeek/tabular'
     Plugin 'plasticboy/vim-markdown'
     " auxiliar markdown
-    "Plugin 'jszakmeister/markdown2ctags'
-    "Plugin 'suan/vim-instant-markdown'
+    Plugin 'jszakmeister/markdown2ctags'
+    Plugin 'suan/vim-instant-markdown'
     "Plugin 'mzlogin/vim-markdown-toc'
     " 全局搜索
     Plugin 'dyng/ctrlsf.vim'
@@ -89,23 +86,25 @@
     Plugin 'tpope/vim-surround'
     Plugin 'Yggdroot/indentLine'
     Plugin 'Raimondi/delimitMate'
-    Plugin 'VundleVim/Vundle.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'scrooloose/nerdtree'
     Plugin 'tpope/vim-fugitive'
     Plugin 'mattn/emmet-vim'
     Plugin 'scrooloose/nerdcommenter'
-    "Plugin 'Valloric/YouCompleteMe'
     Plugin 'Shougo/neocomplete.vim'
     Plugin 'scrooloose/syntastic'
     Plugin 'vim-airline/vim-airline'
     Plugin 'easymotion/vim-easymotion'
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'elzr/vim-json'
     call vundle#end()
     filetype plugin indent on
 " }
 
+" vim-json {
+    let g:vim_json_syntax_conceal = 0
+" }
 " vim-markdown {
     " URL: https://github.com/plasticboy/vim-markdown
     " This option only controls Vim Markdown
@@ -331,11 +330,13 @@
 " }
 
 " vim-CtrlP {
-    set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-    let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-      \ 'file': '\v\.(exe|so|dll|jpg|png|jpeg)$',
-      \ }
+    " let g:ctrlp_working_path_mode = 0
+    let g:ctrlp_map = '<c-f>'
+    map <leader>j :CtrlP<cr>
+    map <c-b> :CtrlPBuffer<cr>
+
+    let g:ctrlp_max_height = 20
+    let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 " }
 
 " vim-syntastic {
@@ -348,13 +349,13 @@
     let g:syntastic_warning_symbol = '⚠'
 
     let g:syntastic_enable_highlighting = 0
-    "let g:syntastic_python_checker='flake8,pyflakes,pep8,pylint'
-    "let g:syntastic_python_checkers=['pyflakes']
+    let g:syntastic_python_checker='flake8,pyflakes,pep8,pylint'
+    let g:syntastic_python_checkers=['pyflakes']
     let g:syntastic_css_checker='csslint'
     let g:syntastic_css_checkers= ['csslint']
     let g:syntastic_javascript_checker='jshint,jslint'
     " jslint 作为候选
-    let g:syntastic_javascript_checkers = ['jshint','jslint']
+    let g:syntastic_javascript_checkers = ['jshint']
     " highlight SyntasticErrorSign guifg=white guibg=black
     let g:syntastic_cpp_include_dirs = ['/usr/include/']
     let g:syntastic_cpp_remove_include_errors = 1
@@ -367,8 +368,8 @@
     let g:syntastic_auto_loc_list = 1
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
-
-    let g:syntastic_debug = 1
+    " debug
+    "let g:syntastic_debug = 1
 
 " }
 

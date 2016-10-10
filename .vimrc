@@ -370,7 +370,7 @@
     let g:syntastic_check_on_wq = 0
     " debug
     "let g:syntastic_debug = 1
-
+    let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
 " }
 
 " vim-multiple-cursor {

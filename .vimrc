@@ -96,6 +96,7 @@
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'elzr/vim-json'
+    Plugin 'hynek/vim-python-pep8-indent'
     call vundle#end()
     filetype plugin indent on
 " }

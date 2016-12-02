@@ -45,14 +45,12 @@
     set hlsearch
     " 不允许扩展table
     "set noexpandtab
+    " 编辑时将所有 Tab 替换为空格
     set expandtab
     " 自动缩进尺寸为 4 个空格
-    set sw=4
+    set shiftwidth=4
     " Tab 宽度为 4 个字符
-    set ts=4
-    " 编辑时将所有 Tab 替换为空格
-    set et
-    " delete 可以删除 4 个空格
+    set tabstop=4
     set smarttab
     set whichwrap+=<,>,h,l
     set autoread

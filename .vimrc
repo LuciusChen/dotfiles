@@ -96,13 +96,27 @@
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'elzr/vim-json'
-    Plugin 'hynek/vim-python-pep8-indent'
+    " 为了解决 python 下缩进为两个 tab 的问题
+    " 废弃
+    "Plugin 'hynek/vim-python-pep8-indent'
+    " python 利器
     Plugin 'klen/python-mode'
     call vundle#end()
     filetype plugin indent on
 " }
 
 " python-mode {
+
+    " ========================================================================
+     " - Run python code (``<leader>r``)
+     " - Add/remove breakpoints (``<leader>b``)
+     " - Python motions and operators (``]]``, ``3[[``, ``]]M``, ``vaC``,
+     "   ``viM``, ``daC``, ``ciM``, ...)
+     " - Code checking  (pylint_, pyflakes_, pylama_, ...) that can be run
+     "   simultaneously (``:PymodeLint``)
+     " - Autofix PEP8 errors (``:PymodeLintAuto``)
+     " - Search in python documentation (``K``)
+     " - Go to definition (``<C-c>g`` for `:RopeGotoDefinition`)
     let g:pymode_python = 'python3'
 " }
 
@@ -411,6 +425,15 @@
 " }
 
 " nerdcommenter {
+
+    " ==================================
+    " <leader>cc 注释当前行
+    " <leader>cm 只用一组符号来注释
+    " <leader>cy 注释并复制
+    " <leader>cs 优美的注释
+    " <leader>cu 取消注释
+    " ==================================
+
     " Add spaces after comment delimiters by default
     let g:NERDSpaceDelims = 1
 

@@ -118,6 +118,7 @@
      " - Search in python documentation (``K``)
      " - Go to definition (``<C-c>g`` for `:RopeGotoDefinition`)
     let g:pymode_python = 'python3'
+    let g:pymode_folding = 0
 " }
 
 " vim-json {

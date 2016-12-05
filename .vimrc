@@ -62,7 +62,6 @@
     let mapleader=";"
     "set conceallevel=3
     "set concealcursor=nc
-    let g:pymode_python = 'python3'
 " }
 
 " vim-Vundle {
@@ -98,8 +97,13 @@
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'elzr/vim-json'
     Plugin 'hynek/vim-python-pep8-indent'
+    Plugin 'klen/python-mode'
     call vundle#end()
     filetype plugin indent on
+" }
+
+" python-mode {
+    let g:pymode_python = 'python3'
 " }
 
 " vim-json {
@@ -474,7 +478,4 @@
     " 确认、整词
     nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
     nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
-
-    " F9 run python code
-    autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 " }

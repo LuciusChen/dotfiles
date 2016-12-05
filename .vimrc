@@ -62,6 +62,7 @@
     let mapleader=";"
     "set conceallevel=3
     "set concealcursor=nc
+    let g:pymode_python = 'python3'
 " }
 
 " vim-Vundle {

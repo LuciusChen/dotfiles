@@ -1,4 +1,7 @@
-" vim-general {
+" vim-general {{{
+    " 'zi' 打开折叠
+    " 'zm' 关闭折叠
+    set fdm=marker
     set nocompatible
     set number
     " 隐藏滚动条
@@ -60,11 +63,9 @@
     set cursorcolumn
     " 定义快捷键的前缀，即<Leader>
     let mapleader=";"
-    "set conceallevel=3
-    "set concealcursor=nc
-" }
+" }}}
 
-" vim-Vundle {
+" vim-Vundle {{{
     filetype off
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
@@ -76,7 +77,7 @@
     " auxiliar markdown
     Plugin 'jszakmeister/markdown2ctags'
     Plugin 'suan/vim-instant-markdown'
-    "Plugin 'mzlogin/vim-markdown-toc'
+    " Plugin 'mzlogin/vim-markdown-toc'
     " 全局搜索
     Plugin 'dyng/ctrlsf.vim'
     " 文件内搜索
@@ -87,7 +88,7 @@
     Plugin 'majutsushi/tagbar'
     Plugin 'scrooloose/nerdtree'
     Plugin 'tpope/vim-fugitive'
-    Plugin 'mattn/emmet-vim'
+    " Plugin 'mattn/emmet-vim'
     Plugin 'scrooloose/nerdcommenter'
     Plugin 'Shougo/neocomplete.vim'
     Plugin 'scrooloose/syntastic'
@@ -96,35 +97,64 @@
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'vim-airline/vim-airline-themes'
     Plugin 'elzr/vim-json'
-    " 为了解决 python 下缩进为两个 tab 的问题
-    " 废弃
-    "Plugin 'hynek/vim-python-pep8-indent'
     " python 利器
     Plugin 'klen/python-mode'
+    Plugin 'davidhalter/jedi-vim'
     call vundle#end()
     filetype plugin indent on
-" }
+" }}}
 
-" python-mode {
+" jedi-vim {{{
+    " 解决提示不能消失，覆盖代码。
+    " https://github.com/davidhalter/jedi-vim/pull/412
+    let g:jedi#show_call_signatures = 2
+    " 和 python-mode 冲突
+    let g:jedi#rename_command = '<leader>re'
+    " let g:jedi#auto_initialization = 0
+" }}}
 
-    " ========================================================================
-     " - Run python code (``<leader>r``)
-     " - Add/remove breakpoints (``<leader>b``)
-     " - Python motions and operators (``]]``, ``3[[``, ``]]M``, ``vaC``,
-     "   ``viM``, ``daC``, ``ciM``, ...)
-     " - Code checking  (pylint_, pyflakes_, pylama_, ...) that can be run
-     "   simultaneously (``:PymodeLint``)
-     " - Autofix PEP8 errors (``:PymodeLintAuto``)
-     " - Search in python documentation (``K``)
-     " - Go to definition (``<C-c>g`` for `:RopeGotoDefinition`)
-    let g:pymode_python = 'python3'
+" python-mode {{{
+    " Python-mode
+    " Activate rope
+    " Keys:
+    " <Ctrl-Space>  Rope autocomplete
+    " <Ctrl-c>g     Rope goto definition
+    " <Ctrl-c>d     Rope show documentation
+    " <Ctrl-c>f     Rope find occurrences
+    " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
+    " [[            Jump on previous class or function (normal, visual, operator modes)
+    " ]]            Jump on next class or function (normal, visual, operator modes)
+    " [M            Jump on previous class or method (normal, visual, operator modes)
+    " ]M            Jump on next class or method (normal, visual, operator modes)
+    let g:pymode_rope = 0
+
+    "Linting
+    let g:pymode_lint = 1
+    let g:pymode_lint_checker = "pyflakes,pep8"
+    " Auto check on save
+    let g:pymode_lint_write = 1
+
+    " Enable breakpoints plugin
+    let g:pymode_breakpoint = 1
+    let g:pymode_breakpoint_bind = '<leader>b'
+
+    " syntax highlighting
+    let g:pymode_syntax = 1
+    let g:pymode_syntax_all = 1
+    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+    " Don't autofold code
     let g:pymode_folding = 0
-" }
 
-" vim-json {
+    let g:pymode_python = 'python3'
+" }}}
+
+" vim-json {{{
     let g:vim_json_syntax_conceal = 0
-" }
-" vim-markdown {
+" }}}
+
+" vim-markdown {{{
     " URL: https://github.com/plasticboy/vim-markdown
     " This option only controls Vim Markdown
     " specific folding configuration.
@@ -145,9 +175,9 @@
         let g:instant_markdown_autostart = 0
         nmap <F10> :InstantMarkdownPreview<CR>
     " }
-" }
+" }}}
 
-" vim-neocomplete {
+" neocomplete {{{
     " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
     " `brew install macvim --with-cscope --with-lua`
@@ -222,9 +252,9 @@
     " For perlomni.vim setting.
     " https://github.com/c9s/perlomni.vim
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-" }
+" }}}
 
-" vim-Airline {
+" vim-Airline {{{
     " =====================
     " dependencies:
     " Powerline-Fonts URL:https://github.com/powerline/fonts
@@ -255,9 +285,9 @@
     " such as markdown and help files.
     " (default: markdown,rst,org,help,text)
     "let g:airline#extensions#wordcount#filetypes =
-" }
+" }}}
 
-" tagbar {
+" tagbar {{{
     " =====================
     " dependencies:
     " brew install ctags
@@ -295,14 +325,14 @@
             \ 'sort': 0,
         \ }
     "}
-" }
+" }}}
 
-" vim-indentLine {
+" indentLine {{{
     let g:indentLine_enabled=1
     let g:indentLine_char='┆'
-" }
+" }}}
 
-" vim-easymotion {
+" vim-easymotion {{{
     " =====================
     " vim 熟练后安装下面插件提高效率
     " https://github.com/haya14busa/vim-easyoperator-line
@@ -320,9 +350,9 @@
     " Move to word
     map  <Leader>w <Plug>(easymotion-bd-w)
     nmap <Leader>w <Plug>(easymotion-overwin-w)
-" }
+" }}}
 
-" vim-mappings {
+" vim-mappings {{{
     " Ctrl+Shift+上下移动当前行
     nnoremap <silent><C-j> :m .+1<CR>==
     nnoremap <silent><C-k> :m .-2<CR>==
@@ -339,16 +369,16 @@
     " press <F7> whenever you want to format
     " your file(re-indent your entire file)
     map <F7> mzgg=G`z
-" }
+" }}}
 
-" vim-emment {
+" emmet-vim {{{
     " ===============
     " emment usage
     " https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
     " ===============
-" }
+" }}}
 
-" vim-CtrlP {
+" ctrlP {{{
     " let g:ctrlp_working_path_mode = 0
     let g:ctrlp_map = '<c-f>'
     map <leader>j :CtrlP<cr>
@@ -356,9 +386,9 @@
 
     let g:ctrlp_max_height = 20
     let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-" }
+" }}}
 
-" vim-syntastic {
+" syntastic {{{
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
@@ -369,6 +399,8 @@
 
     let g:syntastic_enable_highlighting = 0
     let g:syntastic_python_checker='flake8,pyflakes,pep8,pylint'
+    "  'pip3 install pyflakes' for python3.x
+    "  'pip2 install pyflakes' for python2.x
     let g:syntastic_python_checkers=['pyflakes']
     let g:syntastic_css_checker='csslint'
     let g:syntastic_css_checkers= ['csslint']
@@ -390,18 +422,18 @@
     " debug
     "let g:syntastic_debug = 1
     let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty <", "unescaped &" , "lacks \"action", "is not recognized!", "discarding unexpected"]
-" }
+" }}}
 
-" vim-multiple-cursor {
+" vim-multiple-cursor {{{
     let g:multi_cursor_use_default_mapping=0
     " Default mapping
     let g:multi_cursor_next_key='<C-n>'
     let g:multi_cursor_prev_key='<C-p>'
     let g:multi_cursor_skip_key='<C-x>'
     let g:multi_cursor_quit_key='<Esc>'
-"}
+"}}}
 
-" NERDTree {
+" NERDTree {{{
     " NERDTree 子窗口中不显示冗余帮助信息
     let NERDTreeMinimalUI=1
     " 打开新的buffer时自动定位到编辑窗口
@@ -412,9 +444,9 @@
     " F2 toggle NERDTree
     map <F2> :NERDTreeToggle<CR>
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
-" }
+" }}}
 
-" vim-fugitive {
+" vim-fugitive {{{
     " enable/disable fugitive/lawrencium integration
     let g:airline#extensions#branch#enabled = 1
     " truncate long branch names to a fixed length
@@ -423,9 +455,9 @@
     " let g:airline#extensions#branch#format = 1
     " enable/disable syntastic integration
     let g:airline#extensions#syntastic#enabled = 1
-" }
+" }}}
 
-" nerdcommenter {
+" nerdcommenter {{{
 
     " ==================================
     " <leader>cc 注释当前行
@@ -455,9 +487,9 @@
 
     " Enable trimming of trailing whitespace when uncommenting
     let g:NERDTrimTrailingWhitespace = 1
-" }
+" }}}
 
-" vim-function {
+" vim-function {{{
     " Automatically removing all trailing whitespace
     function! StripTrailingWhitespace()
       normal mZ
@@ -502,4 +534,4 @@
     " 确认、整词
     nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
     nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
-" }
+" }}}

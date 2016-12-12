@@ -30,7 +30,7 @@ set cindent
 " 显示匹配的括号
 set showmatch
 " 距离顶部和底部5行
-set scrolloff=5
+set scrolloff=2
 " 命令行为两行
 set laststatus=2
 " 文件编码
@@ -109,7 +109,10 @@ filetype plugin indent on
 let g:jedi#show_call_signatures = 2
 " 和 python-mode 冲突
 let g:jedi#rename_command = '<leader>re'
-"let g:jedi#auto_initialization = 0
+" The option is causing the preview to be set.
+let g:jedi#auto_vim_configuration = 0
+" hide the preview window
+set completeopt=menuone,longest
 " }}}
 
 " python-mode {{{

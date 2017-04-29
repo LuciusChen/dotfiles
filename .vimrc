@@ -77,7 +77,7 @@ Plugin 'plasticboy/vim-markdown'
 " auxiliar markdown
 Plugin 'jszakmeister/markdown2ctags'
 Plugin 'suan/vim-instant-markdown'
-"Plugin 'mzlogin/vim-markdown-toc'
+" Plugin 'mzlogin/vim-markdown-toc'
 " 全局搜索
 Plugin 'dyng/ctrlsf.vim'
 " 文件内搜索
@@ -484,9 +484,9 @@ nnoremap <F10> :echo system('python3 "' . expand('%') . '"')<cr>
 " " neocomplete {{{
 " " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " " Disable AutoComplPop.
-" " `brew install macvim --with-cscope --with-lua`
+" " `brew install macvim --with-cscope --with-lua --with-python3`
 " " `brew linkapps macvim`
-" " `brew install vim --with-lua`
+" " `brew install vim --with-lua --with-python3`
 " let g:acp_enableAtStartup = 0
 " " Use neocomplete.
 " let g:neocomplete#enable_at_startup = 1

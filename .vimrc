@@ -105,6 +105,9 @@ filetype plugin indent on
 " }}}
 
 " YouCompleteMe {{{
+    " git clone --recursive https://github.com/Valloric/YouCompleteMe.git
+    " git submodule update --init --recursive
+    "
     " Go to definition else declaration
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 

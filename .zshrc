@@ -79,8 +79,8 @@ source $ZSH/oh-my-zsh.sh
 #
 #This loads nvm
 #
-export NVM_DIR="$HOME/.nvm"
-  . "$(brew --prefix nvm)/nvm.sh"
+#export NVM_DIR="$HOME/.nvm"
+#  . "$(brew --prefix nvm)/nvm.sh"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

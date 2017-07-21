@@ -12,7 +12,7 @@
                 },
                 "rules": [
                     {
-                        "description": "change caps_lock to cmd+alt+ctrl if pressed with other keys.",
+                        "description": "change caps_lock to cmd+alt+ctrl if pressed with other keys, to escape if pressed alone.",
                         "manipulators": [
                             {
                                 "from": {
@@ -30,6 +30,11 @@
                                             "left_command",
                                             "left_option"
                                         ]
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"

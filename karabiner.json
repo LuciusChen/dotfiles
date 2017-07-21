@@ -12,37 +12,11 @@
                 },
                 "rules": [
                     {
-                        "description": "Change caps_lock to control if pressed with other keys, to escape if pressed alone.",
+                        "description": "change caps_lock to cmd+alt+ctrl if pressed with other keys.",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control"
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "escape"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "change right_shift to cmd+alt+ctrl if pressed with other keys.",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "right_shift",
                                     "modifiers": {
                                         "optional": [
                                             "any"

@@ -9,13 +9,13 @@ apps = {}
 lcagList =
   a: ''
   b: 'com.tapbots.TweetbotMac'
-  c: ''
+  c: 'com.googlecode.iterm2'
   d: 'com.jetbrains.datagrip'
   e: 'com.jetbrains.intellij'
   f: 'com.apple.finder'
   g: 'com.google.Chrome'
   h: layout\leftHalf
-  i: 'com.googlecode.iterm2'
+  i: ''
   j: layout\downHalf
   k: layout\upHalf
   l: layout\rightHalf

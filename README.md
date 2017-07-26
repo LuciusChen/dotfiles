@@ -1,6 +1,6 @@
 # Lucius's dotfiles
 
-just for backup
+Just for backup
 
 ## airline-theme-qwq
 

@@ -8,3 +8,4 @@ end)
 
 require 'moonscript'
 require 'main'
+--security add-generic-password -s hammerspoon -a system -w password

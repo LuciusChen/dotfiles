@@ -28,7 +28,7 @@ lcagList =
   s: 'com.tencent.xinWeChat'
   t: 'com.netease.163music'
   u: ''
-  v: 'com.readdle.smartemail-Mac'
+  v: 'com.coderforart.MWeb'
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
   y: '' 

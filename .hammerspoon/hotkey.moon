@@ -26,7 +26,7 @@ lcagList =
   q: ''
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'
-  t: 'com.netease.163music'
+  t: 'com.spotify.client'
   u: ''
   v: 'com.coderforart.MWeb'
   w: 'ru.keepcoder.Telegram'

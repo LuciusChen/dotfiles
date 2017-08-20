@@ -8,4 +8,7 @@ end)
 
 require 'moonscript'
 require 'main'
---security add-generic-password -s hammerspoon -a system -w password
+-- security add-generic-password -s hammerspoon -a system -w password
+-- brew install lua
+-- luarocks install moonscript
+-- luarocks install moses

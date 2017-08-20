@@ -7,7 +7,7 @@ app = require 'app'
 bind = hs.hotkey.bind
 apps = {}
 lcagList =
-  a: ''
+  a: 'com.github.atom'
   b: 'com.eusoft.freeeudic'
   c: 'com.googlecode.iterm2'
   d: 'com.jetbrains.datagrip'
@@ -31,7 +31,7 @@ lcagList =
   v: 'com.coderforart.MWeb'
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
-  y: '' 
+  y: ''
   z: ''
   ['0']: ''
   ['1']: ''

@@ -90,9 +90,6 @@ export eventtapWatcher = new({ keyDown, keyUp, flagsChanged }, (e) ->
         [',']: 'pageup'
         ['.']: 'end'
       mod:
-        ['\\']: { {}, 'f19' }
-        e: { {'cmd'}, 'f19' }
-        r: { {'shift'}, 'f19' }
         z: { {'cmd', 'shift'}, '3' }
         x: { {'cmd', 'shift', 'ctrl'}, '3' }
         c: { {'cmd', 'shift'}, '4' }

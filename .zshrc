@@ -85,3 +85,5 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias aria2c="aria2c --conf-path='/Users/rabbit/.aria2/aria2.conf' -D"
+alias lua="lua5.3"
+alias luarocks="luarocks-5.3"

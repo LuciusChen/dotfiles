@@ -19,10 +19,10 @@ lcagList =
   j: layout\downHalf
   k: layout\upHalf
   l: layout\rightHalf
-  m: layout\max
+  m: layout\maximize
   n: layout\center
   o: ''
-  p: ''
+  p: layout\smaller
   q: ''
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'
@@ -34,8 +34,10 @@ lcagList =
   y: ''
   z: ''
   ['0']: ''
-  ['1']: ''
-  ['2']: ''
+  ['[']: layout\preScreen
+  [']']: layout\nextScreen
+  ['=']: layout\larger
+  ['-']: layout\smaller
   [',']: 'com.apple.systempreferences'
   ['/']: -> hs.openConsole true
   [';']: mouse\clickNotificationUp

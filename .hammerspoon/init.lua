@@ -8,8 +8,3 @@ end)
 
 require 'moonscript'
 require 'main'
--- copy from xream https://github.com/xream/.hammerspoon
--- security add-generic-password -s hammerspoon -a system -w password
--- brew install homebrew/versions/lua53
--- luarocks install moonscript
--- luarocks install moses

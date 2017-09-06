@@ -22,7 +22,7 @@ lcagList =
   m: layout\maximize
   n: layout\center
   o: ''
-  p: layout\smaller
+  p: ''
   q: ''
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'

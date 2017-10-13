@@ -32,7 +32,7 @@ lcagList =
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
   y: ''
-  z: ''
+  z: 'com.readdle.PDFExpert-Mac'
   ['0']: ''
   ['[']: layout\preScreen
   [']']: layout\nextScreen

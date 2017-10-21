@@ -23,7 +23,7 @@ lcagList =
   n: layout\center
   o: ''
   p: ''
-  q: 'com.rafifyalda.flume-mac-direct'
+  q: 'com.bohemiancoding.sketch3'
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'
   t: 'com.spotify.client'

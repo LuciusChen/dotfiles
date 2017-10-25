@@ -6,7 +6,7 @@ util = require 'util'
 app = require 'app'
 bind = hs.hotkey.bind
 apps = {}
-lcagList =
+hyperList =
   a: 'com.github.atom'
   b: 'com.eusoft.freeeudic'
   c: 'com.googlecode.iterm2'
@@ -46,11 +46,11 @@ lcagList =
   escape: ''
   up: ''
   down: ''
-for k, v in pairs lcagList
+for k, v in pairs hyperList
   if type(v) == 'function'
-    bind conf.lcag, k, v
+    bind conf.hyper, k, v
   elseif #v > 0
-    bind conf.lcag, k, app.toggleByBundleID(v)
+    bind conf.hyper, k, app.toggleByBundleID(v)
     _.push apps, v
 
 _.push apps, 'com.apple.notificationcenterui'

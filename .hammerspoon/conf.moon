@@ -7,8 +7,7 @@ conf =
     mouse: true
     hotkey: true
     pwd: true
-  lcag: {'cmd', 'alt', 'ctrl'}
-  hypr: {'cmd', 'alt', 'ctrl', 'shift'}
+  hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:
       x: 80

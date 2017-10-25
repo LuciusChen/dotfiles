@@ -2,7 +2,7 @@ conf =
   debug: true
   moudle:
     reload: true
-    key: true
+    key: false
     layout: true
     mouse: true
     hotkey: true

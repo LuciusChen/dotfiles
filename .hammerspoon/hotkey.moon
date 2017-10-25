@@ -29,11 +29,11 @@ lcagList =
   t: 'com.spotify.client'
   u: ''
   v: 'com.coderforart.MWeb'
-  w: 'ru.keepcoder.Telegram'
+  w: 'org.telegram.desktop'
   x: 'com.tencent.qq'
   y: ''
   z: 'com.readdle.PDFExpert-Mac'
-  ['0']: ''
+  ['0']: layout\screen
   ['[']: layout\preScreen
   [']']: layout\nextScreen
   ['=']: layout\larger
@@ -42,7 +42,7 @@ lcagList =
   ['/']: -> hs.openConsole true
   [';']: mouse\clickNotificationUp
   ['\'']: mouse\clickNotificationDown
-  tab: layout\screen
+  -- tab: layout\screen
   escape: ''
   up: ''
   down: ''

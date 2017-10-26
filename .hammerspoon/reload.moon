@@ -1,8 +1,9 @@
-_ = require 'moses'
+_ = require 'lodash'
 util = require 'util'
 
-export confWatcher = hs.pathwatcher.new(hs.configdir, (files) ->
-  _.each files, (k, v) ->
+hs.pathwatcher.new(hs.configdir, (files) ->
+  _.some files, (v) ->
     if v\sub(-5) == '.moon'
       util\reload!
+      return true
 )\start!

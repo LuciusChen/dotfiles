@@ -1,5 +1,5 @@
 conf = require 'conf'
-export print = -> unless conf.debug
+_ = require 'lodash'
 
-for k, v in pairs conf.moudle
+_.forEach conf.moudle, (v, k) ->
   require k if v

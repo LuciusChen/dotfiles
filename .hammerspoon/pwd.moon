@@ -1,6 +1,6 @@
 conf = require 'conf'
 util = require 'util'
-_ = require 'moses'
+_ = require 'lodash'
 {
   keyStroke: press
   keyStrokes: send
@@ -18,6 +18,6 @@ hs.application.watcher.new((name, event, app)->{
       state.inSecurityAgent = true
     else
       state.inSecurityAgent = nil
-  if _.include(conf.securityAgentWhiteList, name) and event == 6 and state.inSecurityAgent
+  if _.includes(conf.securityAgentWhiteList, name) and event == 6 and state.inSecurityAgent
     press {}, 'return'
 })\start!

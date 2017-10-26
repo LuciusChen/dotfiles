@@ -2,10 +2,9 @@ conf =
   debug: true
   moudle:
     reload: true
-    key: false
+    key: true
     layout: true
     mouse: true
-    hotkey: true
     pwd: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:

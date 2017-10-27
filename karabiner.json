@@ -66,7 +66,7 @@
                         ]
                     },
                     {
-                        "description": "change grave_accent_and_tilde to cmd+shift if pressed with other keys",
+                        "description": "change escape to cmd+shift+ctrl if pressed with other keys",
                         "manipulators": [
                             {
                                 "from": {

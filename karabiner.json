@@ -12,7 +12,7 @@
                 },
                 "rules": [
                     {
-                        "description": "change right_shift to cmd+alt+ctrl if pressed with other keys",
+                        "description": "change tab to cmd+alt+ctrl if pressed with other keys",
                         "manipulators": [
                             {
                                 "from": {
@@ -59,6 +59,35 @@
                                         "modifiers": [
                                             "left_command"
                                         ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "change grave_accent_and_tilde to cmd+shift if pressed with other keys",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "grave_accent_and_tilde",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_shift",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde"
                                     }
                                 ],
                                 "type": "basic"

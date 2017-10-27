@@ -6,7 +6,7 @@ _ = require 'lodash'
 util = require 'util'
 app = require 'app'
 mouse = require 'mouse'
---screen = require 'screen'
+spotify  = require "hs.spotify"
 layout = require 'layout'
 bind = hs.hotkey.bind
 
@@ -37,9 +37,11 @@ appMap =
   x: 'com.tencent.qq'
   y: ''
   z: 'com.readdle.PDFExpert-Mac'
-  ['0']: 'com.torusknot.SourceTreeNotMAS'
-  ['1']: ''
-  ['2']: ''
+  ['8']: spotify.previous
+  ['9']: spotify.playpause
+  ['0']: spotify.next
+  ['-']: spotify.volumeDown
+  ['=']: spotify.volumeUp
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
   ['[']: mouse\clickNotificationUp

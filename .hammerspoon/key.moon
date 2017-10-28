@@ -87,7 +87,6 @@ layoutMap =
   ['-']: 'smaller'
   ['1']: 'moveToScreen'
   ['2']: 'moveToScreen'
-  ['3']: 'moveToScreen'
   ['0']: 'mouse'
 
 _.forEach layoutMap, (v, k) ->

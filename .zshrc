@@ -87,3 +87,6 @@ source $ZSH/oh-my-zsh.sh
 alias aria2c="aria2c --conf-path='/Users/rabbit/.aria2/aria2.conf' -D"
 alias lua="lua5.3"
 alias luarocks="luarocks-5.3"
+# proxy for Iterm2
+alias enproxy="export http_proxy=socks5://127.0.0.1:1086 https_proxy=socks5://127.0.0.1:1086 ALL_PROXY=socks5://127.0.0.1:1086"
+alias disproxy="unset http_proxy https_proxy ALL_PROXY"

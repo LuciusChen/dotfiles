@@ -22,10 +22,10 @@ appMap =
   i: 'com.seriflabs.affinitydesigner'
   j: 'com.windisco.Maria'
   k: 'com.apple.Safari'
-  l: ''
+  l: 'com.vmware.fusion'
   m: 'com.postmanlabs.mac'
   n: 'com.colliderli.iina'
-  o: ''
+  o: 'com.bohemiancoding.sketch3'
   p: ''
   q: 'com.readdle.PDFExpert-Mac'
   r: 'com.tapbots.TweetbotMac'
@@ -36,7 +36,7 @@ appMap =
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
   y: 'com.rafifyalda.flume-mac-direct'
-  z: 'com.bohemiancoding.sketch3'
+  z: ''
   ['8']: spotify.previous
   ['9']: spotify.playpause
   ['0']: spotify.next

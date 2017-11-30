@@ -25,7 +25,7 @@ appMap =
   l: 'com.vmware.fusion'
   m: 'com.postmanlabs.mac'
   n: 'com.colliderli.iina'
-  o: 'com.bohemiancoding.sketch3'
+  o: ''
   p: ''
   q: 'com.readdle.PDFExpert-Mac'
   r: 'com.tapbots.TweetbotMac'

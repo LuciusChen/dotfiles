@@ -35,7 +35,7 @@ appMap =
   v: 'com.coderforart.MWeb'
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
-  y: 'com.rafifyalda.flume-mac-direct'
+  y: ''
   z: ''
   ['8']: spotify.previous
   ['9']: spotify.playpause

@@ -84,20 +84,27 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# aria2c
 alias aria2c="aria2c --conf-path='/Users/rabbit/.aria2/aria2.conf' -D"
+
+# lua
 alias lua="lua5.3"
 alias luarocks="luarocks-5.3"
+
 # proxy for Iterm2
 alias enproxy="export http_proxy=socks5://127.0.0.1:1086 https_proxy=socks5://127.0.0.1:1086 ALL_PROXY=socks5://127.0.0.1:1086"
 alias disproxy="unset http_proxy https_proxy ALL_PROXY"
+
 # tree alias
 alias t1="tree -L 1 -C -D -h -t"
 alias t2="tree -L 2 -C -D -h -t"
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
   . "/usr/local/opt/nvm/nvm.sh"
+
 # tomcat
-alias tstart="sh /usr/local/Cellar/tomcat/8.5.23/libexec/bin/startup.sh"
-alias tstop="sh /usr/local/Cellar/tomcat/8.5.23/libexec/bin/shutdown.sh"
-alias tlog="cd /usr/local/Cellar/tomcat/8.5.23/libexec/logs/ && tail -f catalina.out"
+alias tstart="sh /usr/local/Cellar/tomcat/8.5.24/libexec/bin/startup.sh"
+alias tstop="sh /usr/local/Cellar/tomcat/8.5.24/libexec/bin/shutdown.sh"
+alias tlog="cd /usr/local/Cellar/tomcat/8.5.24/libexec/logs/ && tail -f catalina.out"
 alias tstate="sh ~/dotfiles/tomcat-state.sh"

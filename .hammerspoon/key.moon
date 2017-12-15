@@ -26,7 +26,7 @@ appMap =
   m: 'com.postmanlabs.mac'
   n: 'com.colliderli.iina'
   o: 'com.tencent.wechat.devtools'
-  p: ''
+  p: 'org.mozilla.firefox'
   q: 'com.readdle.PDFExpert-Mac'
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'
@@ -35,7 +35,7 @@ appMap =
   v: 'com.coderforart.MWeb'
   w: 'ru.keepcoder.Telegram'
   x: 'com.tencent.qq'
-  y: ''
+  y: 'com.jetbrains.WebStorm'
   z: ''
   ['8']: spotify.previous
   ['9']: spotify.playpause

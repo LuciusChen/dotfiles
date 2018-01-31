@@ -1,6 +1,6 @@
 #!/bin/sh  
 $grep_result  
-grep_result=`ps -ef |grep tomcat|grep "/usr/local/Cellar/tomcat/8.5.24"|grep -v "grep"`  
+grep_result=`ps -ef |grep tomcat|grep "/usr/local/Cellar/tomcat/*"|grep -v "grep"`  
 
 if [ "$grep_result" = "" ]
 then  

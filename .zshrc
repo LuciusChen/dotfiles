@@ -104,7 +104,7 @@ export NVM_DIR="$HOME/.nvm"
   . "/usr/local/opt/nvm/nvm.sh"
 
 # tomcat
-alias tstart="sh /usr/local/Cellar/tomcat/8.5.24/libexec/bin/startup.sh"
-alias tstop="sh /usr/local/Cellar/tomcat/8.5.24/libexec/bin/shutdown.sh"
-alias tlog="cd /usr/local/Cellar/tomcat/8.5.24/libexec/logs/ && tail -f catalina.out"
+alias tstart="sh /usr/local/Cellar/tomcat/8.5.*/libexec/bin/startup.sh"
+alias tstop="sh /usr/local/Cellar/tomcat/8.5.*/libexec/bin/shutdown.sh"
+alias tlog="cd /usr/local/Cellar/tomcat/8.5.*/libexec/logs/ && tail -f catalina.out"
 alias tstate="sh ~/dotfiles/tomcat-state.sh"

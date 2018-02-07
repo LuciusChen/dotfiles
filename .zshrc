@@ -108,3 +108,7 @@ alias tstart="sh /usr/local/Cellar/tomcat/8.5.*/libexec/bin/startup.sh"
 alias tstop="sh /usr/local/Cellar/tomcat/8.5.*/libexec/bin/shutdown.sh"
 alias tlog="cd /usr/local/Cellar/tomcat/8.5.*/libexec/logs/ && tail -f catalina.out"
 alias tstate="sh ~/dotfiles/tomcat-state.sh"
+
+# redis
+alias redis224="redis-cli -h 192.168.1.224 -p 6379"
+alias redis222="redis-cli -h 192.168.1.222 -p 6379"

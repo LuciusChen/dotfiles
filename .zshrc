@@ -112,3 +112,4 @@ alias tstate="sh ~/dotfiles/tomcat-state.sh"
 # redis
 alias redis224="redis-cli -h 192.168.1.224 -p 6379"
 alias redis222="redis-cli -h 192.168.1.222 -p 6379"
+alias py="python3"

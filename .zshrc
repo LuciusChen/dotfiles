@@ -101,7 +101,8 @@ alias t2="tree -L 2 -C -D -h -t"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
-  . "/usr/local/opt/nvm/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # tomcat
 alias tstart="sh /usr/local/Cellar/tomcat/8.5.*/libexec/bin/startup.sh"
@@ -113,3 +114,4 @@ alias tstate="sh ~/dotfiles/tomcat-state.sh"
 alias redis224="redis-cli -h 192.168.1.224 -p 6379"
 alias redis222="redis-cli -h 192.168.1.222 -p 6379"
 alias py="python3"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -33,7 +33,7 @@ appMap =
   t: 'com.spotify.client'
   u: 'com.apple.dt.Xcode'
   v: 'com.coderforart.MWeb'
-  w: 'ru.keepcoder.Telegram'
+  w: 'com.apple.Preview'
   x: 'com.tencent.qq'
   y: 'com.jetbrains.WebStorm'
   z: ''

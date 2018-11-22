@@ -6,10 +6,18 @@ _ = require 'lodash'
 util = require 'util'
 app = require 'app'
 mouse = require 'mouse'
-spotify  = require "hs.spotify"
+spotify  = require 'hs.spotify'
 layout = require 'layout'
 bind = hs.hotkey.bind
+hyper = '⌘⌃⌥'
 
+-- "clipboard History" and "Emojis" dependent on "SpoonInstall"
+hs.loadSpoon('SpoonInstall')
+spoon.SpoonInstall\andUse('TextClipboardHistory', {config: {show_in_menubar: false}, hotkeys: {toggle_clipboard: {hyper, "1" }}, start: true})
+spoon.SpoonInstall\andUse('Emojis')
+spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
+
+-- launch center
 appMap =
   a: 'com.github.atom'
   b: 'com.eusoft.freeeudic'
@@ -31,11 +39,11 @@ appMap =
   r: 'com.tapbots.TweetbotMac'
   s: 'com.tencent.xinWeChat'
   t: 'com.spotify.client'
-  u: 'com.apple.dt.Xcode'
+  u: 'com.xk72.Charles'
   v: 'com.coderforart.MWeb'
   w: 'com.apple.Preview'
   x: 'com.tencent.qq'
-  y: 'com.jetbrains.WebStorm'
+  y: 'com.yummysoftware.yummy-ftp'
   z: ''
   ['8']: spotify.previous
   ['9']: spotify.playpause
@@ -53,7 +61,7 @@ _.forEach appMap, (v, k) ->
   elseif #v > 0
     bind '⌘⌃⌥', k, () -> app\toggle(v)
 
---blackList = util.merge(_.values(appMap), { 'com.apple.notificationcenterui', 'com.kapeli.dashdoc' })
+-- blackList = util.merge(_.values(appMap), { 'com.apple.notificationcenterui', 'com.kapeli.dashdoc' })
 
 hint = () ->
   wins = {}

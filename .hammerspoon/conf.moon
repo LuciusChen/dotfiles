@@ -6,7 +6,7 @@ conf =
     layout: true
     mouse: true
     pwd: true
-    iterm: true
+    iterm: false
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:

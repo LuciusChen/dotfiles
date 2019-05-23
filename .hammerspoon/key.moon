@@ -27,7 +27,7 @@ appMap =
   f: 'com.apple.finder'
   g: 'com.google.Chrome'
   h: 'com.readdle.smartemail-Mac'
-  i: 'com.seriflabs.affinitydesigner'
+  i: 'com.electron.poster'
   j: 'com.windisco.Maria'
   k: 'com.apple.Safari'
   l: 'com.adobe.LightroomClassicCC7'

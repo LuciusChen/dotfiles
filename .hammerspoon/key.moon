@@ -41,7 +41,7 @@ appMap =
   t: 'com.spotify.client'
   u: 'com.xk72.Charles'
   v: 'com.coderforart.MWeb'
-  w: 'com.apple.Preview'
+  w: 'com.brettterpstra.marked2'
   x: 'com.tencent.qq'
   y: 'com.yummysoftware.yummy-ftp'
   z: ''

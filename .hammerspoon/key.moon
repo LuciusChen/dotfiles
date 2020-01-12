@@ -18,6 +18,7 @@ spoon.SpoonInstall\andUse('Emojis')
 spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
 -- launch center
+-- layout for memory
 appMap =
   ['8']: spotify.previous
   ['9']: spotify.playpause

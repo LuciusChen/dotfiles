@@ -32,7 +32,7 @@ appMap =
   k: 'com.apple.Safari'
   l: 'com.adobe.LightroomClassicCC7'
   m: 'com.postmanlabs.mac'
-  n: 'com.colliderli.iina'
+  n: 'notion.id'
   o: 'com.tencent.wechat.devtools'
   p: 'com.adobe.Photoshop'
   q: 'com.readdle.PDFExpert-Mac'

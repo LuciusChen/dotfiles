@@ -19,41 +19,42 @@ spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
 -- launch center
 appMap =
-  a: 'com.github.atom'
-  b: 'com.eusoft.freeeudic'
-  c: 'com.googlecode.iterm2'
-  d: 'com.jetbrains.datagrip'
-  e: 'com.jetbrains.intellij'
-  f: 'com.apple.finder'
-  g: 'com.google.Chrome'
-  h: 'com.readdle.smartemail-Mac'
-  i: 'com.electron.poster'
-  j: 'com.windisco.Maria'
-  k: 'com.apple.Safari'
-  l: 'com.adobe.LightroomClassicCC7'
-  m: 'com.postmanlabs.mac'
-  n: 'notion.id'
-  o: 'com.tencent.wechat.devtools'
-  p: 'com.adobe.Photoshop'
-  q: 'com.readdle.PDFExpert-Mac'
-  r: 'com.tapbots.TweetbotMac'
-  s: 'com.tencent.xinWeChat'
-  t: 'com.spotify.client'
-  u: 'com.xk72.Charles'
-  v: 'com.coderforart.MWeb'
-  w: 'com.brettterpstra.marked2'
-  x: 'com.tencent.qq'
-  y: 'com.yummysoftware.yummy-ftp'
-  z: ''
   ['8']: spotify.previous
   ['9']: spotify.playpause
   ['0']: spotify.next
   ['-']: spotify.volumeDown
   ['=']: spotify.volumeUp
-  [',']: 'com.apple.systempreferences'
-  ['.']: hs.toggleConsole
+  q: ''
+  a: ''
+  z: ''
+  w: 'ru.keepcoder.Telegram'
+  s: 'com.tencent.xinWeChat'
+  x: 'com.tencent.qq'
+  e: 'com.jetbrains.intellij'
+  d: 'com.jetbrains.datagrip'
+  c: 'com.googlecode.iterm2'
+  r: 'com.tapbots.TweetbotMac'
+  f: 'com.apple.finder'
+  v: 'com.microsoft.VSCode'
+  t: 'com.spotify.client'
+  g: 'com.google.Chrome'
+  b: 'com.readdle.PDFExpert-Mac'
+  y: ''
+  h: ''
+  n: 'notion.id'
+  u: ''
+  j: ''
+  m: 'com.postmanlabs.mac'
+  i: 'com.electron.poster'
+  k: 'com.apple.Safari'
+  o: ''
+  l: 'com.adobe.LightroomClassicCC7'
+  p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp
   [']']: mouse\clickNotificationDown
+  ['\\']: util\reload
+  [',']: 'com.apple.systempreferences'
+  ['.']: hs.toggleConsole
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'

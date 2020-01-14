@@ -22,44 +22,44 @@ Karabiner-Elements:
 
 hotkey: `⌘⌃⌥` (Change to `Tab`)
 
-- `a-z`: launch app
-- `8`: previous (Spotify)
-- `9`: pause (Spotify)
-- `0`: next (Spotify)
-- `-`: volume down (Spotify)
-- `=`: volume up (Spotify)
-- `[`: click Notification up
-- `]`: click Notification down
-- `\`: reload HammerSpoon config
-- `,`: launch Systempreferences
-- `.`: toggle HammerSpoon's console
-- `2`: search Emoji
-- `3`: search clipboard
-- `Space`: show app not in config or blacklist
+- `a-z` : launch app
+- `8` : previous (Spotify)
+- `9` : pause (Spotify)
+- `0` : next (Spotify)
+- `-` : volume down (Spotify)
+- `=` : volume up (Spotify)
+- `[` : click Notification up
+- `]` : click Notification down
+- `\` : reload HammerSpoon config
+- `,` : launch Systempreferences
+- `.` : toggle HammerSpoon's console
+- `2` : search Emoji
+- `3` : search clipboard
+- `Space` : show app not in config or blacklist
 
 ### Window Layout
 
 hotkey: `⌘⌃⌥⇧` (Change to `Tab + shift`)
 
-- `t`: leftUp
-- `g`: leftHalf
-- `b`: leftDown
-- `y`: upHalf
-- `h`: center
-- `n`: downHalf
-- `u`: rightUp
-- `j`: rightHalf
-- `m`: rightDown
-- `k`: maximize
-- `i`: minimize
-- `space`: switch between maximize and center
-- `[`: previous screen
-- `]`: next screen
-- `-`: smaller
-- `=`: larger
+- `t` : leftUp
+- `g` : leftHalf
+- `b` : leftDown
+- `y` : upHalf
+- `h` : center
+- `n` : downHalf
+- `u` : rightUp
+- `j` : rightHalf
+- `m` : rightDown
+- `k` : maximize
+- `i` : minimize
+- `space` : switch between maximize and center
+- `[` : previous screen
+- `]` : next screen
+- `-` : smaller
+- `=` : larger
 
 Learn more from `key.moon`
 
 ### Keyboard Switch
 
-This is just for Mother tongue is not Englist, application's Bundle identifier(Bundle ID or App ID, in info.plist) is configed will switch to ABC.
+This is just for Mother tongue is not English, application's Bundle identifier(Bundle ID or App ID, in info.plist) is configed will switch to ABC.

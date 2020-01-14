@@ -1,14 +1,13 @@
 ## Install
 
-```
-security add-generic-password -s hammerspoon -a system -w password
-brew install lua
-brew install luarocks
-luarocks install moonscript
-luarocks install lodash
-Download: [SpoonInstall](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip) and put it ../Spoons/
-keyboard moudle needs to config your own keyboard's sourceID
-```
+1. `security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)
+2. brew install lua
+3. brew install luarocks
+4. luarocks install moonscript
+5. luarocks install lodash
+6. Download: [SpoonInstall](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip) and put it ../Spoons/
+7. keyboard moudle needs to config your own keyboard's sourceID
+
 
 ## Function
 

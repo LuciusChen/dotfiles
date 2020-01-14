@@ -57,6 +57,7 @@ appMap =
   ['\\']: util\reload
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
+  delete: hs.caffeinate.lockScreen
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'

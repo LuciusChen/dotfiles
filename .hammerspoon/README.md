@@ -29,12 +29,13 @@ hotkey: `⌘⌃⌥` (Change to `Tab`)
 - `=` : volume up (Spotify)
 - `[` : click Notification up
 - `]` : click Notification down
-- `\` : reload HammerSpoon config
+- `\` : reload HammerSpoon's config
 - `,` : launch Systempreferences
 - `.` : toggle HammerSpoon's console
 - `2` : search Emoji
 - `3` : search clipboard
 - `Space` : show app not in config or blacklist
+- `delete`: lock screen
 
 ### Window Layout
 

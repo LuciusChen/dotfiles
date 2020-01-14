@@ -14,7 +14,7 @@ hyperPlus = '⌘⌃⌥⇧'
 
 -- "clipboard History" and "Emojis" dependent on "SpoonInstall"
 hs.loadSpoon('SpoonInstall')
-spoon.SpoonInstall\andUse('TextClipboardHistory', {config: {show_in_menubar: false}, hotkeys: {toggle_clipboard: {hyper, "1" }}, start: true})
+spoon.SpoonInstall\andUse('TextClipboardHistory', {config: {show_in_menubar: false}, hotkeys: {toggle_clipboard: {hyper, "3" }}, start: true})
 spoon.SpoonInstall\andUse('Emojis')
 spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
@@ -64,8 +64,8 @@ _.forEach appMap, (v, k) ->
   elseif #v > 0
     bind hyper, k, () -> app\toggle(v)
 
--- blackList
-blackList = util.merge(_.values(appMap), { 'com.adobe.acc.AdobeCreativeCloud' })
+-- blacklist
+blacklist = util.merge(_.values(appMap), { 'com.adobe.acc.AdobeCreativeCloud' })
 
 hint = () ->
   wins = {}
@@ -73,7 +73,7 @@ hint = () ->
     name = v\name!
     id = v\bundleID!
     win = v\allWindows!
-    if #win > 0 and not _.some(appMap, (v, k) -> v == id) and not _.includes(blackList, id)
+    if #win > 0 and not _.some(appMap, (v, k) -> v == id) and not _.includes(blacklist, id)
       _.forEach win, (v) ->
         _.push wins, v
   hs.hints.windowHints(wins, nil, true)

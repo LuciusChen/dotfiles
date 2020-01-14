@@ -8,4 +8,5 @@ brew install luarocks
 luarocks install moonscript
 luarocks install lodash
 Download: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip and put it ../Spoons/
+keyboard moudle needs to config your own keyboard's sourceID
 ```

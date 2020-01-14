@@ -1,3 +1,4 @@
+-- module require
 conf =
   debug: true
   moudle:
@@ -7,6 +8,7 @@ conf =
     mouse: true
     pwd: true
     iterm: false
+    keyboard: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:

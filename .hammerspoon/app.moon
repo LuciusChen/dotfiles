@@ -25,6 +25,7 @@ app =
       hs.application.launchOrFocusByBundleID id
       layout\maximize! if maximize
 
+-- below not using
 posTable = {}
 lastName = nil
 hs.application.watcher.new((name, event, app) ->

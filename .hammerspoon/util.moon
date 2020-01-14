@@ -6,14 +6,19 @@ util =
       text = subTitle
       subTitle = ''
     hs.notify.show 'Hammerspoon', tostring(subTitle), tostring(text)
-  getSystemPwd: ->
-    hs.execute('security find-generic-password -s hammerspoon -a system -w')\gsub('%s+', '')
+  trim: (str) =>
+    string.gsub(str, "^%s*(.-)%s*$", "%1")
+  exec: (cmd) =>
+    @trim hs.execute(cmd)
+  getSysPwd: =>
+    @exec('security find-generic-password -s hammerspoon -a system -w')
+  checkSecurityAgent: =>
+    @exec('osascript '..hs.configdir..'/lib/checkSecurityAgent.scpt')
   reload: =>
     @notify '配置', '重新加载'
     hs.reload!
-  delay: (...) ->
-    hs.timer.doAfter ...
-  now: ->
-    hs.timer.secondsSinceEpoch!
-
+  merge: (t1, t2) ->
+    for k,v in ipairs(t2) do
+       table.insert(t1, v)
+    t1
 util

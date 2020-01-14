@@ -10,6 +10,7 @@ spotify  = require 'hs.spotify'
 layout = require 'layout'
 bind = hs.hotkey.bind
 hyper = '⌘⌃⌥'
+hyperPlus = '⌘⌃⌥⇧'
 
 -- "clipboard History" and "Emojis" dependent on "SpoonInstall"
 hs.loadSpoon('SpoonInstall')
@@ -59,11 +60,12 @@ appMap =
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'
-    bind '⌘⌃⌥', k, v
+    bind hyper, k, v
   elseif #v > 0
-    bind '⌘⌃⌥', k, () -> app\toggle(v)
+    bind hyper, k, () -> app\toggle(v)
 
--- blackList = util.merge(_.values(appMap), { 'com.apple.notificationcenterui', 'com.kapeli.dashdoc' })
+-- blackList
+blackList = util.merge(_.values(appMap), { 'com.adobe.acc.AdobeCreativeCloud' })
 
 hint = () ->
   wins = {}
@@ -76,7 +78,7 @@ hint = () ->
         _.push wins, v
   hs.hints.windowHints(wins, nil, true)
 
-bind '⌘⌃⌥', 'space', hint
+bind hyper, 'space', hint
 
 layoutMap =
   h: 'center'
@@ -101,8 +103,8 @@ layoutMap =
 
 _.forEach layoutMap, (v, k) ->
   if type(v) == 'function'
-    bind '⌘⌃⌥⇧', k, v
+    bind hyperPlus, k, v
   elseif #v > 0
-    bind '⌘⌃⌥⇧', k, () ->
+    bind hyperPlus, k, () ->
       k = tonumber(k)
       layout[v](layout, if _.isNumber(k) then k)

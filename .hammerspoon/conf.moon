@@ -3,7 +3,7 @@ conf =
   debug: true
   moudle:
     reload: true
-    key: true
+    launchpad: true
     layout: true
     mouse: true
     pwd: true

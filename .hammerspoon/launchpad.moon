@@ -81,7 +81,6 @@ hint = () ->
   -- if some apps are running, but no windows - force create one
   callback = (win) ->
     appToLaunch = win\application!
-    print(appToLaunch\bundleID!)
     if appToLaunch\findWindow! == nil
       hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
       layout\maximize! if maximize

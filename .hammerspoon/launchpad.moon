@@ -66,7 +66,7 @@ _.forEach appMap, (v, k) ->
     bind hyper, k, () -> app\toggle(v)
 
 -- blacklist
-blacklist = util.merge(_.values(appMap), { 'com.adobe.acc.AdobeCreativeCloud' })
+blacklist = util.merge(_.values(appMap), {})
 
 hint = () ->
   wins = {}
@@ -77,7 +77,15 @@ hint = () ->
     if #win > 0 and not _.some(appMap, (v, k) -> v == id) and not _.includes(blacklist, id)
       _.forEach win, (v) ->
         _.push wins, v
-  hs.hints.windowHints(wins, nil, true)
+  -- callback function 
+  -- if some apps are running, but no windows - force create one
+  callback = (win) ->
+    appToLaunch = win\application!
+    print(appToLaunch\bundleID!)
+    if appToLaunch\findWindow! == nil
+      hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
+      layout\maximize! if maximize
+  hs.hints.windowHints(wins, callback, true)
 
 bind hyper, 'space', hint
 

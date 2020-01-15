@@ -21,7 +21,7 @@ Karabiner-Elements:
 
 hotkey: `⌘⌃⌥` (Change to `Tab`)
 
-- `a-z` : launch app
+- `a-z` : launch app (appMap)
 - `8` : previous (Spotify)
 - `9` : pause (Spotify)
 - `0` : next (Spotify)
@@ -34,8 +34,8 @@ hotkey: `⌘⌃⌥` (Change to `Tab`)
 - `.` : toggle HammerSpoon's console
 - `2` : search Emoji
 - `3` : search clipboard
-- `Space` : show app not in config or blacklist
-- `delete`: lock screen
+- `Space` : show app not in `appMap` or `blacklist`, if some apps are running, but no windows - force create one
+- `delete` : lock screen
 
 ### Window Layout
 

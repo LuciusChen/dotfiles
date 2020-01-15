@@ -2,6 +2,10 @@
 
 Just for backup
 
+## HammerSpoon
+
+[Learn more](/.hammerspoon/README.md)
+
 ## airline-theme-qwq
 
 ![qwq theme](/images/qwq.jpg)

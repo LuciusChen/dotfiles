@@ -4,7 +4,6 @@
 } = hs.eventtap
 _ = require 'lodash'
 util = require 'util'
--- app = require 'app'
 mouse = require 'mouse'
 spotify  = require 'hs.spotify'
 layout = require 'layout'
@@ -77,6 +76,7 @@ hint = () ->
       _.forEach win, (v) ->
         _.push wins, v
 
+  
   -- if some apps are running, but no windows - force create one
   callback = (win) ->
     appToLaunch = win\application!

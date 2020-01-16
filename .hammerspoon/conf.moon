@@ -3,11 +3,10 @@ conf =
   debug: true
   moudle:
     reload: true
-    launchpad: true
+    control: true
     layout: true
     mouse: true
     pwd: true
-    iterm: false
     keyboard: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:

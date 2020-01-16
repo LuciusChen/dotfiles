@@ -1,6 +1,15 @@
 conf = require 'conf'
+toggle = false
 
 util =
+  toggle: (id, maximize) =>
+    toggle = true
+    app = hs.application.frontmostApplication!
+    if app\bundleID! == id
+      app\hide!
+    else
+      hs.application.launchOrFocusByBundleID id
+      layout\maximize! if maximize
   notify: (subTitle, text) =>
     unless text
       text = subTitle

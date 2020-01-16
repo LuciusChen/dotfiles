@@ -4,7 +4,7 @@
 } = hs.eventtap
 _ = require 'lodash'
 util = require 'util'
-app = require 'app'
+-- app = require 'app'
 mouse = require 'mouse'
 spotify  = require 'hs.spotify'
 layout = require 'layout'
@@ -19,7 +19,6 @@ spoon.SpoonInstall\andUse('Emojis')
 spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
 -- launch center
--- layout for memory
 appMap =
   ['8']: spotify.previous
   ['9']: spotify.playpause
@@ -63,7 +62,7 @@ _.forEach appMap, (v, k) ->
   if type(v) == 'function'
     bind hyper, k, v
   elseif #v > 0
-    bind hyper, k, () -> app\toggle(v)
+    bind hyper, k, () -> util\toggle(v)
 
 -- blacklist
 blacklist = util.merge(_.values(appMap), {})
@@ -77,7 +76,7 @@ hint = () ->
     if #win > 0 and not _.some(appMap, (v, k) -> v == id) and not _.includes(blacklist, id)
       _.forEach win, (v) ->
         _.push wins, v
-  -- callback function 
+
   -- if some apps are running, but no windows - force create one
   callback = (win) ->
     appToLaunch = win\application!

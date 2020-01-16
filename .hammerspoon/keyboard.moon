@@ -1,6 +1,6 @@
 _ = require 'lodash'
 
--- hs.keycodes.currentSourceID() to query SourceID
+-- execute hs.keycodes.currentSourceID() in Hammerspoon's console to query SourceID
 squirrel= ->
   hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Rime")
 abc= ->

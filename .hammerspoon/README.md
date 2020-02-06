@@ -20,6 +20,7 @@ Karabiner-Elements:
 ### Launchpad
 
 hotkey: `⌘⌃⌥` (Change to `Tab`)
+
 launch or switch app, the mouse will move to the center of the window which the application is on.
 
 - `a-z` : launch app (appMap)

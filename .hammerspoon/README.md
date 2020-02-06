@@ -1,12 +1,12 @@
 ## Install
 
-1. `security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)
-2. brew install lua
-3. brew install luarocks
-4. luarocks install moonscript
-5. luarocks install lodash
+1. `$ security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)
+2. `$ brew install lua`
+3. `$ brew install luarocks`
+4. `$ luarocks install moonscript`
+5. `$ luarocks install lodash`
 6. Download [SpoonInstall](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip) and put it `../Spoons/`
-7. keyboard moudle needs to config your own keyboard's sourceID
+7. Keyboard moudle needs to config your own keyboard's sourceID
 
 
 ## Function
@@ -15,13 +15,13 @@ Karabiner-Elements:
 
 - Change `Tab` to `cmd+alt+ctrl` if pressed with other keys
 - Change `Command + Esc` to `Command + ` ` (convenient for HHKB)
-- change `Esc` to `cmd+shift+ctrl` if pressed with other keys (just for convenient use)
+- Change `Esc` to `cmd+shift+ctrl` if pressed with other keys (just for convenient use)
 
 ### Launchpad
 
-hotkey: `⌘⌃⌥` (Change to `Tab`)
+Hotkey: `⌘⌃⌥` (Change to `Tab`)
 
-launch or switch app, the mouse will move to the center of the window which the application is on.
+Launch or switch app, the mouse will move to the center of the window which the application is on.
 
 - `a-z` : launch app (appMap)
 - `8` : previous (Spotify)
@@ -42,7 +42,7 @@ launch or switch app, the mouse will move to the center of the window which the 
 
 ### Window Layout
 
-hotkey: `⌘⌃⌥⇧` (Change to `Tab + shift`)
+Hotkey: `⌘⌃⌥⇧` (Change to `Tab + shift`)
 
 - `t` : leftUp
 - `g` : leftHalf

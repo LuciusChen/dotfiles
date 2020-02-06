@@ -15,13 +15,14 @@ Karabiner-Elements:
 
 - Change `Tab` to `cmd+alt+ctrl` if pressed with other keys
 - Change `Command + Esc` to `Command + ` ` (convenient for HHKB)
-- Change `Esc` to `cmd+shift+ctrl` if pressed with other keys (just for convenient use)
+- Change `Esc` to `cmd+shift+ctrl` if pressed with other keys (convenient for HHKB)
+- Change `grave_accent_and_tilde` to `cmd+shift+ctrl` if pressed with other keys (convenient for Apple Internal Keyboard)
 
 ### Launchpad
 
 Hotkey: `⌘⌃⌥` (Change to `Tab`)
 
-Launch or switch app, the mouse will move to the center of the window which the application is on.
+Launch or switch app, the mouse will move to the window of the application.
 
 - `a-z` : launch app (appMap)
 - `8` : previous (Spotify)
@@ -65,4 +66,4 @@ Learn more from `key.moon`
 
 ### Keyboard Switch
 
-This is just for Mother tongue is not English, application's Bundle identifier(Bundle ID or App ID, in info.plist) is configed will switch to ABC.
+This is just for mother tongue is not English, application's Bundle identifier(Bundle ID or App ID, in info.plist) is configed will switch to ABC.

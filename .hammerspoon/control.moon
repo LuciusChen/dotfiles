@@ -40,7 +40,7 @@ appMap =
   g: 'com.google.Chrome'
   b: 'com.readdle.PDFExpert-Mac'
   y: 'com.spotify.client'
-  h: ''
+  h: 'com.tencent.WeWorkMac'
   n: 'notion.id'
   u: ''
   j: ''
@@ -56,6 +56,7 @@ appMap =
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
   delete: hs.caffeinate.lockScreen
+  ['/']: mouse\moveToNextScreen
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'
@@ -115,3 +116,4 @@ _.forEach layoutMap, (v, k) ->
     bind hyperPlus, k, () ->
       k = tonumber(k)
       layout[v](layout, if _.isNumber(k) then k)
+

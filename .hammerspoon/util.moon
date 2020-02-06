@@ -1,4 +1,5 @@
 conf = require 'conf'
+mouse = require 'mouse'
 toggle = false
 
 util =
@@ -10,6 +11,10 @@ util =
     else
       hs.application.launchOrFocusByBundleID id
       layout\maximize! if maximize
+      -- move cursor between monitors
+      -- move mouse to the screen which the application is on
+      mouse\frontmost!
+      -- hs.mouse.setAbsolutePosition(hs.geometry.rectMidPoint(hs.window.focusedWindow!\screen!\fullFrame!))
   notify: (subTitle, text) =>
     unless text
       text = subTitle

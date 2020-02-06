@@ -18,8 +18,11 @@ mouse =
     clickState = hs.eventtap.event.properties.mouseEventClickState
     mouse(types.leftMouseDown, point)\setProperty(clickState, 1)\post!
     mouse(types.leftMouseUp, point)\setProperty(clickState, 1)\post!
+  moveToNextScreen: =>
+    fullFrame = hs.mouse.getCurrentScreen!\next!\fullFrame!
+    hs.mouse.setAbsolutePosition(hs.geometry.rectMidPoint(fullFrame))
   frontmost: ->
-    winFrame = layout.frontmost!\frame!
+    winFrame = layout.win!\frame!
     mousePosition = hs.mouse.getRelativePosition!
     fullFrame = hs.mouse.getCurrentScreen!\fullFrame!
     point =

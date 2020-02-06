@@ -20,6 +20,7 @@ Karabiner-Elements:
 ### Launchpad
 
 hotkey: `⌘⌃⌥` (Change to `Tab`)
+launch or switch app, the mouse will move to the center of the window which the application is on.
 
 - `a-z` : launch app (appMap)
 - `8` : previous (Spotify)
@@ -30,6 +31,7 @@ hotkey: `⌘⌃⌥` (Change to `Tab`)
 - `[` : click Notification up
 - `]` : click Notification down
 - `\` : reload HammerSpoon's config
+- `/` : move mouse to next screen
 - `,` : launch Systempreferences
 - `.` : toggle HammerSpoon's console
 - `2` : search Emoji

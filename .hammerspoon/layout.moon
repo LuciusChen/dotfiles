@@ -3,11 +3,13 @@
 hs.window.animationDuration = 0
 -- The default value is false
 hs.window.setFrameCorrectness = false
+_ = require 'lodash'
 
 rectTable = {}
+-- Keep the window's size
+notTable = {'ru.keepcoder.Telegram', 'com.tencent.xinWeChat'}
 
 layout =
-  -- hs.window.frontmostWindow() -> hs.window object
   win: ->
     hs.window.frontmostWindow!
   frame: (win) =>
@@ -83,10 +85,22 @@ layout =
     @win!\moveOneScreenNorth!\maximize!
   nextScreen: =>
     win = @win!
-    win\moveToScreen(win\screen!\next!, true, true)\maximize!
+    id = win\application!\bundleID!
+    frame = @frame(win)
+    win\moveToScreen(win\screen!\next!, true, true)
+    if _.includes(notTable, id)
+      win\move(frame)
+    else
+      @maximize win
   preScreen: =>
     win = @win!
-    win\moveToScreen(win\screen!\previous!, true, true)\maximize!
+    id = win\application!\bundleID!
+    frame = @frame(win)
+    win\moveToScreen(win\screen!\previous!, true, true)
+    if _.includes(notTable, id)
+      win\move(frame)
+    else
+      @maximize win
   moveToScreen: (i) =>
     screen = hs.screen.allScreens![tonumber i]
     if screen

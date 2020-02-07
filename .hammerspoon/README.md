@@ -34,10 +34,10 @@ Launch or switch app, the mouse will move to the window of the application.
 - `]` : click Notification down
 - `\` : reload HammerSpoon's config
 - `/` : move mouse to next screen
-- `,` : launch Systempreferences
+- `,` : launch System Preferences
 - `.` : toggle HammerSpoon's console
 - `2` : search Emoji
-- `3` : search clipboard
+- `3` : search Clipboard
 - `Space` : show app not in `appMap` or `blacklist`, if some apps are running, but no windows - force create one
 - `delete` : lock screen
 

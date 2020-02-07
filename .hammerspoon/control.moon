@@ -43,7 +43,7 @@ appMap =
   h: 'com.tencent.WeWorkMac'
   n: 'notion.id'
   u: ''
-  j: ''
+  j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
   i: 'com.electron.poster'
   k: 'com.apple.Safari'

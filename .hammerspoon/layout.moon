@@ -6,7 +6,7 @@ hs.window.setFrameCorrectness = false
 _ = require 'lodash'
 
 rectTable = {}
--- Keep the window's size
+-- Keep the size of the window when switch screen
 notTable = {'ru.keepcoder.Telegram', 'com.tencent.xinWeChat'}
 
 layout =

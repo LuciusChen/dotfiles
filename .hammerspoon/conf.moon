@@ -8,6 +8,7 @@ conf =
     mouse: true
     pwd: true
     keyboard: true
+    wifi: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:
@@ -20,6 +21,6 @@ conf =
   appActiveTimeout: 0.1
   appHideTimeout: 0.2
   sysEventTimeout: 0.15
-  securityAgentWhiteList: {'系统偏好设置'}
+  securityAgentWhiteList: {'System Preferences'}
 
 conf

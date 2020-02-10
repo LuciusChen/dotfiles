@@ -29,7 +29,7 @@ util =
   checkSecurityAgent: =>
     @exec('osascript '..hs.configdir..'/lib/checkSecurityAgent.scpt')
   reload: =>
-    @notify '配置', '重新加载'
+    @notify 'Configuration', 'Reload'
     hs.reload!
   merge: (t1, t2) ->
     for k,v in ipairs(t2) do

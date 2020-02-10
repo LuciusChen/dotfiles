@@ -22,7 +22,6 @@ updateFrontmostAppInput= ->
   else
     squirrel!
 
--- Handle cursor focus and application's screen manage.
 hs.application.watcher.new((name, event, app) ->
   if event == hs.application.watcher.activated
         updateFrontmostAppInput!

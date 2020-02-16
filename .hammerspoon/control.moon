@@ -67,6 +67,14 @@ _.forEach appMap, (v, k) ->
 -- blacklist
 blacklist = util.merge(_.values(appMap), {})
 
+-- if some apps are running, but no windows - force create one
+callback = (win) ->
+  appToLaunch = win\application!
+  if appToLaunch\findWindow! == nil
+    hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
+    layout\maximize! if maximize
+    mouse\frontmost!
+
 hint = () ->
   wins = {}
   _.forEach hs.application.runningApplications!, (v) ->
@@ -76,14 +84,6 @@ hint = () ->
     if #win > 0 and not _.some(appMap, (v, k) -> v == id) and not _.includes(blacklist, id)
       _.forEach win, (v) ->
         _.push wins, v
-
-  
-  -- if some apps are running, but no windows - force create one
-  callback = (win) ->
-    appToLaunch = win\application!
-    if appToLaunch\findWindow! == nil
-      hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
-      layout\maximize! if maximize
   hs.hints.windowHints(wins, callback, true)
 
 bind hyper, 'space', hint

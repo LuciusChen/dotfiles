@@ -55,7 +55,7 @@ appMap =
   ['\\']: util\reload
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
-  delete: hs.caffeinate.lockScreen
+  ['delete']: hs.caffeinate.lockScreen
   ['/']: mouse\moveToNextScreen
 
 _.forEach appMap, (v, k) ->

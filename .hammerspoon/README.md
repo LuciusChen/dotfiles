@@ -1,3 +1,5 @@
+![](HammerSpoon.png)
+
 ## Install
 
 1. `$ security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)

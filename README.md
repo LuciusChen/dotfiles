@@ -3,12 +3,8 @@
 Just for backup
 
 ## HammerSpoon
-
+![](images/Modifier-Keys.png)
 [Learn more](/.hammerspoon/README.md)
-
-## airline-theme-qwq
-
-![qwq theme](/images/qwq.jpg)
 
 ## References
 

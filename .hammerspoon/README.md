@@ -1,4 +1,4 @@
-![](HammerSpoon.png)
+![](Modifier-Keys.png)
 
 ## Install
 

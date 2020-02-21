@@ -1,7 +1,5 @@
 # Lucius's dotfiles
 
-Just for backup
-
 ## HammerSpoon
 ![](images/Modifier-Keys.png)
 [Learn more](/.hammerspoon/README.md)

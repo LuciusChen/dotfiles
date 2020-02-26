@@ -15,11 +15,8 @@ util =
       -- move mouse to the screen which the application is on
       mouse\frontmost!
       -- hs.mouse.setAbsolutePosition(hs.geometry.rectMidPoint(hs.window.focusedWindow!\screen!\fullFrame!))
-  notify: (subTitle, text) =>
-    unless text
-      text = subTitle
-      subTitle = ''
-    hs.notify.show 'Hammerspoon', tostring(subTitle), tostring(text)
+  notify: (title, text) =>
+    hs.notify.new({title:title, informativeText:text})\send!
   trim: (str) =>
     string.gsub(str, "^%s*(.-)%s*$", "%1")
   exec: (cmd) =>

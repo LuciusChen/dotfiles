@@ -9,6 +9,8 @@ conf =
     pwd: true
     keyboard: true
     wifi: true
+    usb: true
+    headphones: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:

@@ -14,7 +14,8 @@ setOutputMuted = ->
     return
   if _.includes(work, currentWifi) and currentOutput.name == outputDeviceName
     hs.audiodevice.findDeviceByName(outputDeviceName)\setOutputMuted(true)
-
+  else
+    hs.audiodevice.findDeviceByName(outputDeviceName)\setOutputMuted(false)
 hs.wifi.watcher.new(() ->
         setOutputMuted!
 )\start!

@@ -17,5 +17,4 @@ setOutputMuted = ->
 
 hs.wifi.watcher.new(() ->
         setOutputMuted!
-        wifiNotify!
 )\start!

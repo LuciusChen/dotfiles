@@ -19,6 +19,7 @@ spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
 -- launch center
 appMap =
+  ['7']: mouse\mouseHighlight
   ['8']: spotify.previous
   ['9']: spotify.playpause
   ['0']: spotify.next

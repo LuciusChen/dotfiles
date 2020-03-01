@@ -84,12 +84,20 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# aria2c
-alias aria2c="aria2c --conf-path='/Users/rabbit/.aria2/aria2.conf' -D"
-
 # proxy for Iterm2
-alias enproxy="export http_proxy=socks5://127.0.0.1:1086 https_proxy=socks5://127.0.0.1:1086 ALL_PROXY=socks5://127.0.0.1:1086"
-alias disproxy="unset http_proxy https_proxy ALL_PROXY"
+enproxy(){
+    export https_proxy="http://127.0.0.1:8888"
+    export http_proxy="http://127.0.0.1:8888"
+    export all_proxy="socks5://127.0.0.1:8889"
+    echo "HTTP Proxy on"
+}
+
+unproxy(){
+    unset http_proxy
+    unset https_proxy
+    unset all_proxy
+    echo "HTTP Proxy off"
+}
 
 # tree alias
 alias t1="tree -L 1 -C -D -h -t"

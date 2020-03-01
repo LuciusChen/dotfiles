@@ -47,7 +47,7 @@ appMap =
   j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
   i: 'com.electron.poster'
-  k: 'com.apple.Safari'
+  k: 'com.nssurge.surge-mac'
   o: ''
   l: 'com.adobe.LightroomClassicCC7'
   p: 'com.adobe.Photoshop'

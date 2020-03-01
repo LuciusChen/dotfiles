@@ -12,7 +12,6 @@ hs.audiodevice.watcher.start!
 for i,dev in ipairs(hs.audiodevice.allOutputDevices!) do
   dev\watcherCallback((dev_uid, event_name, event_scope, event_element) ->
     dev = hs.audiodevice.findDeviceByUID(dev_uid)
-    print(dev\jackConnected!)
     if event_name == 'jack'
       if dev\jackConnected!
         if spotify_was_playing

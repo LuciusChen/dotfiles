@@ -5,7 +5,8 @@ spotify_was_playing = false
 
 -- Testing the new audiodevice watcher
 hs.audiodevice.watcher.setCallback((arg)->
-    hs.logger\df("Audiowatch arg: %s", arg))
+  
+)
 hs.audiodevice.watcher.start!
 
 -- Per-device watcher to detect headphones in/out

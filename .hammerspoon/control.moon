@@ -43,7 +43,7 @@ appMap =
   y: 'com.spotify.client'
   h: 'com.tencent.WeWorkMac'
   n: 'notion.id'
-  u: ''
+  u: 'com.readdle.smartemail-Mac'
   j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
   i: 'com.electron.poster'

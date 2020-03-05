@@ -7,7 +7,7 @@ _ = require 'lodash'
 
 rectTable = {}
 -- Keep the size of the window when switch screen
-notTable = {'ru.keepcoder.Telegram', 'com.tencent.xinWeChat'}
+frozen = {'ru.keepcoder.Telegram', 'com.tencent.xinWeChat', 'com.culturedcode.ThingsMac'}
 
 layout =
   win: ->
@@ -88,7 +88,7 @@ layout =
     id = win\application!\bundleID!
     frame = @frame(win)
     win\moveToScreen(win\screen!\next!, true, true)
-    if _.includes(notTable, id)
+    if _.includes(frozen, id)
       win\move(frame)
     else
       @maximize win
@@ -97,7 +97,7 @@ layout =
     id = win\application!\bundleID!
     frame = @frame(win)
     win\moveToScreen(win\screen!\previous!, true, true)
-    if _.includes(notTable, id)
+    if _.includes(frozen, id)
       win\move(frame)
     else
       @maximize win

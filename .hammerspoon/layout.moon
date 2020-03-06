@@ -7,7 +7,12 @@ _ = require 'lodash'
 
 rectTable = {}
 -- Keep the size of the window when switch screen
-frozen = {'ru.keepcoder.Telegram', 'com.tencent.xinWeChat', 'com.culturedcode.ThingsMac'}
+frozen = {
+  'ru.keepcoder.Telegram', 
+  'com.tencent.xinWeChat', 
+  'com.culturedcode.ThingsMac', 
+  'com.readdle.smartemail-Mac'
+  }
 
 layout =
   win: ->

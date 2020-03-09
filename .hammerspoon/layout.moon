@@ -11,7 +11,8 @@ frozen = {
   'ru.keepcoder.Telegram', 
   'com.tencent.xinWeChat', 
   'com.culturedcode.ThingsMac', 
-  'com.readdle.smartemail-Mac'
+  'com.readdle.smartemail-Mac',
+  'com.omnigroup.OmniFocus3'
   }
 
 layout =

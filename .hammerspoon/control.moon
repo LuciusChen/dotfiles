@@ -46,9 +46,9 @@ appMap =
   u: 'com.readdle.smartemail-Mac'
   j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
-  i: 'com.electron.poster'
+  i: 'com.rafifyalda.flume-mac-direct'
   k: 'com.nssurge.surge-mac'
-  o: ''
+  o: 'com.apple.iCal'
   l: 'com.adobe.LightroomClassicCC7'
   p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp

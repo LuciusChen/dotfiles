@@ -12,7 +12,7 @@ frozen = {
   'com.tencent.xinWeChat', 
   'com.culturedcode.ThingsMac', 
   'com.readdle.smartemail-Mac',
-  'com.omnigroup.OmniFocus3'
+  'com.apple.finder'
   }
 
 layout =

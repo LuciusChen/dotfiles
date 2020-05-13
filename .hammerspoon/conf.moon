@@ -8,7 +8,7 @@ conf =
     mouse: true
     pwd: true
     keyboard: true
-    wifi: true
+    wifi: false
     usb: true
     headphones: true
   hyper: {'cmd', 'alt', 'ctrl'}

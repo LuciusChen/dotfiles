@@ -7,7 +7,7 @@
 1. `$ security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)
 2. Download the last [lua source code](https://www.lua.org/download.html)
 3. `$ tar -xvf ~/Downloads/lua-5.4.1.tar.gz # adjust for whatever version you downloaded`
-4. `$ cd lua-5.4.0 # again, adjust version if necessary`
+4. `$ cd lua-5.4.1 # again, adjust version if necessary`
 5. `$ vi Makefile` In Makefile, change the line that reads INSTALL_TOP= /usr/local to INSTALL_TOP= ~/customlua (or whatever path you chose above).
 6. `$ vi src/luaconf.h` In src/luaconf.h, change the line that reads #define LUA_ROOT "/usr/local/" to #define LUA_ROOT "~/customlua/" (or whatever path you chose above). 
 6. `$ make macosx`
@@ -29,9 +29,10 @@
         LUA_DIR = "/Users/<username>/customlua"
     }
     ```
-12. `$ luarocks --lua-version 5.4 install <rockname>`
-6. Download [SpoonInstall](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip) and put it `../Spoons/`
-7. Keyboard moudle needs to config your own keyboard's sourceID
+12. `$ luarocks --lua-version 5.4 install moonscript`
+13. `$ luarocks --lua-version 5.4 install lodash`
+14. Download [SpoonInstall](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpoonInstall.spoon.zip) and put it `../Spoons/`
+15. Keyboard moudle needs to config your own keyboard's sourceID
 
 
 ## Function

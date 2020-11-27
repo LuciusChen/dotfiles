@@ -34,7 +34,7 @@ appMap =
   e: 'com.jetbrains.intellij'
   d: 'com.jetbrains.datagrip'
   c: 'com.googlecode.iterm2'
-  r: 'com.tapbots.TweetbotMac'
+  r: 'com.tapbots.Tweetbot3Mac'
   f: 'com.apple.finder'
   v: 'com.microsoft.VSCode'
   t: 'com.culturedcode.ThingsMac'
@@ -48,7 +48,7 @@ appMap =
   m: 'com.postmanlabs.mac'
   i: 'com.rafifyalda.flume-mac-direct'
   k: 'com.nssurge.surge-mac'
-  o: 'com.apple.iCal'
+  o: 'com.captureone.captureone13'
   l: 'com.adobe.LightroomClassicCC7'
   p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp
@@ -89,6 +89,7 @@ hint = () ->
 
 bind hyper, 'space', hint
 
+-- Set Window Position on screen
 layoutMap =
   h: 'center'
   i: 'minimize'

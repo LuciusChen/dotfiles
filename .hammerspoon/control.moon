@@ -25,7 +25,7 @@ appMap =
   ['0']: spotify.next
   ['-']: spotify.volumeDown
   ['=']: spotify.volumeUp
-  q: ''
+  q: 'com.netease.nemu'
   a: ''
   z: ''
   w: 'ru.keepcoder.Telegram'

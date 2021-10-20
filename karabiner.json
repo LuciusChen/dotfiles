@@ -240,7 +240,7 @@
                     }
                 }
             ],
-            "name": "HHKB",
+            "name": "H",
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },
@@ -424,7 +424,7 @@
                     }
                 }
             ],
-            "name": "Apple",
+            "name": "",
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },

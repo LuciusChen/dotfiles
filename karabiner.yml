@@ -134,7 +134,7 @@ profiles:
       key_code: f12
     to:
       key_code: volume_increment
-  name: HHKB
+  name: H
   parameters:
     delay_milliseconds_before_open_device: 1000
   selected: true
@@ -233,7 +233,7 @@ profiles:
       key_code: f12
     to:
       consumer_key_code: volume_increment
-  name: Apple
+  name: 
   parameters:
     delay_milliseconds_before_open_device: 1000
   selected: false

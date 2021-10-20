@@ -2,6 +2,7 @@
 
 ## Install
 
+***NOW CAN USE HOMEBREW INSTALL LUA***
 [Why not use Homebrew install lua?](https://github.com/Hammerspoon/hammerspoon/wiki/Luarocks-and-Hammerspoon#version)
 
 1. `$ security add-generic-password -s hammerspoon -a system -w password` (password change to your own password)

@@ -25,7 +25,7 @@ appMap =
   ['0']: spotify.next
   ['-']: spotify.volumeDown
   ['=']: spotify.volumeUp
-  q: 'com.netease.nemu'
+  q: ''
   a: ''
   z: ''
   w: 'ru.keepcoder.Telegram'
@@ -34,10 +34,10 @@ appMap =
   e: 'com.jetbrains.intellij'
   d: 'com.jetbrains.datagrip'
   c: 'com.googlecode.iterm2'
-  r: 'md.obsidian'
+  r: 'com.tapbots.Tweetbot3Mac'
   f: 'com.apple.finder'
   v: 'com.microsoft.VSCode'
-  t: 'com.ideasoncanvas.mindnode.macos'
+  t: 'com.culturedcode.ThingsMac'
   g: 'com.google.Chrome'
   b: 'com.readdle.PDFExpert-Mac'
   y: 'com.spotify.client'
@@ -46,10 +46,10 @@ appMap =
   u: 'com.readdle.smartemail-Mac'
   j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
-  i: 'com.rafifyalda.flume-mac-direct'
+  i: ''
   k: 'com.nssurge.surge-mac'
   o: 'com.captureone.captureone13'
-  l: 'com.adobe.LightroomClassicCC7'
+  l: ''
   p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp
   [']']: mouse\clickNotificationDown

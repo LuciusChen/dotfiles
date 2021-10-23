@@ -1,4 +1,4 @@
---- === HSKeybindings ===
+--- === Keybindings ===
 --- Display Keybindings registered with bindHotkeys() and Spoons 
 _ = require 'lodash'
 
@@ -93,7 +93,7 @@ generateHtml= ->
               padding: 0 0 15px;
               font-size:12px;
               overflow:hidden;
-              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='300' fill='%23cccccc' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E");
+              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='350' fill='%23cccccc' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E");
             }
             .content.maincontent{
             position: relative;
@@ -258,7 +258,6 @@ generateHtml= ->
           </body>
         </html>
     ]]
-
   return html
 
 
@@ -284,14 +283,6 @@ keybindings =
     webcontent = generateHtml!
     @sheetView\html(webcontent)
     @sheetView\show!
-
---- HSKeybindings:hide()
---- Method
---- Hide the cheatsheet webview
----
---- Parameters:
----  * None
----
 
   hide: =>
     @sheetView\hide!

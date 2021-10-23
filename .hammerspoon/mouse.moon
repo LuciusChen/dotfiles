@@ -23,7 +23,7 @@ mouse =
     mouse(types.leftMouseUp, point)\setProperty(clickState, 1)\post!
   moveToNextScreen: =>
     fullFrame = hs.mouse.getCurrentScreen!\next!\fullFrame!
-    hs.mouse.setAbsolutePosition(hs.geometry.rectMidPoint(fullFrame))
+    hs.mouse.absolutePosition(hs.geometry.rectMidPoint(fullFrame))
   frontmost: ->
     winFrame = layout.win!\frame!
     mousePosition = hs.mouse.getRelativePosition!
@@ -31,7 +31,7 @@ mouse =
     point =
       x: winFrame.x+winFrame.w*mousePosition.x/fullFrame.w
       y: winFrame.y+winFrame.h*mousePosition.y/fullFrame.h
-    hs.mouse.setAbsolutePosition point
+    hs.mouse.absolutePosition point
   mouseHighlight: ->
     if mouseCircle
         mouseCircle\delete!

@@ -7,6 +7,8 @@ util = require 'util'
 mouse = require 'mouse'
 spotify  = require 'hs.spotify'
 layout = require 'layout'
+keybindings = require 'keybindings'
+keybindings\init!
 bind = hs.hotkey.bind
 hyper = '⌘⌃⌥'
 hyperPlus = '⌘⌃⌥⇧'
@@ -57,7 +59,7 @@ appMap =
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
   ['delete']: hs.caffeinate.lockScreen
-  ['/']: mouse\moveToNextScreen
+  ['/']: keybindings\toggle
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'

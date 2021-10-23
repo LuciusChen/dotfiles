@@ -11,6 +11,7 @@ conf =
     wifi: false
     usb: true
     headphones: true
+    keybindings: true
   hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:

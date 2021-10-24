@@ -85,7 +85,7 @@ processHotkeys= ->
 processHotkeysCSS= ->
   css = ""
   _.forEach appMap, (v, k) ->
-    css = css .. ".content > .col" .. k .. "{ content: ''; display: block; background-image: url(\"" .. v.SVG .. "\");}"
+    css = css .. ".content > .col" .. k .. "{ content: ''; display: inline-block; background-image: url(\"" .. v.SVG .. "\");}"
   return css
 
 generateHtml= ->

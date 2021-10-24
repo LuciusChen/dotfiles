@@ -7,7 +7,7 @@ appMap =
   s: 'WeChat'
   x: 'QQ'
   e: 'Intellij IDEA'
-  d: 'Datagrip'
+  d: 'DataGrip'
   c: 'iTerm2'
   r: 'Tweetbot'
   f: 'Finder'
@@ -41,6 +41,14 @@ processHotkeys= ->
 generateHtml= ->
   app_title = "Hammerspoon Keybindings"
   allmenuitems = processHotkeys!
+  -- === light mode ===
+  -- background_color = "#eee"
+  -- font_color = "#000"
+  -- background_img = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='350' fill='%23cccccc' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E"
+  -- === dark mode ===
+  background_color = "#282c34"
+  font_color = "#fff"
+  background_img = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='300' fill='%23666666' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E"
   html = [[
         <!DOCTYPE html>
         <html>
@@ -48,9 +56,10 @@ generateHtml= ->
         <style type="text/css">
             *{margin:0; padding:0;}
             html, body{
-              background-color:#eee;
+              background-color: ]] .. background_color .. [[;
               font-family: arial;
               font-size: 13px;
+              color: ]] .. font_color .. [[;
             }
             a{
               text-decoration:none;
@@ -64,7 +73,7 @@ generateHtml= ->
               left: 0;
               right: 0;
               height: 48px;
-              background-color:#eee;
+              background-color: ]] .. background_color .. [[;
             }
             header{
               position: fixed;
@@ -72,7 +81,7 @@ generateHtml= ->
               left: 0;
               right: 0;
               height:48px;
-              background-color:#eee;
+              background-color: ]] .. background_color .. [[;
               z-index:99;
             }
             footer{ bottom: 0;
@@ -93,7 +102,7 @@ generateHtml= ->
               padding: 0 0 15px;
               font-size:12px;
               overflow:hidden;
-              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='350' fill='%23cccccc' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E");
+              background-image: url("]] .. background_img .. [[");
             }
             .content.maincontent{
             position: relative;

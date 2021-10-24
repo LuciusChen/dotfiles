@@ -2,9 +2,7 @@
 
 ## iTerm2
 - ohmyzsh
-
-## Font
-[FiraCode](https://github.com/tonsky/FiraCode)
+- Font: [FiraCode](https://github.com/tonsky/FiraCode)
 
 ## HammerSpoon
 ![](images/Modifier-Keys.png)

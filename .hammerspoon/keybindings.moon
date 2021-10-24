@@ -68,13 +68,6 @@ generateHtml= ->
             }
             li.title{ text-align:center;}
             ul, li{list-style: inside none; padding: 0 0 5px;}
-            footer{
-              position: fixed;
-              left: 0;
-              right: 0;
-              height: 48px;
-              background-color: ]] .. background_color .. [[;
-            }
             header{
               position: fixed;
               top: 0;
@@ -99,7 +92,7 @@ generateHtml= ->
             }
             li.title{padding: 0  10px 15px}
             .content{
-              padding: 0 0 15px;
+              padding: 15px 0 15px;
               font-size:12px;
               overflow:hidden;
               background-image: url("]] .. background_img .. [[");
@@ -242,6 +235,7 @@ generateHtml= ->
               width: 165px;
               text-align: center;
               font-size: 20px;
+              font-weight: 900;
             }
         </style>
         </head>

@@ -3,29 +3,75 @@
 _ = require 'lodash'
 
 appMap =
-  w: 'Telegram'
-  s: 'WeChat'
-  x: 'QQ'
-  e: 'Intellij IDEA'
-  d: 'DataGrip'
-  c: 'iTerm2'
-  r: 'Tweetbot'
-  f: 'Finder'
-  v: 'VSCode'
-  t: 'Things'
-  g: 'Chrome'
-  b: 'PDF Expert'
-  y: 'Spotify'
-  h: 'WeWork'
-  n: 'Bear'
-  u: 'Spark'
-  j: 'Affinity Designer'
-  m: 'Postman'
-  i: 'MindNode'
-  k: 'Surge'
-  o: 'Capture One'
-  l: 'DaVinci Resolve'
-  p: 'Photoshop'
+  w:
+    'app': 'Telegram',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EW%3C/text%3E%3C/svg%3E"
+  s: 
+    'app': 'WeChat',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ES%3C/text%3E%3C/svg%3E"
+  x: 
+    'app': 'QQ',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EX%3C/text%3E%3C/svg%3E"
+  e: 
+    'app': 'Intellij IDEA',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EE%3C/text%3E%3C/svg%3E"
+  d: 
+    'app': 'DataGrip',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ED%3C/text%3E%3C/svg%3E"
+  c: 
+    'app': 'iTerm2',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EC%3C/text%3E%3C/svg%3E"
+  r: 
+    'app': 'Tweetbot',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ER%3C/text%3E%3C/svg%3E"
+  f: 
+    'app': 'Finder',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EF%3C/text%3E%3C/svg%3E"
+  v: 
+    'app': 'VSCode',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EV%3C/text%3E%3C/svg%3E"
+  t: 
+    'app': 'Things',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ET%3C/text%3E%3C/svg%3E"
+  g: 
+    'app': 'Chrome',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EG%3C/text%3E%3C/svg%3E"
+  b: 
+    'app': 'PDF Expert',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E"
+  y: 
+    'app': 'Spotify',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EY%3C/text%3E%3C/svg%3E"
+  h: 
+    'app': 'WeWork',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EH%3C/text%3E%3C/svg%3E"
+  n: 
+    'app': 'Bear',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EN%3C/text%3E%3C/svg%3E"
+  u: 
+    'app': 'Spark',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EU%3C/text%3E%3C/svg%3E"
+  j: 
+    'app': 'Affinity Designer',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EJ%3C/text%3E%3C/svg%3E"
+  m: 
+    'app': 'Postman',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EM%3C/text%3E%3C/svg%3E"
+  i: 
+    'app': 'MindNode',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EI%3C/text%3E%3C/svg%3E"
+  k: 
+    'app': 'Surge',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EK%3C/text%3E%3C/svg%3E"
+  o: 
+    'app': 'Capture One',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EO%3C/text%3E%3C/svg%3E"
+  l: 
+    'app': 'DaVinci Resolve',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EL%3C/text%3E%3C/svg%3E"
+  p: 
+    'app': 'PhotoShop',
+    'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EP%3C/text%3E%3C/svg%3E"
 
 -- funtionMap =
 --   [9]: 'play or pause'
@@ -33,14 +79,20 @@ appMap =
 processHotkeys= ->
   menu = ""
   _.forEach appMap, (v, k) ->
-    menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext'>" .. " " .. v .. "</div></li></ul>"
---   _.forEach funtionMap, (v, k) ->
---     menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext'>" .. " " .. v .. "</div></li></ul>"
+    menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext'>" .. " " .. v.app .. "</div></li></ul>"
   return menu
+
+processHotkeysCSS= ->
+  css = ""
+  _.forEach appMap, (v, k) ->
+    css = css .. ".content > .col" .. k .. "{ content: ''; display: block; background-image: url(\"" .. v.SVG .. "\");}"
+  return css
 
 generateHtml= ->
   app_title = "Hammerspoon Keybindings"
   allmenuitems = processHotkeys!
+  allCSS = processHotkeysCSS!
+  print(allCSS)
   -- === light mode ===
   -- background_color = "#eee"
   -- font_color = "#000"
@@ -106,121 +158,6 @@ generateHtml= ->
               width: 23%;
               padding:20px 0 20px 20px;
             }
-            .content > .colm{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EM%3C/text%3E%3C/svg%3E");
-            }
-            .content > .coln{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EN%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colb{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colv{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EV%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colc{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EC%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colx{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EX%3C/text%3E%3C/svg%3E");
-            }
-            .content > .coll{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EL%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colk{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EK%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colj{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EJ%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colh{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EH%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colg{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EG%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colf{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EF%3C/text%3E%3C/svg%3E");
-            }
-            .content > .cold{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ED%3C/text%3E%3C/svg%3E");
-            }
-            .content > .cols{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ES%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colp{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EP%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colo{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EO%3C/text%3E%3C/svg%3E");
-            }
-            .content > .coli{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EI%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colu{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EU%3C/text%3E%3C/svg%3E");
-            }
-            .content > .coly{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EY%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colt{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ET%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colr{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ER%3C/text%3E%3C/svg%3E");
-            }
-            .content > .cole{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EE%3C/text%3E%3C/svg%3E");
-            }
-            .content > .colw{
-                content: '';
-                display: block;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EW%3C/text%3E%3C/svg%3E");
-            }
             li:after{
               visibility: hidden;
               display: block;
@@ -237,6 +174,7 @@ generateHtml= ->
               font-size: 20px;
               font-weight: 900;
             }
+            ]] .. allCSS ..[[
         </style>
         </head>
           <body>

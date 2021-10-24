@@ -48,7 +48,7 @@ appMap =
   u: 'com.readdle.smartemail-Mac'
   j: 'com.seriflabs.affinitydesigner'
   m: 'com.postmanlabs.mac'
-  i: ''
+  i: 'com.ideasoncanvas.mindnode.macos'
   k: 'com.nssurge.surge-mac'
   o: 'com.captureone.captureone13'
   l: ''

@@ -1,4 +1,4 @@
-![](Modifier-Keys.png)
+![](images/Modifier-Keys.png)
 
 ## Install
 
@@ -50,6 +50,8 @@ Karabiner-Elements:
 Hotkey: `⌘⌃⌥` (Change to `Tab`)
 
 Launch or switch app, the mouse will move to the window of the application.
+
+![](images/help.png)
 
 - `a-z` : launch app (appMap)
 - `8` : previous (Spotify)

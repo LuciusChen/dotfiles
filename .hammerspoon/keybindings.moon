@@ -92,7 +92,6 @@ generateHtml= ->
   app_title = "Hammerspoon Keybindings"
   allmenuitems = processHotkeys!
   allCSS = processHotkeysCSS!
-  print(allCSS)
   -- === light mode ===
   -- background_color = "#eee"
   -- font_color = "#000"

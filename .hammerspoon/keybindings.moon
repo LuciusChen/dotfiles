@@ -189,9 +189,6 @@ generateHtml= ->
             </header>
             <div class="content maincontent">]] .. allmenuitems .. [[</div>
             <br>
-
-          <footer>
-          </footer>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
             <script type="text/javascript">
               var elem = document.querySelector('.content');

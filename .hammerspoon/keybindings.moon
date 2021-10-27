@@ -3,10 +3,16 @@
 _ = require 'lodash'
 
 -- Add anchor of attention
--- iconMap =
---   'DaVinci': "https://img.icons8.com/color/48/000000/davinci-resolve.png"
---   'Designer': "https://img.icons8.com/fluency/48/000000/affinity-designer.png"
---   'MindNode': "https://img.icons8.com/bubbles/50/000000/mind-map.png"
+iconMap =
+  'DaVinci Resolve': true
+  'Affinity Designer': true
+  'MindNode': true
+  'WeChat': false
+  'QQ': false
+  'Intellij IDEA': false
+  'DataGrip': false
+  'iTerm2': false
+  'Tweetbot': false
 
 appMap =
   w:
@@ -19,7 +25,7 @@ appMap =
     'app': 'QQ',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EX%3C/text%3E%3C/svg%3E"
   e: 
-    'app': 'Intellij',
+    'app': 'Intellij IDEA',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EE%3C/text%3E%3C/svg%3E"
   d: 
     'app': 'DataGrip',
@@ -58,7 +64,7 @@ appMap =
     'app': 'Spark',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EU%3C/text%3E%3C/svg%3E"
   j: 
-    'app': 'Designer',
+    'app': 'Affinity Designer',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EJ%3C/text%3E%3C/svg%3E"
   m: 
     'app': 'Postman',
@@ -73,7 +79,7 @@ appMap =
     'app': 'Capture One',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EO%3C/text%3E%3C/svg%3E"
   l: 
-    'app': 'DaVinci',
+    'app': 'DaVinci Resolve',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EL%3C/text%3E%3C/svg%3E"
   p: 
     'app': 'PhotoShop',
@@ -82,16 +88,15 @@ appMap =
 processHotkeys= ->
   menu = ""
   _.forEach appMap, (v, k) ->
-    menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext'>" .. " " .. v.app .. "</div></li></ul>"
+    menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext cmdtext" .. k .. "'>" .. " " .. v.app .. "</div></li></ul>"
   return menu
 
 processHotkeysCSS= ->
   css = ""
   _.forEach appMap, (v, k) ->
     css = css .. ".content > .col" .. k .. "{ content: ''; display: inline-block; background-image: url(\"" .. v.SVG .. "\");}"
-    -- icon css
-    -- if iconMap[v.app]
-    --   css = css .. " .col" .. k .. "::before{content: ''; display: inline-block; width: 48px; height: 48px; background:url(\"" .. iconMap[v.app] .. "\") 50% 50% no-repeat; background-size: 100%; position: absolute; top: 8px; left: 12px;}"
+    if iconMap[v.app]
+      css = css .. " .cmdtext" .. k .. "::before {content: ''; display: inline-block; height: 30px; border-left: 4px solid #2b92d4; position: absolute; top: 15px;}"
   return css
 
 generateHtml= ->
@@ -202,8 +207,6 @@ generateHtml= ->
         </html>
     ]]
   return html
-
-
 
 keybindings = 
   init: =>

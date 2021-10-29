@@ -68,16 +68,20 @@ _.forEach appMap, (v, k) ->
     bind hyper, k, () -> util\toggle(v)
 
 -- blacklist
-blacklist = util.merge(_.values(appMap), {})
+blacklist = util.merge(_.values(appMap), {
+  'org.hammerspoon.Hammerspoon'
+  })
 
 -- if some apps are running, but no windows - force create one
 callback = (win) ->
   appToLaunch = win\application!
   if appToLaunch\findWindow! == nil
-    hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
+    hs.application.launchOrFocusByBundleID
+    appToLaunch\bundleID!
     layout\maximize! if maximize
     mouse\frontmost!
 
+-- hs.window._timed_allWindows() for ping
 hint = () ->
   wins = {}
   _.forEach hs.application.runningApplications!, (v) ->

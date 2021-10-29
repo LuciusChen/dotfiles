@@ -13,7 +13,8 @@ appItem = {
    'com.jetbrains.intellij',
    'com.jetbrains.datagrip',
    'com.microsoft.VSCode',
-   'com.postmanlabs.mac'
+   'com.postmanlabs.mac',
+   'org.hammerspoon.Hammerspoon'
 }
 
 updateFrontmostAppInput= ->

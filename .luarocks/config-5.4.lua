@@ -3,9 +3,9 @@ lua_interpreter = "lua"
 rocks_trees = {
     {
         name = "user",
-        root = "/Users/luciuschen/.luarocks"
+        root = "/Users/lucius/.luarocks"
     },
 }
 variables = {
-    LUA_DIR = "/Users/luciuschen/lua"
+    LUA_DIR = "/Users/lucius/lua"
 }

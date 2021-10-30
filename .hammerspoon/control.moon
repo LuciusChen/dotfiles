@@ -27,9 +27,6 @@ appMap =
   ['0']: spotify.next
   ['-']: spotify.volumeDown
   ['=']: spotify.volumeUp
-  q: ''
-  a: ''
-  z: ''
   w: 'ru.keepcoder.Telegram'
   s: 'com.tencent.xinWeChat'
   x: 'com.tencent.qq'
@@ -68,9 +65,7 @@ _.forEach appMap, (v, k) ->
     bind hyper, k, () -> util\toggle(v)
 
 -- blacklist
-blacklist = util.merge(_.values(appMap), {
-  'org.hammerspoon.Hammerspoon'
-  })
+blacklist = util.merge(_.values(appMap), {'org.hammerspoon.Hammerspoon'})
 
 -- if some apps are running, but no windows - force create one
 callback = (win) ->

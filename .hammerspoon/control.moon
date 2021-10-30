@@ -65,14 +65,16 @@ _.forEach appMap, (v, k) ->
     bind hyper, k, () -> util\toggle(v)
 
 -- blacklist
-blacklist = util.merge(_.values(appMap), {'org.hammerspoon.Hammerspoon'})
+blacklist = util.merge(_.values(appMap), {
+  'org.hammerspoon.Hammerspoon',  
+  'com.apple.notificationcenterui'
+  })
 
 -- if some apps are running, but no windows - force create one
 callback = (win) ->
   appToLaunch = win\application!
   if appToLaunch\findWindow! == nil
-    hs.application.launchOrFocusByBundleID
-    appToLaunch\bundleID!
+    hs.application.launchOrFocusByBundleID appToLaunch\bundleID!
     layout\maximize! if maximize
     mouse\frontmost!
 

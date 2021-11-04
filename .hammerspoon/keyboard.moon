@@ -14,7 +14,8 @@ appItem = {
    'com.jetbrains.datagrip',
    'com.microsoft.VSCode',
    'com.postmanlabs.mac',
-   'org.hammerspoon.Hammerspoon'
+   'org.hammerspoon.Hammerspoon',
+   'com.eusoft.eudic'
 }
 
 updateFrontmostAppInput= ->

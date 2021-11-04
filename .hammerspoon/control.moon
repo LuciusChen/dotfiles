@@ -47,7 +47,7 @@ appMap =
   m: 'com.postmanlabs.mac'
   i: 'com.ideasoncanvas.mindnode.macos'
   k: 'com.nssurge.surge-mac'
-  o: 'com.captureone.captureone13'
+  o: 'com.captureone.captureone14'
   l: ''
   p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp

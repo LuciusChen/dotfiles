@@ -10,11 +10,11 @@ hs.audiodevice.watcher.setCallback((arg)->
 hs.audiodevice.watcher.start!
 
 -- Per-device watcher to detect headphones in/out
-for i,dev in ipairs(hs.audiodevice.allOutputDevices!) do
-  dev\watcherCallback((dev_uid, event_name, event_scope, event_element) ->
+_.forEach hs.audiodevice.allOutputDevices!, (v, k) ->
+  v\watcherCallback((dev_uid, event_name, event_scope, event_element) ->
     dev = hs.audiodevice.findDeviceByUID(dev_uid)
     if event_name == 'jack'
-      if dev\jackConnected!
+      if v\jackConnected!
         if spotify_was_playing
           hs.spotify.play!
           util\notify("Headphones plugged", "Spotify restarted")

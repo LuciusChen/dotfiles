@@ -12,7 +12,7 @@ appItem = {
    'com.googlecode.iterm2',
    'com.jetbrains.intellij',
    'com.jetbrains.datagrip',
-   'com.microsoft.VSCode',
+--   'com.microsoft.VSCode',
    'com.postmanlabs.mac',
    'org.hammerspoon.Hammerspoon',
    'com.eusoft.eudic'

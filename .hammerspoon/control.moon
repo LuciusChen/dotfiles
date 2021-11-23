@@ -2,22 +2,15 @@
   keyStroke: press
   keyStrokes: send
 } = hs.eventtap
+
 _ = require 'lodash'
 util = require 'util'
 mouse = require 'mouse'
+conf = require 'conf'
 spotify  = require 'hs.spotify'
 layout = require 'layout'
 keybindings = require 'keybindings'
 keybindings\init!
-bind = hs.hotkey.bind
-hyper = '⌘⌃⌥'
-hyperPlus = '⌘⌃⌥⇧'
-
--- "clipboard History" and "Emojis" dependent on "SpoonInstall"
-hs.loadSpoon('SpoonInstall')
-spoon.SpoonInstall\andUse('TextClipboardHistory', {config: {show_in_menubar: false}, hotkeys: {toggle_clipboard: {hyper, "3" }}, start: true})
-spoon.SpoonInstall\andUse('Emojis')
-spoon.Emojis\bindHotkeys({toggle: {hyper, "2" }})
 
 -- launch center
 appMap =
@@ -48,7 +41,7 @@ appMap =
   i: 'com.ideasoncanvas.mindnode.macos'
   k: 'com.nssurge.surge-mac'
   o: 'com.captureone.captureone14'
-  l: ''
+  l: 'com.omnigroup.OmniGraffle7'
   p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp
   [']']: mouse\clickNotificationDown
@@ -60,9 +53,9 @@ appMap =
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'
-    bind hyper, k, v
+    conf.bind conf.hyper, k, v
   elseif #v > 0
-    bind hyper, k, () -> util\toggle(v)
+    conf.bind conf.hyper, k, () -> util\toggle(v)
 
 -- blacklist
 blacklist = util.merge(_.values(appMap), {
@@ -77,7 +70,7 @@ createWindowChooser = () ->
       window = hs.window.get choice["id"]
       window\focus!
 
-  bind hyper, 'space', () ->
+  conf.bind conf.hyper, 'space', () ->
     windows = {}
     wf = hs.window.filter.new()
 
@@ -90,11 +83,11 @@ createWindowChooser = () ->
           ["bundleID"]: v\application()\bundleID!,
           ["id"]: v\id!,
         })
-    chooser\choices windows
-    chooser\show()
+    if windows != {}
+      chooser\choices windows
+      chooser\show()
 
 createWindowChooser()
-
 
 
 -- if some apps are running, but no windows - force create one
@@ -143,9 +136,8 @@ layoutMap =
 
 _.forEach layoutMap, (v, k) ->
   if type(v) == 'function'
-    bind hyperPlus, k, v
+    conf.bind conf.hyperPlus, k, v
   elseif #v > 0
-    bind hyperPlus, k, () ->
+    conf.bind conf.hyperPlus, k, () ->
       k = tonumber(k)
       layout[v](layout, if _.isNumber(k) then k)
-

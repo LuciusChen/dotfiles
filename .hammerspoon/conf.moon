@@ -4,15 +4,12 @@ conf =
   moudle:
     reload: true
     control: true
-    layout: true
-    mouse: true
     pwd: true
     keyboard: true
-    wifi: false
+    wifi: true
     usb: true
+    space: true
     headphones: true
-    keybindings: true
-  hyper: {'cmd', 'alt', 'ctrl'}
   notification:
     up:
       x: 80
@@ -25,5 +22,7 @@ conf =
   appHideTimeout: 0.2
   sysEventTimeout: 0.15
   securityAgentWhiteList: {'System Preferences'}
-
+  hyper: '⌘⌃⌥'
+  hyperPlus: '⌘⌃⌥⇧'
+  bind: hs.hotkey.bind
 conf

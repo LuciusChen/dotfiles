@@ -119,3 +119,10 @@ alias redis224="redis-cli -h 192.168.1.224 -p 6379"
 alias redis222="redis-cli -h 192.168.1.222 -p 6379"
 alias py="python3"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ECS
+alias ecs="ssh -i ~/.ssh/open-sesame.pem root@121.199.44.223"
+
+alias python2='/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+alias python3='/usr/local/Cellar/python@3.9/3.9.8/bin/python3.9'
+alias python=python3

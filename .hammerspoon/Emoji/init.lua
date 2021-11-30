@@ -154,6 +154,7 @@ function obj:init()
     else
         self.choices = {}
         for _, emoji in pairs(hs.json.decode(io.open(self.spoonPath .. "/emojis/emojis.json"):read())) do
+        -- for _, emoji in pairs(hs.json.decode(io.open(self.spoonPath .. "/emojis/emojis6.6_release..json"):read())) do
             local subText = emoji.shortname
             if #emoji.keywords > 0 then
                 subText = table.concat(emoji["keywords"], ", ") .. ", " .. subText
@@ -161,6 +162,8 @@ function obj:init()
             local chars =
                 hs.fnutils.imap(
                 hs.fnutils.split(emoji.code_points.output, "-"),
+                -- https://raw.githubusercontent.com/joypixels/emoji-toolkit/master/emoji.json
+                -- hs.fnutils.split(emoji.code_points.base, "-"),
                 function(s)
                     return tonumber(s, 16)
                 end
@@ -197,14 +200,15 @@ function obj:init()
     self.chooser:searchSubText(true)
     self.chooser:queryChangedCallback(queryChangedCallback)
 
-    self.choices = mod
     -- inject all images now
-    linkImg(obj.choices)
+    linkImg(self.choices)
 
-    if not errFrequently then
+    if errFrequently then
+        self.chooser:choices(self.choices)
+    else
         self.choicesFrequently = modFrequently
-        linkImg(obj.choicesFrequently)
-        obj.chooser:choices(obj.choicesFrequently)
+        linkImg(self.choicesFrequently)
+        self.chooser:choices(self.choicesFrequently)
     end
     print("Emojis Spoon: Startup completed")
 end

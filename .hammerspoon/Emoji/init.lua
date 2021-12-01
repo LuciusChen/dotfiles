@@ -60,7 +60,11 @@ local function queryChangedCallback(query)
     table.sort(
             result,
             function(a, b)
-                return a["order"] < b["order"]
+                if obj.choicesFlag then
+                    return a["order"] < b["order"]
+                else
+                    return a["order"] > b["order"]
+                end
             end
         )
     if next(result) then
@@ -93,24 +97,13 @@ function obj.callback(choice)
         print("Starting add Emoji to emojis_json_lua_frequently.lua...")
         local mod, err = table.load(script_path() .. "emojis_json_lua.lua") -- luacheck: ignore
         local modFrequently, errFrequently = table.load(script_path() .. "emojis_json_lua_frequently.lua") -- luacheck: ignore
+        
         obj.choicesFrequently = {}
-        for _, ch in pairs(mod) do
-            if ch["image_path"] == choice.image_path then
-                table.insert(
-                    obj.choicesFrequently,
-                    {
-                        text = ch["text"],
-                        subText = ch["subText"],
-                        image_path = ch["image_path"],
-                        char = ch["char"],
-                        order = ch["order"]
-                    }
-                )
-            end
-        end
-
-        if not errFrequently then
+        local index = 1
+        
+        if modFrequently then
             for _, ch in pairs(modFrequently) do
+                index = index + 1
                 if ch["image_path"] ~= choice.image_path then
                     table.insert(
                         obj.choicesFrequently,
@@ -126,6 +119,21 @@ function obj.callback(choice)
             end
         end
 
+        for _, ch in pairs(mod) do
+            if ch["image_path"] == choice.image_path then
+                table.insert(
+                    obj.choicesFrequently,
+                    {
+                        text = ch["text"],
+                        subText = ch["subText"],
+                        image_path = ch["image_path"],
+                        char = ch["char"],
+                        order = index
+                    }
+                )
+            end
+        end
+
         table.sort(
                 obj.choicesFrequently,
                 function(a, b)
@@ -136,6 +144,23 @@ function obj.callback(choice)
         os.remove(obj.spoonPath .. "/emojis_json_lua_frequently.lua")
         table.save(obj.choicesFrequently, obj.spoonPath .. "/emojis_json_lua_frequently.lua") -- luacheck: ignore
         print("Emoji to emojis_json_lua_frequently.lua saved...")
+    else
+        if obj.choicesFrequently then
+            for _, ch in pairs(obj.choicesFrequently) do
+                if ch["image_path"] == choice.image_path then
+                    ch["order"] = ch["order"] + 1
+                end
+            end
+        end
+
+        table.sort(
+                obj.choicesFrequently,
+                function(a, b)
+                    return a["order"] < b["order"]
+                end
+            )
+        os.remove(obj.spoonPath .. "/emojis_json_lua_frequently.lua")
+        table.save(obj.choicesFrequently, obj.spoonPath .. "/emojis_json_lua_frequently.lua") -- luacheck: ignore
     end
     hs.eventtap.keyStrokes(hs.utf8.codepointToUTF8(table.unpack(choice.char))) -- luacheck: ignore
 end
@@ -208,6 +233,12 @@ function obj:init()
     else
         self.choicesFrequently = modFrequently
         linkImg(self.choicesFrequently)
+        table.sort(
+            self.choices,
+            function(a, b)
+                return a["order"] > b["order"]
+            end
+        )
         self.chooser:choices(self.choicesFrequently)
     end
     print("Emojis Spoon: Startup completed")

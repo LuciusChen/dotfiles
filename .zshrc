@@ -123,6 +123,8 @@ alias py="python3"
 # ECS
 alias ecs="ssh -i ~/.ssh/open-sesame.pem root@121.199.44.223"
 
+# python
 alias python2='/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
-alias python3='/usr/local/Cellar/python@3.9/3.9.8/bin/python3.9'
+alias python3='/usr/local/Cellar/python@3.9/3.9.9/bin/python3.9'
 alias python=python3
+alias pip=pip3

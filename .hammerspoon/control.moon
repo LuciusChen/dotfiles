@@ -130,9 +130,9 @@ layoutMap =
   [']']: 'nextScreen'
   ['=']: 'larger'
   ['-']: 'smaller'
-  ['1']: 'moveToScreen'
-  ['2']: 'moveToScreen'
-  ['0']: 'mouse'
+  -- ['1']: 'moveToScreen'
+  -- ['2']: 'moveToScreen'
+  -- ['0']: 'mouse'
 
 _.forEach layoutMap, (v, k) ->
   if type(v) == 'function'

@@ -13,36 +13,13 @@ keybindings = require 'keybindings'
 keybindings\init!
 
 -- launch center
-appMap =
+powerMap =
   ['7']: mouse\mouseHighlight
   ['8']: spotify.previous
   ['9']: spotify.playpause
   ['0']: spotify.next
   ['-']: spotify.volumeDown
   ['=']: spotify.volumeUp
-  w: 'ru.keepcoder.Telegram'
-  s: 'com.tencent.xinWeChat'
-  x: 'com.tencent.qq'
-  e: 'com.jetbrains.intellij'
-  d: 'com.jetbrains.datagrip'
-  c: 'com.googlecode.iterm2'
-  r: 'com.tapbots.Tweetbot3Mac'
-  f: 'com.apple.finder'
-  v: 'com.microsoft.VSCode'
-  t: 'com.culturedcode.ThingsMac.beta'
-  g: 'com.google.Chrome'
-  b: 'com.readdle.PDFExpert-Mac'
-  y: 'com.spotify.client'
-  h: 'com.tencent.WeWorkMac'
-  n: 'net.shinyfrog.bear'
-  u: 'com.readdle.smartemail-Mac'
-  j: 'com.seriflabs.affinitydesigner'
-  m: 'com.postmanlabs.mac'
-  i: 'com.ideasoncanvas.mindnode.macos'
-  k: 'com.nssurge.surge-mac'
-  o: 'com.captureone.captureone14'
-  l: 'com.omnigroup.OmniGraffle7'
-  p: 'com.adobe.Photoshop'
   ['[']: mouse\clickNotificationUp
   [']']: mouse\clickNotificationDown
   ['\\']: util\reload
@@ -50,6 +27,9 @@ appMap =
   ['.']: hs.toggleConsole
   ['delete']: hs.caffeinate.lockScreen
   ['/']: keybindings\toggle
+
+-- This implicitly passes util as self to the actual function, and now util will contain the actual argument.
+appMap = util\tableMerge(conf.appMap, powerMap)
 
 _.forEach appMap, (v, k) ->
   if type(v) == 'function'

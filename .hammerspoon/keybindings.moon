@@ -1,6 +1,8 @@
 --- === Keybindings ===
 --- Display Keybindings registered with bindHotkeys() and Spoons 
 _ = require 'lodash'
+conf = require 'conf'
+util = require 'util'
 
 -- Add anchor of attention
 iconMap =
@@ -16,87 +18,98 @@ iconMap =
 
 appMap =
   w:
-    'app': 'Telegram',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EW%3C/text%3E%3C/svg%3E"
   s: 
-    'app': 'WeChat',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ES%3C/text%3E%3C/svg%3E"
   x: 
-    'app': 'QQ',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EX%3C/text%3E%3C/svg%3E"
   e: 
-    'app': 'Intellij IDEA',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EE%3C/text%3E%3C/svg%3E"
   d: 
-    'app': 'DataGrip',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ED%3C/text%3E%3C/svg%3E"
   c: 
-    'app': 'iTerm2',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EC%3C/text%3E%3C/svg%3E"
   r: 
-    'app': 'Tweetbot',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ER%3C/text%3E%3C/svg%3E"
   f: 
-    'app': 'Finder',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EF%3C/text%3E%3C/svg%3E"
   v: 
-    'app': 'VSCode',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EV%3C/text%3E%3C/svg%3E"
   t: 
-    'app': 'Things',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3ET%3C/text%3E%3C/svg%3E"
   g: 
-    'app': 'Chrome',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EG%3C/text%3E%3C/svg%3E"
   b: 
-    'app': 'PDF Expert',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E"
   y: 
-    'app': 'Spotify',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EY%3C/text%3E%3C/svg%3E"
   h: 
-    'app': 'WeWork',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EH%3C/text%3E%3C/svg%3E"
   n: 
-    'app': 'Bear',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EN%3C/text%3E%3C/svg%3E"
   u: 
-    'app': 'Spark',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EU%3C/text%3E%3C/svg%3E"
   j: 
-    'app': 'Affinity Designer',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EJ%3C/text%3E%3C/svg%3E"
   m: 
-    'app': 'Postman',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EM%3C/text%3E%3C/svg%3E"
   i: 
-    'app': 'MindNode',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EI%3C/text%3E%3C/svg%3E"
   k: 
-    'app': 'Surge',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EK%3C/text%3E%3C/svg%3E"
   o: 
-    'app': 'Capture One',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EO%3C/text%3E%3C/svg%3E"
   l: 
-    'app': 'DaVinci Resolve',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EL%3C/text%3E%3C/svg%3E"
   p: 
-    'app': 'PhotoShop',
+    'app': '',
     'SVG': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23e15151' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3EP%3C/text%3E%3C/svg%3E"
+
+
+
+_.forEach conf.appMap, (v, k) ->
+  _.forEach appMap, (_v, _k)->
+    if k == _k
+      appName = hs.application.nameForBundleID(v)
+      if appName ~= nil
+        _v.app = appName
 
 processHotkeys= ->
   menu = ""
   _.forEach appMap, (v, k) ->
-    menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext cmdtext" .. k .. "'>" .. " " .. v.app .. "</div></li></ul>"
+    if v.app ~= nil and v.app ~= ''
+      menu = menu .. "<ul class='col col" .. k .. "'><li><div class='cmdtext cmdtext" .. k .. "'>" .. " " .. v.app .. "</div></li></ul>"
   return menu
 
 processHotkeysCSS= ->
   css = ""
   _.forEach appMap, (v, k) ->
-    css = css .. ".content > .col" .. k .. "{ content: ''; display: inline-block; background-image: url(\"" .. v.SVG .. "\");}"
-    if iconMap[v.app]
-      css = css .. " .cmdtext" .. k .. "::before {content: ''; display: inline-block; height: 30px; border-left: 4px solid #2b92d4; position: absolute; top: 15px;}"
+    if v.app ~= nil and v.app ~= ''
+      css = css .. ".content > .col" .. k .. "{ content: ''; display: inline-block; background-image: url(\"" .. v.SVG .. "\");}"
+      if iconMap[v.app]
+        css = css .. " .cmdtext" .. k .. "::before {content: ''; display: inline-block; height: 30px; border-left: 4px solid #2b92d4; position: absolute; top: 15px;}"
   return css
 
 generateHtml= ->
@@ -179,9 +192,9 @@ generateHtml= ->
             .cmdtext{
               float: left;
               overflow: hidden;
-              width: 165px;
+              width: 100%;
               text-align: center;
-              font-size: 20px;
+              font-size: 25px;
               font-weight: 900;
             }
             ]] .. allCSS ..[[
@@ -224,7 +237,7 @@ keybindings =
         x: cres.x+cres.w*0.2,
         y: cres.y+cres.h*0.25,
         w: cres.w*0.6,
-        h: cres.h*0.5
+        h: cres.h*0.55
     })
     webcontent = generateHtml!
     @sheetView\html(webcontent)

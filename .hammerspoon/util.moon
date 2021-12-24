@@ -32,4 +32,17 @@ util =
     for k,v in ipairs(t2) do
        table.insert(t1, v)
     t1
+  tableMerge: (a, b) =>
+    if type(a) == 'table' and type(b) == 'table'
+      for k,v in pairs(b) do 
+        if type(v)=='table' and type(a[k] or false) =='table'
+          @tableMerge(a[k],v) 
+        else 
+          a[k]=v
+    a
+  split: (s, delimiter) ->
+    result = {}
+    for match in (s..delimiter)\gmatch("([^.]*)"..delimiter) do
+        table.insert(result, match)
+    result
 util

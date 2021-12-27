@@ -17,10 +17,6 @@ conf =
     down:
       x: 80
       y: 80
-  oneTapTimeout: 0.2
-  appActiveTimeout: 0.1
-  appHideTimeout: 0.2
-  sysEventTimeout: 0.15
   securityAgentWhiteList: {'System Preferences'}
   hyper: '⌘⌃⌥'
   hyperPlus: '⌘⌃⌥⇧'
@@ -40,7 +36,7 @@ conf =
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'
     h: 'com.tencent.WeWorkMac'
-    n: 'net.shinyfrog.bear'
+    n: 'com.tencent.webplusdevtools'
     u: 'com.readdle.smartemail-Mac'
     j: 'com.seriflabs.affinitydesigner'
     m: 'com.postmanlabs.mac'
@@ -49,4 +45,21 @@ conf =
     o: 'com.captureone.captureone14'
     l: 'com.figma.Desktop'
     p: 'com.adobe.Photoshop'
+  layoutMap:
+    h: 'center'
+    i: 'minimize'
+    ['space']: 'toggle'
+    k: 'maximize'
+    y: 'upHalf'
+    n: 'downHalf'
+    g: 'leftHalf'
+    j: 'rightHalf'
+    t: 'leftUp'
+    u: 'rightUp'
+    b: 'leftDown'
+    m: 'rightDown'
+    ['[']: 'preScreen'
+    [']']: 'nextScreen'
+    ['=']: 'larger'
+    ['-']: 'smaller'
 conf

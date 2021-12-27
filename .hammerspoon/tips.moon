@@ -221,7 +221,7 @@ generateHtml= ->
     ]]
   return html
 
-keybindings = 
+tips = 
   init: =>
     @sheetView = hs.webview.new({x:0, y:0, w:0, h:0})
     @sheetView\windowTitle("HSKeybindings")
@@ -251,4 +251,4 @@ keybindings =
       @hide!
     else
       @show!
-keybindings
+tips

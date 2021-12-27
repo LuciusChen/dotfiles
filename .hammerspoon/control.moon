@@ -9,8 +9,8 @@ mouse = require 'mouse'
 conf = require 'conf'
 spotify  = require 'hs.spotify'
 layout = require 'layout'
-keybindings = require 'keybindings'
-keybindings\init!
+tips = require 'tips'
+tips\init!
 
 -- launch center
 powerMap =
@@ -26,7 +26,7 @@ powerMap =
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
   ['delete']: hs.caffeinate.lockScreen
-  ['/']: keybindings\toggle
+  ['/']: tips\toggle
 
 -- This implicitly passes util as self to the actual function, and now util will contain the actual argument.
 appMap = util\tableMerge(conf.appMap, powerMap)
@@ -93,28 +93,7 @@ createWindowChooser()
 -- bind hyper, 'space', hint
 
 -- Set Window Position on screen
-layoutMap =
-  h: 'center'
-  i: 'minimize'
-  ['space']: 'toggle'
-  k: 'maximize'
-  y: 'upHalf'
-  n: 'downHalf'
-  g: 'leftHalf'
-  j: 'rightHalf'
-  t: 'leftUp'
-  u: 'rightUp'
-  b: 'leftDown'
-  m: 'rightDown'
-  ['[']: 'preScreen'
-  [']']: 'nextScreen'
-  ['=']: 'larger'
-  ['-']: 'smaller'
-  -- ['1']: 'moveToScreen'
-  -- ['2']: 'moveToScreen'
-  -- ['0']: 'mouse'
-
-_.forEach layoutMap, (v, k) ->
+_.forEach conf.layoutMap, (v, k) ->
   if type(v) == 'function'
     conf.bind conf.hyperPlus, k, v
   elseif #v > 0

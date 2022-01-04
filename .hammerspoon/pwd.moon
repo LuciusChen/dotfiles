@@ -14,7 +14,7 @@ hs.application.watcher.new((name, event, app)->{
   -- print name, event
   if name=='SecurityAgent'
     if event == 5
-      send util.getSysPwd!
+      send util\getSysPwd!
       state.inSecurityAgent = true
     else
       state.inSecurityAgent = nil

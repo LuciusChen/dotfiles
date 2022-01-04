@@ -62,4 +62,7 @@ conf =
     [']']: 'nextScreen'
     ['=']: 'larger'
     ['-']: 'smaller'
+  -- ['1']: 'moveToScreen'
+  -- ['2']: 'moveToScreen'
+  -- ['0']: 'mouse'
 conf

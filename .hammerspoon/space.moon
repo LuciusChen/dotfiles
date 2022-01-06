@@ -3,26 +3,25 @@ spaces = require 'hs._asm.undocumented.spaces'
 bind = hs.hotkey.bind
 
 getGoodFocusedWindow= (nofull) ->
-   win = window.focusedWindow()
-   if not win or not win\isStandard!
-     return
-   if nofull and win\isFullScreen!
-     return
-   return win
+  win = window.focusedWindow()
+  if not win or not win\isStandard!
+    return
+  if nofull and win\isFullScreen!
+    return
+  return win
 
 flashScreen= (screen) ->
   flash = hs.canvas.new(screen\fullFrame!)\appendElements({
-	 action: "fill",
-	 fillColor: {
+	  action: "fill",
+	  fillColor: {
            alpha: 0.25, 
            red: 1
          },
 	 type: "rectangle"
   })
   flash\show!
-  hs.timer.doAfter(0.15, () -> 
-    flash\delete!
-  )
+  flash = nil
+  collectgarbage()
 
 switchSpace= (skip, dir) ->
   for i=1, skip do

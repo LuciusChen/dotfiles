@@ -29,7 +29,7 @@ def getI420FromBase64(filename, codec, image_path):
 for url in urls:
     request = urllib.request.Request(url)
     html = urllib.request.urlopen(request)
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, 'html.parser')
     for tr in soup.find_all('tr'):
         tds = tr.find_all('td', {'class': 'andr'})
         filename = ''

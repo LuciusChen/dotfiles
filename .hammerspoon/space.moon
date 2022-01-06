@@ -20,6 +20,7 @@ flashScreen= (screen) ->
 	 type: "rectangle"
   })
   flash\show!
+  -- Warning: LuaSkin: hs.canvas:delete - explicit delete is no longer required for canvas objects; garbage collection occurs automatically
   flash = nil
   collectgarbage()
 

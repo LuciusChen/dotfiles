@@ -36,7 +36,7 @@ Plugin: [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
 ```json
 {
-  "editor.fontFamily": "'Fira Code',Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "'Fira Code', HanaMinB, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
   "security.workspace.trust.untrustedFiles": "open",

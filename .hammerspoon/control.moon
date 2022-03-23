@@ -25,7 +25,7 @@ powerMap =
   ['\\']: util\reload
   [',']: 'com.apple.systempreferences'
   ['.']: hs.toggleConsole
-  ['delete']: hs.caffeinate.lockScreen
+  ['return']: hs.caffeinate.lockScreen
   ['/']: tips\toggle
 
 -- This implicitly passes util as self to the actual function, and now util will contain the actual argument.

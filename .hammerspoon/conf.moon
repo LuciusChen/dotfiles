@@ -31,7 +31,7 @@ conf =
     r: 'com.tapbots.Tweetbot3Mac'
     f: 'com.apple.finder'
     v: 'com.microsoft.VSCode'
-    t: 'com.culturedcode.ThingsMac.beta'
+    t: 'com.culturedcode.ThingsMac'
     g: 'com.google.Chrome'
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'

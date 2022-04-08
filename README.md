@@ -1,7 +1,7 @@
 # Lucius's dotfiles
 
 ## iTerm2
-- ohmyzsh 
+- ohmyzsh
 - font: [FiraCode](https://github.com/tonsky/FiraCode)
 
 ## HammerSpoon

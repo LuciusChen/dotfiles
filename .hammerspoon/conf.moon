@@ -24,7 +24,7 @@ conf =
   appMap:
     w: 'ru.keepcoder.Telegram'
     s: 'com.tencent.xinWeChat'
-    x: 'com.tencent.qq'
+    x: 'com.roam-research.desktop-app'
     e: 'com.jetbrains.intellij'
     d: 'com.jetbrains.datagrip'
     c: 'com.googlecode.iterm2'

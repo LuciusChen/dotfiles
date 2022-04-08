@@ -12,6 +12,6 @@ spoon.Emojis\bindHotkeys({toggle: {conf.hyper, "2" }})
 
 -- ignore system shortcuts
 noop= ->
-conf.bind({ 'cmd' }, 'h', noop)
+-- conf.bind({ 'cmd' }, 'h', noop)
 conf.bind({ 'cmd', 'alt' }, 'h', noop)
 conf.bind(conf.hyperPlus, 'i', noop)

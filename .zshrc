@@ -132,3 +132,5 @@ alias python2='/System/Library/Frameworks/Python.framework/Versions/2.7/bin/pyth
 alias python3='/usr/local/Cellar/python@3.9/3.9.12/bin/python3.9'
 alias python=python3
 alias pip=pip3
+#doom
+export PATH="$HOME/.emacs.d/bin:$PATH"

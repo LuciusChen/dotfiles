@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Dropbox/PKM/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -79,7 +79,7 @@
   :ensure t
   :demand t ;; ensure org-roam is loaded by default
   :init
-  (setq org-roam-v2-ack t)
+;;   (setq org-roam-v2-ack t) rmove on Dec 14, 2021 
   :custom
   (org-roam-directory (file-truename "~/Dropbox/PKM/"))
   (org-roam-completion-everywhere t)

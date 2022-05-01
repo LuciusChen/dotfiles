@@ -50,3 +50,5 @@
 ;(unpin! t)
 (unpin! org-roam)
 (package! org-roam-ui)
+;; M-x package install [RET] magit [RET]
+;; M-x package install [RET] deft [RET]

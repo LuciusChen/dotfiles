@@ -36,7 +36,7 @@ conf =
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'
     h: 'com.tencent.WeWorkMac'
-    n: 'com.culturedcode.ThingsMac'
+    n: 'org.gnu.Emacs' -- com.culturedcode.ThingsMac
     u: 'com.readdle.smartemail-Mac'
     j: 'com.seriflabs.affinitydesigner'
     m: 'com.postmanlabs.mac'

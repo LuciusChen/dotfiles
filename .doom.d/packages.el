@@ -52,3 +52,5 @@
 (package! org-roam-ui)
 ;; M-x package install [RET] magit [RET]
 ;; M-x package install [RET] deft [RET]
+;; M-x package install [RET] lua-mode [RET]
+;; M-x package install [RET] moonscript [RET]

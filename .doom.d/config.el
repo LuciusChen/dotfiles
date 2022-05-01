@@ -130,7 +130,9 @@
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
-  (require 'org-roam-protocol))
+  (require 'org-roam-protocol)
+  (require 'org-roam-export))
+  
 
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")

@@ -72,12 +72,13 @@
   :ensure t
   :demand t ;; ensure org-roam is loaded by default
   :init
-;;   (setq org-roam-v2-ack t) rmove on Dec 14, 2021 
   :custom
   (org-roam-directory (file-truename "~/Dropbox/PKM/"))
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
-   '(("d" "default" plain
+   '(
+     ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
+     ("d" "default" plain
       "%?"
       :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
       :unnarrowed t)
@@ -109,24 +110,29 @@
          ("C-M-i" . completion-at-point))
   :config
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  ;; ${type:15} 是为了在文件搜索列表展示当前所在文件夹，提高搜索效率。
   (setq org-roam-node-display-template (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-export-backends (quote (ascii html icalendar latex md)))
+  ;; code hightlight
   (setq org-src-fontify-natively t)
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
   (require 'org-roam-export))
+;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")
   (let ((args (push arg args))
         (org-roam-capture-templates (list (append (car org-roam-capture-templates)
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
+;; 所有零碎的想法记录在 inbox.org 中
 (defun my/org-roam-capture-inbox ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
                      :templates '(("i" "inbox" plain "* %?"
                                   :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
+;; 用一个文件来记录日志，后续按照月份或者年份进行分割。
 (defun my/org-roam-capture-journals ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
@@ -144,6 +150,7 @@
   ;; followed by `org-roam-db-sync'
   (org-roam-db-sync)
   (org-roam-update-org-id-locations))
+;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c d m 即可复制到需要的图片插入文本。
 ;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
 (defun dired-copy-images-links ()
   "Works only in dired-mode, put in kill-ring,
@@ -174,6 +181,7 @@
           (dired-toggle-marks)))                             ; unmark all
     (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
     (ding)))                                                 ; error sound
+;; node-find 的时候展示文件夹
 ;; org-roam-node-type
 (cl-defmethod org-roam-node-type ((node org-roam-node))
   "Return the TYPE of NODE."
@@ -183,7 +191,7 @@
         (file-name-directory
          (file-relative-name (org-roam-node-file node) org-roam-directory))))
     (error "")))
-;; org-roam-ui start
+;; org-roam-ui
 (use-package! websocket
     :after org-roam)
 (use-package! org-roam-ui

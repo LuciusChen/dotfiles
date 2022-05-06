@@ -1,14 +1,12 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
+;;
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-
-
+;;
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Lucius Chen"
       user-mail-address "chenyh572@gmail.com")
-
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -33,16 +31,12 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-snazzy)
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Dropbox/PKM/org/")
-
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -74,7 +68,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
 (use-package org-roam
   :ensure t
   :demand t ;; ensure org-roam is loaded by default
@@ -86,7 +79,7 @@
   (org-roam-capture-templates
    '(("d" "default" plain
       "%?"
-      :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
       :unnarrowed t)
      ("b" "book notes" plain
       "\n* Source\n\n+ Author: %^{Author}\n+ Title: ${title}\n+ Year: %^{Year}\n\n* Summary\n\n%?"
@@ -110,6 +103,7 @@
          ("C-c n I" . org-roam-node-insert-immediate)
          ("C-c n j" . my/org-roam-capture-journals)
          ("C-c n b" . my/org-roam-capture-inbox)
+         ("C-c d m" . dired-copy-images-links)
          :map org-mode-map
          ;; Ctrl-Alt-i
          ("C-M-i" . completion-at-point))
@@ -117,33 +111,27 @@
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-export-backends (quote (ascii html icalendar latex md)))
+  (setq org-src-fontify-natively t)
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
   (require 'org-roam-export))
-  
-
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")
   (let ((args (push arg args))
         (org-roam-capture-templates (list (append (car org-roam-capture-templates)
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
-
-;; ------------ start -------------
 (defun my/org-roam-capture-inbox ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
                      :templates '(("i" "inbox" plain "* %?"
                                   :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
-
 (defun my/org-roam-capture-journals ()
   (interactive)
   (org-roam-capture- :node (org-roam-node-create)
                      :templates '(("i" "Journals" plain "* %<%Y-%m-%d>\n%?"
                                   :if-new (file+head "Journals.org" "#+title: Journals\n")))))
-;; ------------ end -------------
-
 ;; I encountered the following message when attempting
 ;; to export data:
 ;;
@@ -156,7 +144,37 @@
   ;; followed by `org-roam-db-sync'
   (org-roam-db-sync)
   (org-roam-update-org-id-locations))
-
+;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
+(defun dired-copy-images-links ()
+  "Works only in dired-mode, put in kill-ring,
+  ready to be yanked in some other org-mode file,
+  the links of marked image files using file-name-base as #+CAPTION.
+  If no file marked then do it on all images files of directory.
+  No file is moved nor copied anywhere.
+  This is intended to be used with org-redisplay-inline-images."
+  (interactive)
+  (if (derived-mode-p 'dired-mode)                           ; if we are in dired-mode
+      (let* ((marked-files (dired-get-marked-files))         ; get marked file list
+             (number-marked-files                            ; store number of marked files
+              (string-to-number                              ; as a number
+               (dired-number-of-marked-files))))             ; for later reference
+        (when (= number-marked-files 0)                      ; if none marked then
+          (dired-toggle-marks)                               ; mark all files
+          (setq marked-files (dired-get-marked-files)))      ; get marked file list
+        (message "Files marked for copy")                    ; info message
+        (dired-number-of-marked-files)                       ; marked files info
+        (kill-new "\n")                                      ; start with a newline
+        (dolist (marked-file marked-files)                   ; walk the marked files list
+          (when (org-file-image-p marked-file)               ; only on image files
+            (kill-append                                     ; append image to kill-ring
+             (concat "#+CAPTION: "                           ; as caption,
+                     (file-name-base marked-file)            ; use file-name-base
+                     "\n[[file:" marked-file "]]\n\n") nil))) ; link to marked-file
+        (when (= number-marked-files 0)                      ; if none were marked then
+          (dired-toggle-marks)))                             ; unmark all
+    (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
+    (ding)))                                                 ; error sound
+;; org-roam-node-type
 (cl-defmethod org-roam-node-type ((node org-roam-node))
   "Return the TYPE of NODE."
   (condition-case nil
@@ -165,11 +183,9 @@
         (file-name-directory
          (file-relative-name (org-roam-node-file node) org-roam-directory))))
     (error "")))
-
 ;; org-roam-ui start
 (use-package! websocket
     :after org-roam)
-
 (use-package! org-roam-ui
     :after org-roam ;; or :after org
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have

@@ -50,6 +50,9 @@
 ;(unpin! t)
 (unpin! org-roam)
 (package! org-roam-ui)
+;; need to install
 ;; M-x package install [RET] magit [RET]
 ;; M-x package install [RET] lua-mode [RET]
 ;; M-x package install [RET] moonscript [RET]
+;; M-x package install [RET] ripgrep [RET]
+;; M-x package install [RET] cnfonts [RET]

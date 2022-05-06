@@ -198,6 +198,10 @@
   (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
     (consult-ripgrep org-roam-directory)))
 (global-set-key (kbd "C-c rr") 'bms/org-roam-rg-search)
+;; 解决中文下 bold (* *), italics (/ /), underline (_ _)and strikethrough (+ +) 失效的问题
+(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
+(setcar (nthcdr 1 org-emphasis-regexp-components) "[:alpha:]- \t.,:!?;'\")}\\")
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 ;; org-roam-ui
 (use-package! websocket
     :after org-roam)

@@ -56,3 +56,4 @@
 ;; M-x package install [RET] moonscript [RET]
 ;; M-x package install [RET] ripgrep [RET]
 ;; M-x package install [RET] cnfonts [RET]
+;; M-x package install [RET] ox-pandoc [RET]

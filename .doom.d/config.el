@@ -19,8 +19,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;; https://github.com/lxgw/LxgwWenKai
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 14 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "Fira Code" :size 13))
+(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 14 :weight 'semi-bold)
+     doom-variable-pitch-font (font-spec :family "Fira Code" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -79,32 +79,27 @@
    '(
      ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
      ("d" "default" plain
-      "%?"
-      :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
-      :unnarrowed t)
+     (file "~/Dropbox/PKM/templates/default.org")
+     :if-new (file "main/%<%Y%m%d%H%M%S>-${slug}.org")
+     :unnarrowed t)
      ("b" "book notes" plain
-      "\n* Source\n\n+ Author: %^{Author}\n+ Title: ${title}\n+ Year: %^{Year}\n\n* Summary\n\n%?"
-      :if-new (file+head "book/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      (file "~/Dropbox/PKM/templates/book-notes.org")
+      :if-new (file "book/%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
     ;;  ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
     ;;   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
     ;;   :unnarrowed t)
-    ;;  ("l" "programming language" plain
-    ;;   "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
-    ;;   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-    ;;   :unnarrowed t)
+     ("l" "programming language" plain
+      "* Reference:\n\n"
+      :if-new (file+head "programming language/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
+      :unnarrowed t)
     )
   )
-  ;; (org-roam-dailies-capture-templates
-  ;;   '(("d" "default" entry "* %<%I:%M %p>: %?"
-  ;;      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n I" . org-roam-node-insert-immediate)
-         ("C-c n j" . my/org-roam-capture-journals)
-         ("C-c n b" . my/org-roam-capture-inbox)
-         ("C-c d m" . dired-copy-images-links)
+         ("C-c n m" . dired-copy-images-links)
          :map org-mode-map
          ;; Ctrl-Alt-i
          ("C-M-i" . completion-at-point))
@@ -119,6 +114,7 @@
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
   (require 'org-roam-export))
+
 ;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")
@@ -126,21 +122,6 @@
         (org-roam-capture-templates (list (append (car org-roam-capture-templates)
                                                   '(:immediate-finish t)))))
     (apply #'org-roam-node-insert args)))
-;; 所有零碎的想法记录在 inbox.org 中
-(defun my/org-roam-capture-inbox ()
-  (interactive)
-  (org-roam-capture- :node (org-roam-node-create)
-                     :templates '(("i" "inbox" plain "* %?"
-                                  :if-new (file+head "Inbox.org" "#+title: Inbox\n")))))
-;; 用一个文件来记录日志，后续按照月份或者年份进行分割。
-(defun my/org-roam-capture-journals ()
-  (interactive)
-  (org-roam-capture- :node (org-roam-node-create)
-                     :templates '(("i" "Journals" plain "* %<%Y-%m-%d>\n%?"
-                                  :if-new (file+head "Journals.org" "#+title: Journals\n")))))
-;; I encountered the following message when attempting
-;; to export data:
-;;
 ;; "org-export-data: Unable to resolve link: FILE-ID"
 (defun force-org-rebuild-cache ()
   "Rebuild the `org-mode' and `org-roam' cache."
@@ -150,7 +131,7 @@
   ;; followed by `org-roam-db-sync'
   (org-roam-db-sync)
   (org-roam-update-org-id-locations))
-;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c d m 即可复制到需要的图片插入文本。
+;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
 ;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
 (defun dired-copy-images-links ()
   "Works only in dired-mode, put in kill-ring,
@@ -176,7 +157,8 @@
             (kill-append                                     ; append image to kill-ring
              (concat "#+CAPTION: "                           ; as caption,
                      (file-name-base marked-file)            ; use file-name-base
-                     "\n[[file:" marked-file "]]\n\n") nil))) ; link to marked-file
+                     "\n#+ATTR_ORG: :width 800"              ; img width
+                     "\n[[file:" marked-file "]]\n\n") nil))); link to marked-file
         (when (= number-marked-files 0)                      ; if none were marked then
           (dired-toggle-marks)))                             ; unmark all
     (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
@@ -203,9 +185,97 @@
 (setq org-emphasis-regexp-components '("-[:multibyte:][:space:]('\"{" "-[:multibyte:][:space:].,:!?;'\")}\\[" "[:space:]" "." 1))
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 (org-element-update-syntax)
+;; org-agenda
+(require 'org)
+;; Files
+(setq org-agenda-files 
+      (mapcar 'file-truename 
+          (file-expand-wildcards "~/Dropbox/PKM/org/*.org")))
+(setq org-archive-location "~/Dropbox/PKM/archive.org::")
+;; Save the corresponding buffers
+(defun gtd-save-org-buffers ()
+  "Save `org-agenda-files' buffers without user confirmation.
+See also `org-save-all-org-buffers'"
+  (interactive)
+  (message "Saving org-agenda-files buffers...")
+  (save-some-buffers t (lambda () 
+             (when (member (buffer-file-name) org-agenda-files) 
+               t)))
+  (message "Saving org-agenda-files buffers... done"))
+
+;; Add it after refile
+(advice-add 'org-refile :after
+        (lambda (&rest _)
+          (gtd-save-org-buffers)))
+;; Capture
+(setq org-capture-templates
+      `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))
+        ("m" "Meeting" entry  (file+headline "agenda.org" "Future")
+        ,(concat "* %? :meeting:\n"
+                 "<%<%Y-%m-%d %a %H:00>>"))
+        ("n" "Note" entry  (file "notes.org")
+        ,(concat "* Note (%a)\n"
+                 "/Entered on/ %U\n" "\n" "%?"))))
+(setq org-agenda-prefix-format
+      '((agenda . "  %?-14t% s")
+        (todo   . "  %i %-14:c [%e] ")
+        (tags   . "  %i %-14:c")
+        (search . "  %i %-14:c")))
+(setq org-agenda-breadcrumbs-separator " > "
+      org-agenda-current-time-string "⭠ now ⏰ ────────────────────────────────────────"
+      org-agenda-time-grid '((daily today require-timed)
+                             (900 1000 1100 1200 1300 1400 1500 1600 1700 1800 2000 2200)
+                             "......" "┈┈┈┈┈┈┈┈┈┈┈┈┈"))
+(defun org-capture-inbox ()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "i"))
+;; Use full window for org-capture
+(add-hook 'org-capture-mode-hook 'delete-other-windows)
+;; Key bindings
+(define-key global-map            (kbd "C-c a") 'org-agenda)
+(define-key global-map            (kbd "C-c c") 'org-capture)
+(define-key global-map            (kbd "C-c i") 'org-capture-inbox)
+;; TODO
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
+(defun log-todo-next-creation-date (&rest ignore)
+  "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
+  (when (and (string= (org-get-todo-state) "NEXT")
+             (not (org-entry-get nil "ACTIVATED")))
+    (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
+(add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
+(setq org-log-done 'time)
+;; Agenda
+(setq org-agenda-custom-commands
+      '(("g" "Get Things Done (GTD)"
+         ((agenda ""
+                  ((org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'deadline))
+                   (org-deadline-warning-days 0)))
+          (todo "NEXT"
+                ((org-agenda-skip-function
+                  '(org-agenda-skip-entry-if 'deadline))
+                 (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                 (org-agenda-overriding-header "\nTasks\n")))
+          (agenda nil
+                  ((org-agenda-entry-types '(:deadline))
+                   (org-agenda-format-date "")
+                   (org-agenda-show-all-dates nil)
+                   (org-deadline-warning-days 0)
+                  ;;  (org-agenda-skip-function
+                  ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                   (org-agenda-overriding-header "\nDeadlines")))
+          (tags-todo "inbox"
+                     ((org-agenda-prefix-format "  %?-12t% s")
+                      (org-agenda-overriding-header "\nInbox\n")))
+          (tags "CLOSED>=\"<today>\""
+                ((org-agenda-overriding-header "\nCompleted today\n")))))))
 ;; Dynamic org-agenda with org-roam
 ;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
-(defun vulpea-project-p ()
+(defun vulpea-dynamic-p ()
   "Return non-nil if current buffer has any todo entry.
 TODO entries marked as done are ignored, meaning the this
 function returns nil if current buffer contains only completed
@@ -219,17 +289,17 @@ tasks."
      (lambda (h)
        (org-element-property :todo-type h)))))
 
-(defun vulpea-project-update-tag ()
-    "Update PROJECT tag in the current buffer."
+(defun vulpea-dynamic-update-tag ()
+    "Update dynamic tag in the current buffer."
     (when (and (not (active-minibuffer-window))
                (vulpea-buffer-p))
       (save-excursion
         (goto-char (point-min))
         (let* ((tags (vulpea-buffer-tags-get))
                (original-tags tags))
-          (if (vulpea-project-p)
-              (setq tags (cons "project" tags))
-            (setq tags (remove "project" tags)))
+          (if (vulpea-dynamic-p)
+              (setq tags (cons "dynamic" tags))
+            (setq tags (remove "dynamic" tags)))
 
           ;; cleanup duplicates
           (setq tags (seq-uniq tags))
@@ -246,8 +316,8 @@ tasks."
         (expand-file-name (file-name-as-directory org-roam-directory))
         (file-name-directory buffer-file-name))))
 
-(defun vulpea-project-files ()
-    "Return a list of note files containing 'project' tag." ;
+(defun vulpea-dynamic-files ()
+    "Return a list of note files containing 'dynamic' tag." ;
     (seq-uniq
      (seq-map
       #'car
@@ -256,14 +326,21 @@ tasks."
         :from tags
         :left-join nodes
         :on (= tags:node-id nodes:id)
-        :where (like tag (quote "%\"project\"%"))]))))
+        :where (like tag (quote "%\"dynamic\"%"))]))))
 
 (defun vulpea-agenda-files-update (&rest _)
   "Update the value of `org-agenda-files'."
-  (setq org-agenda-files (vulpea-project-files)))
+  ;; (setq org-agenda-files (vulpea-dynamic-files)))
+  (setq org-agenda-files (seq-uniq
+                          (append
+                           (vulpea-dynamic-files)
+                           '("~/Dropbox/PKM/org/inbox.org"
+                             "~/Dropbox/PKM/org/projects.org"
+                             "~/Dropbox/PKM/org/agenda.org"
+                             "~/Dropbox/PKM/org/notes.org")))))
 
-(add-hook 'find-file-hook #'vulpea-project-update-tag)
-(add-hook 'before-save-hook #'vulpea-project-update-tag)
+(add-hook 'find-file-hook #'vulpea-dynamic-update-tag)
+(add-hook 'before-save-hook #'vulpea-dynamic-update-tag)
 
 (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
 (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
@@ -365,3 +442,4 @@ If nil it defaults to `split-string-default-separators', normally
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+  (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))

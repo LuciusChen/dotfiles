@@ -12,7 +12,8 @@ frozen = {
   'com.tencent.xinWeChat', 
   'com.culturedcode.ThingsMac', 
   'com.readdle.smartemail-Mac',
-  'com.apple.finder'
+  'com.apple.finder',
+  'org.gnu.Emacs'
   }
 
 layout =

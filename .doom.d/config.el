@@ -244,6 +244,11 @@ See also `org-save-all-org-buffers'"
 ;; HOLD(d@/!)     ; 进入时添加笔记，离开时添加变更信息
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
+(setq org-todo-keyword-faces
+  '(("TODO" . (:foreground "#A8D8B9" :background "#4d4d4d" :weight bold)) ;; 勿忘草
+    ("NEXT" . (:foreground "#a6ff00" :background "#4d4d4d" :weight bold))
+    ("HOLD" . (:foreground "#E83015" :background "#4d4d4d" :weight bold))
+    ("DONE" . (:foreground "white" :background "#4d4d4d" :weight bold))))
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
   (when (and (string= (org-get-todo-state) "NEXT")
@@ -281,20 +286,24 @@ The face is only changed if the overriding header is propertized with a face."
     (advice-add fun :around #'my-org-agenda-override-header)))
 
 (my-org-agenda-override-header-add-advices)
+
 ;; org-agenda-custom-commands
+(setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic" "project")))
 (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
          ((agenda ""
                 ((org-agenda-skip-function
                     '(org-agenda-skip-entry-if 'deadline))
-                   (org-deadline-warning-days 0)))
+                  ;;  (org-deadline-warning-days 0)
+                  (org-agenda-start-day "-1d")
+                   (org-agenda-span 3)))
           (todo "NEXT"
                 ((org-agenda-skip-function
                   '(org-agenda-skip-entry-if 'deadline))
                  (org-agenda-prefix-format "  %i %-12:c [%e] ")
                  (org-agenda-overriding-header 
                    (propertize  "- Tasks -" 'face 
-                    '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+                    '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
           (agenda nil
                   ((org-agenda-entry-types '(:deadline))
                    (org-agenda-format-date "")
@@ -304,16 +313,16 @@ The face is only changed if the overriding header is propertized with a face."
                   ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
                    (org-agenda-overriding-header 
                      (propertize  "- Deadlines - " 'face 
-                      '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+                      '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
           (tags-todo "inbox"
                      ((org-agenda-prefix-format "  %?-12t% s")
                       (org-agenda-overriding-header 
                         (propertize  "- Inbox -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
           (tags "CLOSED>=\"<today>\""
                 ((org-agenda-overriding-header 
                 (propertize  "- Completed today -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
           ))))
 ;; Dynamic org-agenda with org-roam
 ;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
@@ -485,4 +494,3 @@ If nil it defaults to `split-string-default-separators', normally
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
-(setq doom-theme 'doom-dracula)

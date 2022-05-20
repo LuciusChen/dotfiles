@@ -22,7 +22,7 @@ conf =
   hyperPlus: '⌘⌃⌥⇧'
   bind: hs.hotkey.bind
   appMap:
-    w: 'com.hnc.Discord' --ru.keepcoder.Telegram
+    w: 'ru.keepcoder.Telegram' --com.hnc.Discord
     s: 'com.tencent.xinWeChat'
     x: 'com.electron.logseq'
     e: 'com.jetbrains.intellij'

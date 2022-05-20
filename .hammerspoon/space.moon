@@ -30,6 +30,7 @@ switchSpace= (skip, dir) ->
 
 
 moveWindowOneSpace= (dir, switchOrNot) ->
+   print(1)
    win = getGoodFocusedWindow(true)
    if not win
      return

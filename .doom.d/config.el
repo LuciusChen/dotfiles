@@ -239,6 +239,9 @@ See also `org-save-all-org-buffers'"
 (define-key global-map            (kbd "C-c c") 'org-capture)
 (define-key global-map            (kbd "C-c i") 'org-capture-inbox)
 ;; TODO
+;; HOLD(d@)       ; 进入时添加笔记
+;; HOLD(d/!)      ; 离开时添加变更信息
+;; HOLD(d@/!)     ; 进入时添加笔记，离开时添加变更信息
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
 (defun log-todo-next-creation-date (&rest ignore)
@@ -248,18 +251,50 @@ See also `org-save-all-org-buffers'"
     (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
 (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
 (setq org-log-done 'time)
-;; Agenda
+;; Put the text property afterwards with an advice
+(defun my-org-agenda-override-header (orig-fun &rest args)
+  "Change the face of the overriden header string if needed.
+The propertized header text is taken from `org-agenda-overriding-header'.
+The face is only changed if the overriding header is propertized with a face."
+  (let ((pt (point))
+        (header org-agenda-overriding-header))
+    (apply orig-fun args)
+    ;; Only replace if there is an overriding header and not an empty string.
+    ;; And only if the header text has a face property.
+    (when (and header (> (length header) 0)
+               (get-text-property 0 'face header))
+      (save-excursion
+        (goto-char pt)
+        ;; Search for the header text.
+        (search-forward header)
+        (unwind-protect
+            (progn
+              (read-only-mode -1)
+              ;; Replace it with the propertized text.
+              (replace-match header))
+          (read-only-mode 1))))))
+
+(defun my-org-agenda-override-header-add-advices ()
+  "Add advices to make changing work in all agenda commands."
+  (interactive)
+  (dolist (fun '(org-agenda-list org-todo-list org-search-view org-tags-view))
+    (advice-add fun :around #'my-org-agenda-override-header)))
+
+(my-org-agenda-override-header-add-advices)
+;; org-agenda-custom-commands
 (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
          ((agenda ""
-                  ((org-agenda-skip-function
+                ((org-agenda-skip-function
                     '(org-agenda-skip-entry-if 'deadline))
                    (org-deadline-warning-days 0)))
           (todo "NEXT"
                 ((org-agenda-skip-function
                   '(org-agenda-skip-entry-if 'deadline))
                  (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                 (org-agenda-overriding-header "\nTasks\n")))
+                 (org-agenda-overriding-header 
+                   (propertize  "- Tasks -" 'face 
+                    '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (agenda nil
                   ((org-agenda-entry-types '(:deadline))
                    (org-agenda-format-date "")
@@ -267,12 +302,19 @@ See also `org-save-all-org-buffers'"
                    (org-deadline-warning-days 0)
                   ;;  (org-agenda-skip-function
                   ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
-                   (org-agenda-overriding-header "\nDeadlines")))
+                   (org-agenda-overriding-header 
+                     (propertize  "- Deadlines - " 'face 
+                      '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (tags-todo "inbox"
                      ((org-agenda-prefix-format "  %?-12t% s")
-                      (org-agenda-overriding-header "\nInbox\n")))
+                      (org-agenda-overriding-header 
+                        (propertize  "- Inbox -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (tags "CLOSED>=\"<today>\""
-                ((org-agenda-overriding-header "\nCompleted today\n")))))))
+                ((org-agenda-overriding-header 
+                (propertize  "- Completed today -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+          ))))
 ;; Dynamic org-agenda with org-roam
 ;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
 (defun vulpea-dynamic-p ()
@@ -442,4 +484,5 @@ If nil it defaults to `split-string-default-separators', normally
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
-  (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+(setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+(setq doom-theme 'doom-dracula)

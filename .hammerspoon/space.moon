@@ -1,5 +1,5 @@
 window = require "hs.window"
-spaces = require 'hs._asm.undocumented.spaces'
+spaces = require 'hs.spaces'
 bind = hs.hotkey.bind
 
 getGoodFocusedWindow= (nofull) ->
@@ -20,47 +20,45 @@ flashScreen= (screen) ->
 	 type: "rectangle"
   })
   flash\show!
-  -- Warning: LuaSkin: hs.canvas:delete - explicit delete is no longer required for canvas objects; garbage collection occurs automatically
-  flash = nil
-  collectgarbage()
+  hs.timer.doAfter .15, ()-> flash\delete!
 
 switchSpace= (skip, dir) ->
   for i=1, skip do
-    hs.eventtap.keyStroke({'ctrl'}, dir)
+    hs.eventtap.keyStroke({'ctrl', 'fn'}, dir, 0) -- "fn" is a bugfix!
 
 
 moveWindowOneSpace= (dir, switchOrNot) ->
-   print(1)
-   win = getGoodFocusedWindow(true)
-   if not win
-     return
-   screen = win\screen!
-   uuid = screen\spacesUUID!
-   userSpaces = nil
-   for k,v in pairs(spaces.layout()) do
-     userSpaces = v
-     if k == uuid then break
-   if not userSpaces then return
-   thisSpace=win\spaces! -- first space win appears on
-   if not thisSpace
-     return 
-   else 
-     thisSpace=thisSpace[1]
-   last = nil
-   skipSpaces = 0
-   for k, v in ipairs(userSpaces) do
-     if spaces.spaceType(v) ~= spaces.types.user -- skippable space
-       skipSpaces = skipSpaces + 1
-     else
-       if last and ((dir == 'left'  and v == thisSpace) or (dir == 'right' and last == thisSpace))
-         win\spacesMoveTo(dir == "left" and last or v)
- 	    if switchOrNot
- 	           switchSpace(skipSpaces+1, dir)
- 	           win\focus!
- 	    return
-       last = v
-       skipSpaces = 0
-   flashScreen(screen)   -- Shouldn't get here, so no space found
+  win = getGoodFocusedWindow(true)
+  if not win
+    return
+  screen = win\screen!
+  uuid = screen\getUUID!
+  userSpaces = nil
+  for k,v in pairs(spaces.allSpaces()) do
+    userSpaces = v
+    if k == uuid then break
+  if not userSpaces then return
+  thisSpace=spaces.windowSpaces(win) -- first space win appears on
+  if not thisSpace
+    return 
+  else 
+    thisSpace=thisSpace[1]
+  last = nil
+  skipSpaces = 0
+  for k, v in ipairs(userSpaces) do
+    if spaces.spaceType(v) ~= "user" -- skippable space
+      skipSpaces = skipSpaces + 1
+    else
+      if last and ((dir == 'left'  and v == thisSpace) or (dir == 'right' and last == thisSpace))
+        newSpace = (dir=="left" and last or v)
+        if switchOrNot
+           switchSpace(skipSpaces+1, dir)
+        print(newSpace)
+        spaces.moveWindowToSpace(win, newSpace)
+        return
+      last = v
+      skipSpaces = 0
+  flashScreen(screen)   -- Shouldn't get here, so no space found
 
 hs.hotkey.bind('⌘⌃⌥', "q",nil, () -> moveWindowOneSpace("right",true))
 hs.hotkey.bind('⌘⌃⌥', "a",nil, () -> moveWindowOneSpace("left",true))

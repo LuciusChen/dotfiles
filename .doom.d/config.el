@@ -185,6 +185,7 @@
 (setq org-emphasis-regexp-components '("-[:multibyte:][:space:]('\"{" "-[:multibyte:][:space:].,:!?;'\")}\\[" "[:space:]" "." 1))
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 (org-element-update-syntax)
+(setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
 ;; org-agenda
 (require 'org)
 ;; Files
@@ -493,4 +494,9 @@ If nil it defaults to `split-string-default-separators', normally
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
-(setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+(use-package org-fancy-priorities
+  :ensure t
+  :hook
+  (org-mode . org-fancy-priorities-mode)
+  :config
+  (setq org-fancy-priorities-list '("[#A]" "[#B]" "[#C]" "☕")))

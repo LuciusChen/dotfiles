@@ -148,12 +148,18 @@
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
-       markdown          ; writing docs for people to ignore
+       markdown            ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +roam2)        ; organize your plain life in plain text
-       (org +pretty )      ; pretty
+       (org                ; organize your plain life in plain text
+        +pretty 
+        +roam2
+        +dragndrop       ; drag & drop files/images into org buffers
+        +noter
+        +hugo           ; Enables integration with hugo to export from Emacs well-formed (blackfriday) markdown.
+        +present        ; using org-mode for presentations
+        )        
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -182,7 +188,7 @@
        ;;(wanderlust +gmail)
 
        :app
-       ;;calendar
+       calendar
        ;;emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize

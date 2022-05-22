@@ -30,7 +30,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-snazzy)
+(setq doom-theme 'doom-one)
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -219,16 +219,16 @@ See also `org-save-all-org-buffers'"
         ("n" "Note" entry  (file "notes.org")
         ,(concat "* Note (%a)\n"
                  "/Entered on/ %U\n" "\n" "%?"))))
-(setq org-agenda-prefix-format
-      '((agenda . "  %?-14t% s")
-        (todo   . "  %i %-14:c [%e] ")
-        (tags   . "  %i %-14:c")
-        (search . "  %i %-14:c")))
-(setq org-agenda-breadcrumbs-separator " > "
-      org-agenda-current-time-string "⭠ now ⏰ ────────────────────────────────────────"
-      org-agenda-time-grid '((daily today require-timed)
-                             (900 1000 1100 1200 1300 1400 1500 1600 1700 1800 2000 2200)
-                             "......" "┈┈┈┈┈┈┈┈┈┈┈┈┈"))
+;; (setq org-agenda-prefix-format
+;;       '((agenda . "  %?-14t% s")
+;;         (todo   . "  %i %-14:c [%e] ")
+;;         (tags   . "  %i %-14:c")
+;;         (search . "  %i %-14:c")))
+;; (setq org-agenda-breadcrumbs-separator " > "
+;;       org-agenda-current-time-string "⭠ now ⏰ ────────────────────────────────────────"
+;;       org-agenda-time-grid '((daily today require-timed)
+;;                              (900 1000 1100 1200 1300 1400 1500 1600 1700 1800 2000 2200)
+;;                              "......" "┈┈┈┈┈┈┈┈┈┈┈┈┈"))
 (defun org-capture-inbox ()
      (interactive)
      (call-interactively 'org-store-link)
@@ -246,10 +246,10 @@ See also `org-save-all-org-buffers'"
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
 (setq org-todo-keyword-faces
-  '(("TODO" . (:foreground "#A8D8B9" :background "#4d4d4d" :weight bold)) ;; 勿忘草
+  '(("TODO" . (:foreground "#39D353" :background "#4d4d4d" :weight bold)) ;; 勿忘草
     ("NEXT" . (:foreground "#a6ff00" :background "#4d4d4d" :weight bold))
     ("HOLD" . (:foreground "#E83015" :background "#4d4d4d" :weight bold))
-    ("DONE" . (:foreground "white" :background "#4d4d4d" :weight bold))))
+    ("DONE" . (:foreground "#9E7A7A" :background "#4d4d4d" :weight bold))))
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
   (when (and (string= (org-get-todo-state) "NEXT")
@@ -257,6 +257,7 @@ See also `org-save-all-org-buffers'"
     (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
 (add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
 (setq org-log-done 'time)
+
 ;; Put the text property afterwards with an advice
 (defun my-org-agenda-override-header (orig-fun &rest args)
   "Change the face of the overriden header string if needed.
@@ -289,19 +290,52 @@ The face is only changed if the overriding header is propertized with a face."
 (my-org-agenda-override-header-add-advices)
 
 ;; org-agenda-custom-commands
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
+		  
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
+
 (setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic" "project")))
 (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
-         ((agenda ""
-                ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                  ;;  (org-deadline-warning-days 0)
-                  (org-agenda-start-day "-1d")
-                   (org-agenda-span 3)))
+         ((agenda "" (
+                      (org-agenda-skip-scheduled-if-done nil)
+                      (org-agenda-time-leading-zero t)
+                      (org-agenda-timegrid-use-ampm nil)
+                      (org-agenda-skip-timestamp-if-done t)
+                      (org-agenda-skip-deadline-if-done t)
+                      (org-agenda-start-day "+0d")
+                      (org-agenda-span 3)
+                      (org-agenda-overriding-header 
+                      (propertize  "- Calendar -" 'face 
+                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))
+                      (org-agenda-repeating-timestamp-show-all nil)
+                      ;; (org-agenda-remove-tags t)
+                      (org-agenda-prefix-format "   %i %?-2 t%s")
+                      ;; (org-agenda-prefix-format "  %-3i  %-15b%t %s")
+                      ;; (concat "  %-3i  %-15b %t%s" org-agenda-hidden-separator))
+                      ;; (org-agenda-todo-keyword-format " ☐ ")
+                      ;; (org-agenda-todo-keyword-format "")
+                      (org-agenda-time)
+                      (org-agenda-current-time-string "ᐊ┈┈┈┈┈┈┈ NOW")
+                      (org-agenda-scheduled-leaders '("" ""))
+                      (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
+                      (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
           (todo "NEXT"
                 ((org-agenda-skip-function
                   '(org-agenda-skip-entry-if 'deadline))
-                 (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                ;;  (org-agenda-prefix-format "  %i %-12:c [%e] ")
                  (org-agenda-overriding-header 
                    (propertize  "- Tasks -" 'face 
                     '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
@@ -322,8 +356,18 @@ The face is only changed if the overriding header is propertized with a face."
                         '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
           (tags "CLOSED>=\"<today>\""
                 ((org-agenda-overriding-header 
-                (propertize  "- Completed today -" 'face 
+                (propertize  "- Completed Today -" 'face 
                         '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
+          (todo "TODO" (
+            (org-agenda-overriding-header 
+            (propertize  "- All To-Dos -" 'face 
+                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))
+            (org-agenda-sorting-strategy '(priority-down))
+            (org-agenda-remove-tags t)
+            (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
+            (org-agenda-todo-ignore-scheduled 'all)
+            (org-agenda-prefix-format "   %-2i %?b")
+            (org-agenda-todo-keyword-format "")))
           ))))
 ;; Dynamic org-agenda with org-roam
 ;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
@@ -494,9 +538,16 @@ If nil it defaults to `split-string-default-separators', normally
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+;; Modify Priorities
 (use-package org-fancy-priorities
   :ensure t
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
-  (setq org-fancy-priorities-list '("[#A]" "[#B]" "[#C]" "☕")))
+  (setq org-fancy-priorities-list '("[#A]" "[#B]" "[#C]")))
+;; theme
+(add-to-list 'custom-theme-load-path (expand-file-name "~/.doom.d/themes/"))
+(load-theme 'gotham t)
+;; set transparency
+(set-frame-parameter (selected-frame) 'alpha '(90 90))
+(add-to-list 'default-frame-alist '(alpha 95 95))

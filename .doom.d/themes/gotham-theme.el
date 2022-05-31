@@ -56,13 +56,13 @@ customized 16-color palette."
 
 (defvar gotham-color-alist
   `((base0   "#1d1d20" ,(if gotham-tty-256-colors "color-232" "black"))
-    (base1   "#2e3a3e" ,(if gotham-tty-256-colors "color-233" "brightblack"))
-    (base2   "#3f565b" ,(if gotham-tty-256-colors "color-17"  "brightgreen"))
-    (base3   "#507379" ,(if gotham-tty-256-colors "color-18"  "brightblue"))
-    (base4   "#618f97" ,(if gotham-tty-256-colors "color-24"  "brightyellow"))
-    (base5   "#72acb5" ,(if gotham-tty-256-colors "color-81"  "brightcyan"))
-    (base6   "#83c8d2" ,(if gotham-tty-256-colors "color-122" "white"))
-    (base7   "#94e5f0" ,(if gotham-tty-256-colors "color-194" "brightwhite"))
+    (base1   "#2d3d3e" ,(if gotham-tty-256-colors "color-233" "brightblack"))
+    (base2   "#3c5e5c" ,(if gotham-tty-256-colors "color-17"  "brightgreen"))
+    (base3   "#4c7e7a" ,(if gotham-tty-256-colors "color-18"  "brightblue"))
+    (base4   "#5b9e97" ,(if gotham-tty-256-colors "color-24"  "brightyellow"))
+    (base5   "#6bbeb5" ,(if gotham-tty-256-colors "color-81"  "brightcyan"))
+    (base6   "#7adfd3" ,(if gotham-tty-256-colors "color-122" "white"))
+    (base7   "#8afff1" ,(if gotham-tty-256-colors "color-194" "brightwhite"))
 
     (red     "#c23127" ,(if gotham-tty-256-colors "color-124" "red"))
     (orange  "#d26937" ,(if gotham-tty-256-colors "color-166" "brightred"))

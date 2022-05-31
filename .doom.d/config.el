@@ -95,9 +95,14 @@
       :unnarrowed t)
     )
   )
+  (org-roam-dailies-capture-templates
+  ;; %<%H:%M> 为24小时制，%<%I:%M %p> 为12小时制
+    '(("d" "default" entry "** %<%H:%M> %?"
+       :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>")))))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
+         ("C-c n j" . org-roam-dailies-capture-today)
          ("C-c n I" . org-roam-node-insert-immediate)
          ("C-c n m" . dired-copy-images-links)
          :map org-mode-map
@@ -114,7 +119,31 @@
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
   (require 'org-roam-export))
+;; Copy Done To-Dos to Today
+(defun my/org-roam-copy-todo-to-today ()
+  (interactive)
+  (let ((org-refile-keep t) ;; Set this to nil to delete the original!
+        (org-roam-dailies-capture-templates
+          '(("t" "tasks" entry "%?"
+             :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>" "Tasks")))))
+        (org-after-refile-insert-hook #'save-buffer)
+        today-file
+        pos)
+    (save-window-excursion
+      (org-roam-dailies--capture (current-time) t)
+      (setq today-file (buffer-file-name))
+      (setq pos (point)))
 
+    ;; Only refile if the target file is different than the current file
+    (unless (equal (file-truename today-file)
+                   (file-truename (buffer-file-name)))
+      (org-refile nil nil (list "Tasks" today-file nil pos)))))
+
+(add-to-list 'org-after-todo-state-change-hook
+             (lambda ()
+               ;; DONE 和 CANCELLED 的 To-Dos 自动复制到今日
+               (when (or (equal org-state "DONE") (equal org-state "CANCELLED"))
+                 (my/org-roam-copy-todo-to-today))))
 ;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")
@@ -185,14 +214,12 @@
 (setq org-emphasis-regexp-components '("-[:multibyte:][:space:]('\"{" "-[:multibyte:][:space:].,:!?;'\")}\\[" "[:space:]" "." 1))
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 (org-element-update-syntax)
-(setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+;; (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
 ;; org-agenda
 (require 'org)
 ;; Files
-(setq org-agenda-files 
-      (mapcar 'file-truename 
-          (file-expand-wildcards "~/Dropbox/PKM/org/*.org")))
-(setq org-archive-location "~/Dropbox/PKM/archive.org::")
+(setq org-agenda-files (file-expand-wildcards "~/Dropbox/PKM/org/*.org"))
+
 ;; Save the corresponding buffers
 (defun gtd-save-org-buffers ()
   "Save `org-agenda-files' buffers without user confirmation.
@@ -240,16 +267,19 @@ See also `org-save-all-org-buffers'"
 (define-key global-map            (kbd "C-c c") 'org-capture)
 (define-key global-map            (kbd "C-c i") 'org-capture-inbox)
 ;; TODO
-;; HOLD(d@)       ; 进入时添加笔记
-;; HOLD(d/!)      ; 离开时添加变更信息
-;; HOLD(d@/!)     ; 进入时添加笔记，离开时添加变更信息
+;; HOLD(h@)       ; 进入时添加笔记
+;; HOLD(h/!)      ; 离开时添加变更信息
+;; HOLD(h@/!)     ; 进入时添加笔记，离开时添加变更信息
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w!)" "HOLD(h@/!)" "|" "DONE(d!)")))
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")))
-(setq org-todo-keyword-faces
-  '(("TODO" . (:foreground "#39D353" :background "#4d4d4d" :weight bold)) ;; 勿忘草
-    ("NEXT" . (:foreground "#a6ff00" :background "#4d4d4d" :weight bold))
-    ("HOLD" . (:foreground "#E83015" :background "#4d4d4d" :weight bold))
-    ("DONE" . (:foreground "#9E7A7A" :background "#4d4d4d" :weight bold))))
+      '((sequence "TODO(t)" "NEXT(n!)" "HOLD(h@/!)" "|" "DONE(d!)")
+        (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+;; (setq org-todo-keyword-faces
+;;   '(("TODO" . (:foreground "#39D353" :background "#4d4d4d" :weight bold)) ;; 勿忘草
+;;     ("NEXT" . (:foreground "#a6ff00" :background "#4d4d4d" :weight bold))
+;;     ("HOLD" . (:foreground "#E83015" :background "#4d4d4d" :weight bold))
+;;     ("DONE" . (:foreground "#9E7A7A" :background "#4d4d4d" :weight bold))))
 (defun log-todo-next-creation-date (&rest ignore)
   "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
   (when (and (string= (org-get-todo-state) "NEXT")
@@ -289,7 +319,7 @@ The face is only changed if the overriding header is propertized with a face."
 
 (my-org-agenda-override-header-add-advices)
 
-;; org-agenda-custom-commands
+;; 只显示 outline 下第一个 TODO
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
   (let (should-skip-entry)
@@ -306,7 +336,11 @@ The face is only changed if the overriding header is propertized with a face."
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
 
-(setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic" "project")))
+;; 将没有时间标记的任务，放在上方显示。
+(setq org-sort-agenda-notime-is-late nil)
+;; 过滤掉部分 tags
+(setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic")))
+;; org-agenda-custom-commands
 (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
          ((agenda "" (
@@ -319,7 +353,7 @@ The face is only changed if the overriding header is propertized with a face."
                       (org-agenda-span 3)
                       (org-agenda-overriding-header 
                       (propertize  "- Calendar -" 'face 
-                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
                       (org-agenda-repeating-timestamp-show-all nil)
                       ;; (org-agenda-remove-tags t)
                       (org-agenda-prefix-format "   %i %?-2 t%s")
@@ -332,43 +366,53 @@ The face is only changed if the overriding header is propertized with a face."
                       (org-agenda-scheduled-leaders '("" ""))
                       (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
                       (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
-          (todo "NEXT"
+          (todo "NEXT|WAITING"
                 ((org-agenda-skip-function
                   '(org-agenda-skip-entry-if 'deadline))
                 ;;  (org-agenda-prefix-format "  %i %-12:c [%e] ")
                  (org-agenda-overriding-header 
                    (propertize  "- Tasks -" 'face 
-                    '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
+                    '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (agenda nil
                   ((org-agenda-entry-types '(:deadline))
-                   (org-agenda-format-date "")
+                  ;;  (org-agenda-format-date "")
                    (org-agenda-show-all-dates nil)
                    (org-deadline-warning-days 0)
                   ;;  (org-agenda-skip-function
                   ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
                    (org-agenda-overriding-header 
                      (propertize  "- Deadlines - " 'face 
-                      '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
+                      '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (tags-todo "inbox"
                      ((org-agenda-prefix-format "  %?-12t% s")
                       (org-agenda-overriding-header 
                         (propertize  "- Inbox -" 'face 
-                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (tags "CLOSED>=\"<today>\""
                 ((org-agenda-overriding-header 
                 (propertize  "- Completed Today -" 'face 
-                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))))
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
           (todo "TODO" (
             (org-agenda-overriding-header 
             (propertize  "- All To-Dos -" 'face 
-                        '(:foreground "#FFB11B" :background "#4d4d4d" :height 150 :weight bold :slant italic)))
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
             (org-agenda-sorting-strategy '(priority-down))
             (org-agenda-remove-tags t)
             (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
             (org-agenda-todo-ignore-scheduled 'all)
             (org-agenda-prefix-format "   %-2i %?b")
             (org-agenda-todo-keyword-format "")))
-          ))))
+          ))
+          
+          ("w" "Completed and/or deferred tasks from previous week"
+            ((agenda "" 
+              ((org-agenda-span 7)
+              (org-agenda-start-day "-7d")
+              (org-agenda-entry-types '(:timestamp))
+              (org-agenda-show-log t))
+              ))
+          )
+       ))
 ;; Dynamic org-agenda with org-roam
 ;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
 (defun vulpea-dynamic-p ()
@@ -430,10 +474,7 @@ tasks."
   (setq org-agenda-files (seq-uniq
                           (append
                            (vulpea-dynamic-files)
-                           '("~/Dropbox/PKM/org/inbox.org"
-                             "~/Dropbox/PKM/org/projects.org"
-                             "~/Dropbox/PKM/org/agenda.org"
-                             "~/Dropbox/PKM/org/notes.org")))))
+                           (file-expand-wildcards "~/Dropbox/PKM/org/*.org")))))
 
 (add-hook 'find-file-hook #'vulpea-dynamic-update-tag)
 (add-hook 'before-save-hook #'vulpea-dynamic-update-tag)
@@ -546,8 +587,311 @@ If nil it defaults to `split-string-default-separators', normally
   :config
   (setq org-fancy-priorities-list '("[#A]" "[#B]" "[#C]")))
 ;; theme
-(add-to-list 'custom-theme-load-path (expand-file-name "~/.doom.d/themes/"))
-(load-theme 'gotham t)
+;; (add-to-list 'custom-theme-load-path (expand-file-name "~/.doom.d/themes/"))
+;; (load-theme 'gotham t)
+;; (load-theme 'shanty-themes-dark t)
+
 ;; set transparency
-(set-frame-parameter (selected-frame) 'alpha '(90 90))
-(add-to-list 'default-frame-alist '(alpha 95 95))
+;; (set-frame-parameter (selected-frame) 'alpha '(90 90))
+;; (add-to-list 'default-frame-alist '(alpha 95 95))
+
+(use-package emacs
+  :init
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend))
+  :config
+  (setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil
+      modus-themes-mixed-fonts nil
+      modus-themes-subtle-line-numbers nil
+      modus-themes-intense-mouseovers nil
+      modus-themes-deuteranopia t
+      modus-themes-tabs-accented t
+      modus-themes-variable-pitch-ui nil
+      modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
+
+      modus-themes-fringes nil ; {nil,'subtle,'intense}
+
+      ;; Options for `modus-themes-lang-checkers' are either nil (the
+      ;; default), or a list of properties that may include any of those
+      ;; symbols: `straight-underline', `text-also', `background',
+      ;; `intense' OR `faint'.
+      modus-themes-lang-checkers nil
+
+      ;; Options for `modus-themes-mode-line' are either nil, or a list
+      ;; that can combine any of `3d' OR `moody', `borderless',
+      ;; `accented', a natural number for extra padding (or a cons cell
+      ;; of padding and NATNUM), and a floating point for the height of
+      ;; the text relative to the base font size (or a cons cell of
+      ;; height and FLOAT)
+      modus-themes-mode-line '(accented borderless (padding . 4) (height . 0.9))
+
+      ;; Same as above:
+      ;; modus-themes-mode-line '(accented borderless 4 0.9)
+
+      ;; Options for `modus-themes-markup' are either nil, or a list
+      ;; that can combine any of `bold', `italic', `background',
+      ;; `intense'.
+      modus-themes-markup '(background italic)
+
+      ;; Options for `modus-themes-syntax' are either nil (the default),
+      ;; or a list of properties that may include any of those symbols:
+      ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
+      modus-themes-syntax nil
+
+      ;; Options for `modus-themes-hl-line' are either nil (the default),
+      ;; or a list of properties that may include any of those symbols:
+      ;; `accented', `underline', `intense'
+      modus-themes-hl-line '(underline accented)
+
+      ;; Options for `modus-themes-paren-match' are either nil (the
+      ;; default), or a list of properties that may include any of those
+      ;; symbols: `bold', `intense', `underline'
+      modus-themes-paren-match '(bold intense)
+
+      ;; Options for `modus-themes-links' are either nil (the default),
+      ;; or a list of properties that may include any of those symbols:
+      ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
+      ;; `bold', `italic', `background'
+      modus-themes-links '(neutral-underline background)
+
+      ;; Options for `modus-themes-box-buttons' are either nil (the
+      ;; default), or a list that can combine any of `flat', `accented',
+      ;; `faint', `variable-pitch', `underline', `all-buttons', the
+      ;; symbol of any font weight as listed in `modus-themes-weights',
+      ;; and a floating point number (e.g. 0.9) for the height of the
+      ;; button's text.
+      modus-themes-box-buttons '(variable-pitch flat faint 0.9)
+
+      ;; Options for `modus-themes-prompts' are either nil (the
+      ;; default), or a list of properties that may include any of those
+      ;; symbols: `background', `bold', `gray', `intense', `italic'
+      modus-themes-prompts '(intense bold)
+
+      ;; The `modus-themes-completions' is an alist that reads three
+      ;; keys: `matches', `selection', `popup'.  Each accepts a nil
+      ;; value (or empty list) or a list of properties that can include
+      ;; any of the following (for WEIGHT read further below):
+      ;;
+      ;; `matches' - `background', `intense', `underline', `italic', WEIGHT
+      ;; `selection' - `accented', `intense', `underline', `italic', `text-also' WEIGHT
+      ;; `popup' - same as `selected'
+      ;; `t' - applies to any key not explicitly referenced (check docs)
+      ;;
+      ;; WEIGHT is a symbol such as `semibold', `light', or anything
+      ;; covered in `modus-themes-weights'.  Bold is used in the absence
+      ;; of an explicit WEIGHT.
+      modus-themes-completions '((matches . (extrabold))
+                                 (selection . (semibold accented))
+                                 (popup . (accented intense)))
+
+      modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
+
+      ;; Options for `modus-themes-region' are either nil (the default),
+      ;; or a list of properties that may include any of those symbols:
+      ;; `no-extend', `bg-only', `accented'
+      modus-themes-region '(bg-only no-extend)
+
+      ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
+      modus-themes-diffs 'desaturated
+
+      modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background}
+
+      modus-themes-org-agenda ; this is an alist: read the manual or its doc string
+      '((header-block . (variable-pitch 1.3))
+        (header-date . (grayscale workaholic bold-today 1.1))
+        (event . (accented varied))
+        (scheduled . uniform)
+        (habit . traffic-light))
+
+      modus-themes-headings ; this is an alist: read the manual or its doc string
+      '((1 . (overline background variable-pitch 1.3))
+        (2 . (rainbow overline 1.1))
+        (t . (semibold))))
+  ;; Load the theme of your choice:
+  (load-theme 'modus-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
+
+;; org-habit
+(require 'org-habit)
+(setq org-habit-show-done-always-green t) 
+;;; 减少显示天数，使其可以放在任务条的左边
+;; (setq org-habit-graph-column 1)
+;; (setq org-habit-preceding-days 10)
+;; (setq org-habit-following-days 2)
+;;; 恢复默认日历行为
+;; (setq org-habit-show-habits-only-for-today 1)
+(let ((agenda-sorting-strategy
+       (assoc 'agenda org-agenda-sorting-strategy)))
+  (setcdr agenda-sorting-strategy
+          (remove 'habit-down (cdr agenda-sorting-strategy))))
+
+;; agenda 各个文件的快速选择
+(setq org-refile-use-outline-path 'file)
+(use-package org-starter
+  :config
+  ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
+  (org-starter-def "~/Dropbox/PKM"
+                   :files
+                   ("org/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
+                   ("org/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
+                   ("org/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
+                   ("org/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
+                   ("org/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
+                   ("org/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
+                   ("org/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
+                   ("org/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
+                   ("daily/journal.org"      :agenda t :key "j" :refile (:maxlevel . 2))
+                   )
+
+
+ (defhydra hydra-org-agenda-menu (:color blue)
+  "
+  Org-agenda-menu
+  ^^^^------------------------------------------------
+  _i_: inbox.org     _w_: work.org      _t_: technical-debt.org 
+  _b_: books.org     _n_: notes.org     _p_: personal.org
+  _a_: agenda.org    _s_: someday.org   _j_: journal.org
+  "
+      ("i" org-starter-find-file:inbox)
+      ("w" org-starter-find-file:work)
+      ("t" org-starter-find-file:technical-debt)
+      ("p" org-starter-find-file:personal)
+      ("b" org-starter-find-file:books)
+      ("n" org-starter-find-file:notes)
+      ("s" org-starter-find-file:someday)
+      ("a" org-starter-find-file:agenda)
+      ("j" org-starter-find-file:journal)
+):bind("C-c e" . hydra-org-agenda-menu/body)
+)
+
+;; https://gist.github.com/kepi/2f4acc3cc93403c75fbba5684c5d852d
+;; org-archive-subtree-hierarchical.el
+;;
+;; version 0.2
+;; modified from https://lists.gnu.org/archive/html/emacs-orgmode/2014-08/msg00109.html
+;; modified from https://stackoverflow.com/a/35475878/259187
+
+;; In orgmode
+;; * A
+;; ** AA
+;; *** AAA
+;; ** AB
+;; *** ABA
+;; Archiving AA will remove the subtree from the original file and create
+;; it like that in archive target:
+
+;; * AA
+;; ** AAA
+
+;; And this give you
+;; * A
+;; ** AA
+;; *** AAA
+;;
+;; Install file to your include path and include in your init file with:
+;;
+;;  (require 'org-archive-subtree-hierarchical)
+;;  (setq org-archive-default-command 'org-archive-subtree-hierarchical)
+;;
+(provide 'org-archive-subtree-hierarchical)
+(setq org-archive-default-command 'org-archive-subtree-hierarchical)
+(require 'org-archive)
+
+;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
+
+(defun org-archive-subtree-hierarchical--line-content-as-string ()
+  "Returns the content of the current line as a string"
+  (save-excursion
+    (beginning-of-line)
+    (buffer-substring-no-properties
+     (line-beginning-position) (line-end-position))))
+
+(defun org-archive-subtree-hierarchical--org-child-list ()
+  "This function returns all children of a heading as a list. "
+  (interactive)
+  (save-excursion
+    ;; this only works with org-version > 8.0, since in previous
+    ;; org-mode versions the function (org-outline-level) returns
+    ;; gargabe when the point is not on a heading.
+    (if (= (org-outline-level) 0)
+        (outline-next-visible-heading 1)
+      (org-goto-first-child))
+    (let ((child-list (list (org-archive-subtree-hierarchical--line-content-as-string))))
+      (while (org-goto-sibling)
+        (setq child-list (cons (org-archive-subtree-hierarchical--line-content-as-string) child-list)))
+      child-list)))
+
+(defun org-archive-subtree-hierarchical--org-struct-subtree ()
+  "This function returns the tree structure in which a subtree
+belongs as a list."
+  (interactive)
+  (let ((archive-tree nil))
+    (save-excursion
+      (while (org-up-heading-safe)
+        (let ((heading
+               (buffer-substring-no-properties
+                (line-beginning-position) (line-end-position))))
+          (if (eq archive-tree nil)
+              (setq archive-tree (list heading))
+            (setq archive-tree (cons heading archive-tree))))))
+    archive-tree))
+
+(defun org-archive-subtree-hierarchical ()
+  "This function archives a subtree hierarchical"
+  (interactive)
+  (let ((org-tree (org-archive-subtree-hierarchical--org-struct-subtree))
+        (this-buffer (current-buffer))
+        (file (abbreviate-file-name
+               (or (buffer-file-name (buffer-base-buffer))
+                   (error "No file associated to buffer")))))
+    (save-excursion
+      (setq location org-archive-location
+            afile (car (org-archive--compute-location
+		                   (or (org-entry-get nil "ARCHIVE" 'inherit) location)))
+            ;; heading (org-extract-archive-heading location)
+            infile-p (equal file (abbreviate-file-name (or afile ""))))
+      (unless afile
+        (error "Invalid `org-archive-location'"))
+      (if (> (length afile) 0)
+          (setq newfile-p (not (file-exists-p afile))
+                visiting (find-buffer-visiting afile)
+                buffer (or visiting (find-file-noselect afile)))
+        (setq buffer (current-buffer)))
+      (unless buffer
+        (error "Cannot access file \"%s\"" afile))
+      (org-cut-subtree)
+      (set-buffer buffer)
+      (org-mode)
+      (goto-char (point-min))
+      (while (not (equal org-tree nil))
+        (let ((child-list (org-archive-subtree-hierarchical--org-child-list)))
+          (if (member (car org-tree) child-list)
+              (progn
+                (search-forward (car org-tree) nil t)
+                (setq org-tree (cdr org-tree)))
+            (progn
+              (goto-char (point-max))
+              (newline)
+              (org-insert-struct org-tree)
+              (setq org-tree nil)))))
+      (newline)
+      (org-yank)
+      (when (not (eq this-buffer buffer))
+        (save-buffer))
+      (message "Subtree archived %s"
+               (concat "in file: " (abbreviate-file-name afile))))))
+
+(defun org-insert-struct (struct)
+  "TODO"
+  (interactive)
+  (when struct
+    (insert (car struct))
+    (newline)
+    (org-insert-struct (cdr struct))))
+
+(defun org-archive-subtree ()
+  (org-archive-subtree-hierarchical)
+  )

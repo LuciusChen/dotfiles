@@ -56,3 +56,6 @@
 ;; M-x package install [RET] moonscript [RET]
 ;; M-x package install [RET] ripgrep [RET]
 ;; M-x package install [RET] ox-pandoc [RET]
+;; M-x package install [RET] org-starter [RET]
+;; M-x package install [RET] shanty-themes [RET]
+;; M-x package install [RET] hydra [RET]

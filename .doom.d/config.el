@@ -19,8 +19,16 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;; https://github.com/lxgw/LxgwWenKai
-(setq doom-font (font-spec :family "LXGW WenKai Mono" :size 14 :weight 'semi-bold)
+(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'medium)
      doom-variable-pitch-font (font-spec :family "Fira Code" :size 14))
+;; 中文字体设定，还可以修复「中」或者「言」字的显示异常。
+(let ((font-chinese "LXGW WenKai Mono"))
+  (add-hook! emacs-startup :append
+   (set-fontset-font t 'cjk-misc font-chinese nil 'prepend)
+   (set-fontset-font t 'han font-chinese nil 'prepend)
+   ;; (set-fontset-font t ?中 font-chinese nil 'prepend)
+   ;; (set-fontset-font t ?言 font-chinese nil 'prepend)
+   ))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -36,7 +44,7 @@
 (setq display-line-numbers-type t)
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/PKM/org/")
+(setq org-directory "~/Dropbox/org/")
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -73,17 +81,21 @@
   :demand t ;; ensure org-roam is loaded by default
   :init
   :custom
-  (org-roam-directory (file-truename "~/Dropbox/PKM/"))
+  (org-roam-directory (file-truename "~/Dropbox/org/"))
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(
      ;; #+OPTIONS: toc:nil 为了导出 .md 的格式更加符合使用
      ("d" "default" plain
-     (file "~/Dropbox/PKM/templates/default.org")
+     (file "~/Dropbox/org/templates/default.org")
      :if-new (file "main/%<%Y%m%d%H%M%S>-${slug}.org")
      :unnarrowed t)
+     ("a" "article" plain
+     (file "~/Dropbox/org/templates/default.org")
+     :if-new (file "article/%<%Y%m%d%H%M%S>-${slug}.org")
+     :unnarrowed t)
      ("b" "book notes" plain
-      (file "~/Dropbox/PKM/templates/book-notes.org")
+      (file "~/Dropbox/org/templates/book-notes.org")
       :if-new (file "book/%<%Y%m%d%H%M%S>-${slug}.org")
       :unnarrowed t)
     ;;  ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
@@ -118,80 +130,9 @@
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
-  (require 'org-roam-export))
-;; Copy Done To-Dos to Today
-(defun my/org-roam-copy-todo-to-today ()
-  (interactive)
-  (let ((org-refile-keep t) ;; Set this to nil to delete the original!
-        (org-roam-dailies-capture-templates
-          '(("t" "tasks" entry "%?"
-             :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>" "Tasks")))))
-        (org-after-refile-insert-hook #'save-buffer)
-        today-file
-        pos)
-    (save-window-excursion
-      (org-roam-dailies--capture (current-time) t)
-      (setq today-file (buffer-file-name))
-      (setq pos (point)))
+  (require 'org-roam-export)
+)
 
-    ;; Only refile if the target file is different than the current file
-    (unless (equal (file-truename today-file)
-                   (file-truename (buffer-file-name)))
-      (org-refile nil nil (list "Tasks" today-file nil pos)))))
-
-(add-to-list 'org-after-todo-state-change-hook
-             (lambda ()
-               ;; DONE 和 CANCELLED 的 To-Dos 自动复制到今日
-               (when (or (equal org-state "DONE") (equal org-state "CANCELLED"))
-                 (my/org-roam-copy-todo-to-today))))
-;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
-(defun org-roam-node-insert-immediate (arg &rest args)
-  (interactive "P")
-  (let ((args (push arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-;; "org-export-data: Unable to resolve link: FILE-ID"
-(defun force-org-rebuild-cache ()
-  "Rebuild the `org-mode' and `org-roam' cache."
-  (interactive)
-  (org-id-update-id-locations)
-  ;; Note: you may need `org-roam-db-clear-all'
-  ;; followed by `org-roam-db-sync'
-  (org-roam-db-sync)
-  (org-roam-update-org-id-locations))
-;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
-;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
-(defun dired-copy-images-links ()
-  "Works only in dired-mode, put in kill-ring,
-  ready to be yanked in some other org-mode file,
-  the links of marked image files using file-name-base as #+CAPTION.
-  If no file marked then do it on all images files of directory.
-  No file is moved nor copied anywhere.
-  This is intended to be used with org-redisplay-inline-images."
-  (interactive)
-  (if (derived-mode-p 'dired-mode)                           ; if we are in dired-mode
-      (let* ((marked-files (dired-get-marked-files))         ; get marked file list
-             (number-marked-files                            ; store number of marked files
-              (string-to-number                              ; as a number
-               (dired-number-of-marked-files))))             ; for later reference
-        (when (= number-marked-files 0)                      ; if none marked then
-          (dired-toggle-marks)                               ; mark all files
-          (setq marked-files (dired-get-marked-files)))      ; get marked file list
-        (message "Files marked for copy")                    ; info message
-        (dired-number-of-marked-files)                       ; marked files info
-        (kill-new "\n")                                      ; start with a newline
-        (dolist (marked-file marked-files)                   ; walk the marked files list
-          (when (org-file-image-p marked-file)               ; only on image files
-            (kill-append                                     ; append image to kill-ring
-             (concat "#+CAPTION: "                           ; as caption,
-                     (file-name-base marked-file)            ; use file-name-base
-                     "\n#+ATTR_ORG: :width 800"              ; img width
-                     "\n[[file:" marked-file "]]\n\n") nil))); link to marked-file
-        (when (= number-marked-files 0)                      ; if none were marked then
-          (dired-toggle-marks)))                             ; unmark all
-    (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
-    (ding)))                                                 ; error sound
 ;; node-find 的时候展示文件夹
 ;; org-roam-node-type
 (cl-defmethod org-roam-node-type ((node org-roam-node))
@@ -202,12 +143,7 @@
         (file-name-directory
          (file-relative-name (org-roam-node-file node) org-roam-directory))))
     (error "")))
-;; ripgrep search
-(defun bms/org-roam-rg-search ()
-  "Search org-roam directory using consult-ripgrep. With live-preview."
-  (interactive)
-  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
-    (consult-ripgrep org-roam-directory)))
+
 (global-set-key (kbd "C-c rr") 'bms/org-roam-rg-search)
 ;; 解决中文下 bold (* *), italics (/ /), underline (_ _)and strikethrough (+ +) 失效的问题(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
 ;; 若是还不能生效，就插入零宽字符，C-x 8 <RET> zero width space <RET> 或 C-x 8 <RET> 200B <RET> 插入零宽空格。
@@ -218,44 +154,21 @@
 ;; org-agenda
 (require 'org)
 ;; Files
-(setq org-agenda-files (file-expand-wildcards "~/Dropbox/PKM/org/*.org"))
-
-;; Save the corresponding buffers
-(defun gtd-save-org-buffers ()
-  "Save `org-agenda-files' buffers without user confirmation.
-See also `org-save-all-org-buffers'"
-  (interactive)
-  (message "Saving org-agenda-files buffers...")
-  (save-some-buffers t (lambda () 
-             (when (member (buffer-file-name) org-agenda-files) 
-               t)))
-  (message "Saving org-agenda-files buffers... done"))
+(setq org-agenda-files (file-expand-wildcards "~/Dropbox/org/agenda/*.org"))
 
 ;; Add it after refile
-(advice-add 'org-refile :after
-        (lambda (&rest _)
-          (gtd-save-org-buffers)))
+(advice-add 'org-refile :after (lambda (&rest _) (gtd-save-org-buffers)))
 ;; Capture
 (setq org-capture-templates
-      `(("i" "Inbox" entry  (file "inbox.org")
-        ,(concat "* TODO %?\n"
-                 "/Entered on/ %U"))
-        ("m" "Meeting" entry  (file+headline "agenda.org" "Future")
-        ,(concat "* %? :meeting:\n"
-                 "<%<%Y-%m-%d %a %H:00>>"))
-        ("n" "Note" entry  (file "notes.org")
-        ,(concat "* Note (%a)\n"
-                 "/Entered on/ %U\n" "\n" "%?"))))
-;; (setq org-agenda-prefix-format
-;;       '((agenda . "  %?-14t% s")
-;;         (todo   . "  %i %-14:c [%e] ")
-;;         (tags   . "  %i %-14:c")
-;;         (search . "  %i %-14:c")))
-;; (setq org-agenda-breadcrumbs-separator " > "
-;;       org-agenda-current-time-string "⭠ now ⏰ ────────────────────────────────────────"
-;;       org-agenda-time-grid '((daily today require-timed)
-;;                              (900 1000 1100 1200 1300 1400 1500 1600 1700 1800 2000 2200)
-;;                              "......" "┈┈┈┈┈┈┈┈┈┈┈┈┈"))
+      `(
+        ("i" "Inbox" entry  (file "agenda/inbox.org")
+        ,(concat "* TODO %?\n%U"))
+        ("m" "Meeting" entry  (file+headline "agenda/agenda.org" "Future")
+        ,(concat "* %? :meeting:\n<%<%Y-%m-%d %a %H:00>>"))
+        ("n" "Note" entry  (file "agenda/notes.org")
+        ,(concat "* Note (%a)\n%U\n\n%?"))
+        )
+)
 (defun org-capture-inbox ()
      (interactive)
      (call-interactively 'org-store-link)
@@ -275,66 +188,7 @@ See also `org-save-all-org-buffers'"
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n!)" "HOLD(h@/!)" "|" "DONE(d!)")
         (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
-;; (setq org-todo-keyword-faces
-;;   '(("TODO" . (:foreground "#39D353" :background "#4d4d4d" :weight bold)) ;; 勿忘草
-;;     ("NEXT" . (:foreground "#a6ff00" :background "#4d4d4d" :weight bold))
-;;     ("HOLD" . (:foreground "#E83015" :background "#4d4d4d" :weight bold))
-;;     ("DONE" . (:foreground "#9E7A7A" :background "#4d4d4d" :weight bold))))
-(defun log-todo-next-creation-date (&rest ignore)
-  "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
-  (when (and (string= (org-get-todo-state) "NEXT")
-             (not (org-entry-get nil "ACTIVATED")))
-    (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
-(add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
 (setq org-log-done 'time)
-
-;; Put the text property afterwards with an advice
-(defun my-org-agenda-override-header (orig-fun &rest args)
-  "Change the face of the overriden header string if needed.
-The propertized header text is taken from `org-agenda-overriding-header'.
-The face is only changed if the overriding header is propertized with a face."
-  (let ((pt (point))
-        (header org-agenda-overriding-header))
-    (apply orig-fun args)
-    ;; Only replace if there is an overriding header and not an empty string.
-    ;; And only if the header text has a face property.
-    (when (and header (> (length header) 0)
-               (get-text-property 0 'face header))
-      (save-excursion
-        (goto-char pt)
-        ;; Search for the header text.
-        (search-forward header)
-        (unwind-protect
-            (progn
-              (read-only-mode -1)
-              ;; Replace it with the propertized text.
-              (replace-match header))
-          (read-only-mode 1))))))
-
-(defun my-org-agenda-override-header-add-advices ()
-  "Add advices to make changing work in all agenda commands."
-  (interactive)
-  (dolist (fun '(org-agenda-list org-todo-list org-search-view org-tags-view))
-    (advice-add fun :around #'my-org-agenda-override-header)))
-
-(my-org-agenda-override-header-add-advices)
-
-;; 只显示 outline 下第一个 TODO
-(defun my-org-agenda-skip-all-siblings-but-first ()
-  "Skip all but the first non-done entry."
-  (let (should-skip-entry)
-    (unless (org-current-is-todo)
-      (setq should-skip-entry t))
-    (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
-          (setq should-skip-entry t))))
-    (when should-skip-entry
-      (or (outline-next-heading)
-          (goto-char (point-max))))))
-		  
-(defun org-current-is-todo ()
-  (string= "TODO" (org-get-todo-state)))
 
 ;; 将没有时间标记的任务，放在上方显示。
 (setq org-sort-agenda-notime-is-late nil)
@@ -413,158 +267,7 @@ The face is only changed if the overriding header is propertized with a face."
               ))
           )
        ))
-;; Dynamic org-agenda with org-roam
-;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
-(defun vulpea-dynamic-p ()
-  "Return non-nil if current buffer has any todo entry.
-TODO entries marked as done are ignored, meaning the this
-function returns nil if current buffer contains only completed
-tasks."
-  (seq-find                                 ; (3)
-   (lambda (type)
-     (eq type 'todo))
-   (org-element-map                         ; (2)
-       (org-element-parse-buffer 'headline) ; (1)
-       'headline
-     (lambda (h)
-       (org-element-property :todo-type h)))))
 
-(defun vulpea-dynamic-update-tag ()
-    "Update dynamic tag in the current buffer."
-    (when (and (not (active-minibuffer-window))
-               (vulpea-buffer-p))
-      (save-excursion
-        (goto-char (point-min))
-        (let* ((tags (vulpea-buffer-tags-get))
-               (original-tags tags))
-          (if (vulpea-dynamic-p)
-              (setq tags (cons "dynamic" tags))
-            (setq tags (remove "dynamic" tags)))
-
-          ;; cleanup duplicates
-          (setq tags (seq-uniq tags))
-
-          ;; update tags if changed
-          (when (or (seq-difference tags original-tags)
-                    (seq-difference original-tags tags))
-            (apply #'vulpea-buffer-tags-set tags))))))
-
-(defun vulpea-buffer-p ()
-  "Return non-nil if the currently visited buffer is a note."
-  (and buffer-file-name
-       (string-prefix-p
-        (expand-file-name (file-name-as-directory org-roam-directory))
-        (file-name-directory buffer-file-name))))
-
-(defun vulpea-dynamic-files ()
-    "Return a list of note files containing 'dynamic' tag." ;
-    (seq-uniq
-     (seq-map
-      #'car
-      (org-roam-db-query
-       [:select [nodes:file]
-        :from tags
-        :left-join nodes
-        :on (= tags:node-id nodes:id)
-        :where (like tag (quote "%\"dynamic\"%"))]))))
-
-(defun vulpea-agenda-files-update (&rest _)
-  "Update the value of `org-agenda-files'."
-  ;; (setq org-agenda-files (vulpea-dynamic-files)))
-  (setq org-agenda-files (seq-uniq
-                          (append
-                           (vulpea-dynamic-files)
-                           (file-expand-wildcards "~/Dropbox/PKM/org/*.org")))))
-
-(add-hook 'find-file-hook #'vulpea-dynamic-update-tag)
-(add-hook 'before-save-hook #'vulpea-dynamic-update-tag)
-
-(advice-add 'org-agenda :before #'vulpea-agenda-files-update)
-(advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
-
-;; functions borrowed from `vulpea' library
-;; https://github.com/d12frosted/vulpea/blob/6a735c34f1f64e1f70da77989e9ce8da7864e5ff/vulpea-buffer.el
-
-(defun vulpea-buffer-tags-get ()
-  "Return filetags value in current buffer."
-  (vulpea-buffer-prop-get-list "filetags" "[ :]"))
-
-(defun vulpea-buffer-tags-set (&rest tags)
-  "Set TAGS in current buffer.
-If filetags value is already set, replace it."
-  (if tags
-      (vulpea-buffer-prop-set
-       "filetags" (concat ":" (string-join tags ":") ":"))
-    (vulpea-buffer-prop-remove "filetags")))
-
-(defun vulpea-buffer-tags-add (tag)
-  "Add a TAG to filetags in current buffer."
-  (let* ((tags (vulpea-buffer-tags-get))
-         (tags (append tags (list tag))))
-    (apply #'vulpea-buffer-tags-set tags)))
-
-(defun vulpea-buffer-tags-remove (tag)
-  "Remove a TAG from filetags in current buffer."
-  (let* ((tags (vulpea-buffer-tags-get))
-         (tags (delete tag tags)))
-    (apply #'vulpea-buffer-tags-set tags)))
-
-(defun vulpea-buffer-prop-set (name value)
-  "Set a file property called NAME to VALUE in buffer file.
-If the property is already set, replace its value."
-  (setq name (downcase name))
-  (org-with-point-at 1
-    (let ((case-fold-search t))
-      (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
-                             (point-max) t)
-          (replace-match (concat "#+" name ": " value) 'fixedcase)
-        (while (and (not (eobp))
-                    (looking-at "^[#:]"))
-          (if (save-excursion (end-of-line) (eobp))
-              (progn
-                (end-of-line)
-                (insert "\n"))
-            (forward-line)
-            (beginning-of-line)))
-        (insert "#+" name ": " value "\n")))))
-
-(defun vulpea-buffer-prop-set-list (name values &optional separators)
-  "Set a file property called NAME to VALUES in current buffer.
-VALUES are quoted and combined into single string using
-`combine-and-quote-strings'.
-If SEPARATORS is non-nil, it should be a regular expression
-matching text that separates, but is not part of, the substrings.
-If nil it defaults to `split-string-default-separators', normally
-\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t.
-If the property is already set, replace its value."
-  (vulpea-buffer-prop-set
-   name (combine-and-quote-strings values separators)))
-
-(defun vulpea-buffer-prop-get (name)
-  "Get a buffer property called NAME as a string."
-  (org-with-point-at 1
-    (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
-                             (point-max) t)
-      (buffer-substring-no-properties
-       (match-beginning 1)
-       (match-end 1)))))
-
-(defun vulpea-buffer-prop-get-list (name &optional separators)
-  "Get a buffer property NAME as a list using SEPARATORS.
-If SEPARATORS is non-nil, it should be a regular expression
-matching text that separates, but is not part of, the substrings.
-If nil it defaults to `split-string-default-separators', normally
-\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t."
-  (let ((value (vulpea-buffer-prop-get name)))
-    (when (and value (not (string-empty-p value)))
-      (split-string-and-unquote value separators))))
-
-(defun vulpea-buffer-prop-remove (name)
-  "Remove a buffer property called NAME."
-  (org-with-point-at 1
-    (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
-                             (point-max) t)
-      (replace-match ""))))
 ;; org-roam-ui
 (use-package! websocket
     :after org-roam)
@@ -733,16 +436,16 @@ If nil it defaults to `split-string-default-separators', normally
 (use-package org-starter
   :config
   ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
-  (org-starter-def "~/Dropbox/PKM"
+  (org-starter-def "~/Dropbox/org"
                    :files
-                   ("org/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
-                   ("org/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
-                   ("org/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
-                   ("org/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
-                   ("org/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
-                   ("org/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
-                   ("org/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
-                   ("org/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
+                   ("agenda/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
+                   ("agenda/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
+                   ("agenda/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
+                   ("agenda/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
+                   ("agenda/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
+                   ("agenda/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
+                   ("agenda/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
+                   ("agenda/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
                    ("daily/journal.org"      :agenda t :key "j" :refile (:maxlevel . 2))
                    )
 
@@ -766,6 +469,313 @@ If nil it defaults to `split-string-default-separators', normally
       ("j" org-starter-find-file:journal)
 ):bind("C-c e" . hydra-org-agenda-menu/body)
 )
+
+(add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
+
+;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
+
+;; =============================================================
+;; =================  self defined function   ==================
+;; =============================================================
+;; Copy Done To-Dos to Today
+(defun my/org-roam-copy-todo-to-today ()
+  (interactive)
+  (let ((org-refile-keep t) ;; Set this to nil to delete the original!
+        (org-roam-dailies-capture-templates
+          '(("t" "tasks" entry "%?"
+             :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>" "Tasks")))))
+        (org-after-refile-insert-hook #'save-buffer)
+        today-file
+        pos)
+    (save-window-excursion
+      (org-roam-dailies--capture (current-time) t)
+      (setq today-file (buffer-file-name))
+      (setq pos (point)))
+
+    ;; Only refile if the target file is different than the current file
+    (unless (equal (file-truename today-file)
+                   (file-truename (buffer-file-name)))
+      (org-refile nil nil (list "Tasks" today-file nil pos)))))
+
+(add-to-list 'org-after-todo-state-change-hook
+             (lambda ()
+               ;; DONE 和 CANCELLED 的 To-Dos 自动复制到今日
+               (when (or (equal org-state "DONE") (equal org-state "CANCELLED"))
+                 (my/org-roam-copy-todo-to-today))))
+
+;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+
+;; "org-export-data: Unable to resolve link: FILE-ID"
+(defun force-org-rebuild-cache ()
+  "Rebuild the `org-mode' and `org-roam' cache."
+  (interactive)
+  (org-id-update-id-locations)
+  ;; Note: you may need `org-roam-db-clear-all'
+  ;; followed by `org-roam-db-sync'
+  (org-roam-db-sync)
+  (org-roam-update-org-id-locations))
+;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
+;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
+(defun dired-copy-images-links ()
+  "Works only in dired-mode, put in kill-ring,
+  ready to be yanked in some other org-mode file,
+  the links of marked image files using file-name-base as #+CAPTION.
+  If no file marked then do it on all images files of directory.
+  No file is moved nor copied anywhere.
+  This is intended to be used with org-redisplay-inline-images."
+  (interactive)
+  (if (derived-mode-p 'dired-mode)                           ; if we are in dired-mode
+      (let* ((marked-files (dired-get-marked-files))         ; get marked file list
+             (number-marked-files                            ; store number of marked files
+              (string-to-number                              ; as a number
+               (dired-number-of-marked-files))))             ; for later reference
+        (when (= number-marked-files 0)                      ; if none marked then
+          (dired-toggle-marks)                               ; mark all files
+          (setq marked-files (dired-get-marked-files)))      ; get marked file list
+        (message "Files marked for copy")                    ; info message
+        (dired-number-of-marked-files)                       ; marked files info
+        (kill-new "\n")                                      ; start with a newline
+        (dolist (marked-file marked-files)                   ; walk the marked files list
+          (when (org-file-image-p marked-file)               ; only on image files
+            (kill-append                                     ; append image to kill-ring
+             (concat "#+CAPTION: "                           ; as caption,
+                     (file-name-base marked-file)            ; use file-name-base
+                     "\n#+ATTR_ORG: :width 800"              ; img width
+                     "\n[[file:" marked-file "]]\n\n") nil))); link to marked-file
+        (when (= number-marked-files 0)                      ; if none were marked then
+          (dired-toggle-marks)))                             ; unmark all
+    (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
+    (ding)))                                                 ; error sound
+
+;; ripgrep search
+(defun bms/org-roam-rg-search ()
+  "Search org-roam directory using consult-ripgrep. With live-preview."
+  (interactive)
+  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
+    (consult-ripgrep org-roam-directory)))
+
+;; Save the corresponding buffers
+(defun gtd-save-org-buffers ()
+  "Save `org-agenda-files' buffers without user confirmation.
+See also `org-save-all-org-buffers'"
+  (interactive)
+  (message "Saving org-agenda-files buffers...")
+  (save-some-buffers t (lambda () 
+             (when (member (buffer-file-name) org-agenda-files) 
+               t)))
+  (message "Saving org-agenda-files buffers... done"))
+
+(defun log-todo-next-creation-date (&rest ignore)
+  "Log NEXT creation time in the property drawer under the key 'ACTIVATED'"
+  (when (and (string= (org-get-todo-state) "NEXT")
+             (not (org-entry-get nil "ACTIVATED")))
+    (org-entry-put nil "ACTIVATED" (format-time-string "[%Y-%m-%d]"))))
+(add-hook 'org-after-todo-state-change-hook #'log-todo-next-creation-date)
+
+;; Put the text property afterwards with an advice
+(defun my-org-agenda-override-header (orig-fun &rest args)
+  "Change the face of the overriden header string if needed.
+The propertized header text is taken from `org-agenda-overriding-header'.
+The face is only changed if the overriding header is propertized with a face."
+  (let ((pt (point))
+        (header org-agenda-overriding-header))
+    (apply orig-fun args)
+    ;; Only replace if there is an overriding header and not an empty string.
+    ;; And only if the header text has a face property.
+    (when (and header (> (length header) 0)
+               (get-text-property 0 'face header))
+      (save-excursion
+        (goto-char pt)
+        ;; Search for the header text.
+        (search-forward header)
+        (unwind-protect
+            (progn
+              (read-only-mode -1)
+              ;; Replace it with the propertized text.
+              (replace-match header))
+          (read-only-mode 1))))))
+
+(defun my-org-agenda-override-header-add-advices ()
+  "Add advices to make changing work in all agenda commands."
+  (interactive)
+  (dolist (fun '(org-agenda-list org-todo-list org-search-view org-tags-view))
+    (advice-add fun :around #'my-org-agenda-override-header)))
+(my-org-agenda-override-header-add-advices)
+;; 只显示 outline 下第一个 TODO
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
+		  
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
+
+;; Dynamic org-agenda with org-roam
+;; https://gist.github.com/d12frosted/a60e8ccb9aceba031af243dff0d19b2e
+(defun vulpea-dynamic-p ()
+  "Return non-nil if current buffer has any todo entry.
+TODO entries marked as done are ignored, meaning the this
+function returns nil if current buffer contains only completed
+tasks."
+  (seq-find                                 ; (3)
+   (lambda (type)
+     (eq type 'todo))
+   (org-element-map                         ; (2)
+       (org-element-parse-buffer 'headline) ; (1)
+       'headline
+     (lambda (h)
+       (org-element-property :todo-type h)))))
+
+(defun vulpea-dynamic-update-tag ()
+    "Update dynamic tag in the current buffer."
+    (when (and (not (active-minibuffer-window))
+               (vulpea-buffer-p))
+      (save-excursion
+        (goto-char (point-min))
+        (let* ((tags (vulpea-buffer-tags-get))
+               (original-tags tags))
+          (if (vulpea-dynamic-p)
+              (setq tags (cons "dynamic" tags))
+            (setq tags (remove "dynamic" tags)))
+
+          ;; cleanup duplicates
+          (setq tags (seq-uniq tags))
+
+          ;; update tags if changed
+          (when (or (seq-difference tags original-tags)
+                    (seq-difference original-tags tags))
+            (apply #'vulpea-buffer-tags-set tags))))))
+
+(defun vulpea-buffer-p ()
+  "Return non-nil if the currently visited buffer is a note."
+  (and buffer-file-name
+       (string-prefix-p
+        (expand-file-name (file-name-as-directory org-roam-directory))
+        (file-name-directory buffer-file-name))))
+
+(defun vulpea-dynamic-files ()
+    "Return a list of note files containing 'dynamic' tag." ;
+    (seq-uniq
+     (seq-map
+      #'car
+      (org-roam-db-query
+       [:select [nodes:file]
+        :from tags
+        :left-join nodes
+        :on (= tags:node-id nodes:id)
+        :where (like tag (quote "%\"dynamic\"%"))]))))
+
+(defun vulpea-agenda-files-update (&rest _)
+  "Update the value of `org-agenda-files'."
+  ;; (setq org-agenda-files (vulpea-dynamic-files)))
+  (setq org-agenda-files (seq-uniq
+                          (append
+                           (vulpea-dynamic-files)
+                           (file-expand-wildcards "~/Dropbox/org/agenda/*.org")))))
+
+(add-hook 'find-file-hook #'vulpea-dynamic-update-tag)
+(add-hook 'before-save-hook #'vulpea-dynamic-update-tag)
+
+(advice-add 'org-agenda :before #'vulpea-agenda-files-update)
+(advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
+
+;; functions borrowed from `vulpea' library
+;; https://github.com/d12frosted/vulpea/blob/6a735c34f1f64e1f70da77989e9ce8da7864e5ff/vulpea-buffer.el
+
+(defun vulpea-buffer-tags-get ()
+  "Return filetags value in current buffer."
+  (vulpea-buffer-prop-get-list "filetags" "[ :]"))
+
+(defun vulpea-buffer-tags-set (&rest tags)
+  "Set TAGS in current buffer.
+If filetags value is already set, replace it."
+  (if tags
+      (vulpea-buffer-prop-set
+       "filetags" (concat ":" (string-join tags ":") ":"))
+    (vulpea-buffer-prop-remove "filetags")))
+
+(defun vulpea-buffer-tags-add (tag)
+  "Add a TAG to filetags in current buffer."
+  (let* ((tags (vulpea-buffer-tags-get))
+         (tags (append tags (list tag))))
+    (apply #'vulpea-buffer-tags-set tags)))
+
+(defun vulpea-buffer-tags-remove (tag)
+  "Remove a TAG from filetags in current buffer."
+  (let* ((tags (vulpea-buffer-tags-get))
+         (tags (delete tag tags)))
+    (apply #'vulpea-buffer-tags-set tags)))
+
+(defun vulpea-buffer-prop-set (name value)
+  "Set a file property called NAME to VALUE in buffer file.
+If the property is already set, replace its value."
+  (setq name (downcase name))
+  (org-with-point-at 1
+    (let ((case-fold-search t))
+      (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
+                             (point-max) t)
+          (replace-match (concat "#+" name ": " value) 'fixedcase)
+        (while (and (not (eobp))
+                    (looking-at "^[#:]"))
+          (if (save-excursion (end-of-line) (eobp))
+              (progn
+                (end-of-line)
+                (insert "\n"))
+            (forward-line)
+            (beginning-of-line)))
+        (insert "#+" name ": " value "\n")))))
+
+(defun vulpea-buffer-prop-set-list (name values &optional separators)
+  "Set a file property called NAME to VALUES in current buffer.
+VALUES are quoted and combined into single string using
+`combine-and-quote-strings'.
+If SEPARATORS is non-nil, it should be a regular expression
+matching text that separates, but is not part of, the substrings.
+If nil it defaults to `split-string-default-separators', normally
+\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t.
+If the property is already set, replace its value."
+  (vulpea-buffer-prop-set
+   name (combine-and-quote-strings values separators)))
+
+(defun vulpea-buffer-prop-get (name)
+  "Get a buffer property called NAME as a string."
+  (org-with-point-at 1
+    (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
+                             (point-max) t)
+      (buffer-substring-no-properties
+       (match-beginning 1)
+       (match-end 1)))))
+
+(defun vulpea-buffer-prop-get-list (name &optional separators)
+  "Get a buffer property NAME as a list using SEPARATORS.
+If SEPARATORS is non-nil, it should be a regular expression
+matching text that separates, but is not part of, the substrings.
+If nil it defaults to `split-string-default-separators', normally
+\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t."
+  (let ((value (vulpea-buffer-prop-get name)))
+    (when (and value (not (string-empty-p value)))
+      (split-string-and-unquote value separators))))
+
+(defun vulpea-buffer-prop-remove (name)
+  "Remove a buffer property called NAME."
+  (org-with-point-at 1
+    (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
+                             (point-max) t)
+      (replace-match ""))))
 
 ;; https://gist.github.com/kepi/2f4acc3cc93403c75fbba5684c5d852d
 ;; org-archive-subtree-hierarchical.el
@@ -799,8 +809,6 @@ If nil it defaults to `split-string-default-separators', normally
 (provide 'org-archive-subtree-hierarchical)
 (setq org-archive-default-command 'org-archive-subtree-hierarchical)
 (require 'org-archive)
-
-;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
 
 (defun org-archive-subtree-hierarchical--line-content-as-string ()
   "Returns the content of the current line as a string"

@@ -50,12 +50,6 @@
 ;(unpin! t)
 (unpin! org-roam)
 (package! org-roam-ui)
-(package! org-roam-bibtex
-  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
-;; When using org-roam via the `+roam` flag
-(unpin! org-roam)
-;; When using bibtex-completion via the `biblio` module
-(unpin! bibtex-completion helm-bibtex ivy-bibtex)
 ;; need to install
 ;; M-x package install [RET] magit [RET]
 ;; M-x package install [RET] lua-mode [RET]
@@ -67,3 +61,5 @@
 ;; M-x package install [RET] hydra [RET]
 ;; M-x package install [RET] auctex [RET]
 ;; M-x package install [RET] cdlatex [RET]
+;; M-x package install [RET] org-modern [RET]
+;; M-x package install [RET] citar [RET]

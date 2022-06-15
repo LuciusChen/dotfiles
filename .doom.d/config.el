@@ -91,7 +91,7 @@
      :if-new (file "main/%<%Y%m%d%H%M%S>-${slug}.org")
      :unnarrowed t)
      ("a" "article" plain
-     (file "~/Dropbox/org/templates/default.org")
+     (file "~/Dropbox/org/templates/article.org")
      :if-new (file "article/%<%Y%m%d%H%M%S>-${slug}.org")
      :unnarrowed t)
      ("b" "book notes" plain
@@ -101,10 +101,10 @@
     ;;  ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
     ;;   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+category: ${title}\n#+filetags: Project")
     ;;   :unnarrowed t)
-     ("l" "programming language" plain
-      "* Reference:\n\n"
-      :if-new (file+head "programming language/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
-      :unnarrowed t)
+    ;;  ("l" "programming language" plain
+    ;;   "* Reference:\n\n"
+    ;;   :if-new (file+head "programming language/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+OPTIONS: toc:nil\n")
+    ;;   :unnarrowed t)
     )
   )
   (org-roam-dailies-capture-templates
@@ -449,7 +449,6 @@
                    ("daily/journal.org"      :agenda t :key "j" :refile (:maxlevel . 2))
                    )
 
-
  (defhydra hydra-org-agenda-menu (:color blue)
   "
   Org-agenda-menu
@@ -469,9 +468,64 @@
       ("j" org-starter-find-file:journal)
 ):bind("C-c e" . hydra-org-agenda-menu/body)
 )
-
+;; Latex
 (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
+;; 高亮
+(setq org-src-fontify-natively t)
 
+;; (setq org-latex-pdf-process
+;;       '(
+;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;;   "rm -fr %b.out %b.log %b.tex auto"
+;;   ))
+;; ;; 设置默认后端为 `xelatex'
+;; (setq org-latex-compiler "xelatex")
+;; #+LaTeX_HEADER: \usepackage{fontspec}
+;; #+LaTeX_HEADER: \setmainfont{HanaMinA}
+
+(use-package citar
+  :general
+(:keymaps 'org-mode-map
+          :prefix "C-c b"
+          "b" '(citar-insert-citation :wk "Insert citation")
+          "r" '(citar-insert-reference :wk "Insert reference"))
+  :custom
+  (setq citar-templates
+      '((main . "${author editor:30}     ${date year issued:4}     ${title:48}")
+        (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords:*}")
+        (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+        (note . "Notes on ${author editor}, ${title}")))
+  (setq citar-symbols
+      `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+        (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+        (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (setq citar-symbol-separator "  ")
+  (citar-bibliography '("~/Dropbox/bib/bib.bib"))
+)
+
+;; org-modern
+;; Minimal UI
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(modus-themes-load-vivendi)
+
+(setq
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…")
+ 
+ (global-org-modern-mode)
 ;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
 
 ;; =============================================================

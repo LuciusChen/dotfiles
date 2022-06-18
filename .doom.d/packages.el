@@ -55,7 +55,6 @@
 ;; M-x package install [RET] lua-mode [RET]
 ;; M-x package install [RET] moonscript [RET]
 ;; M-x package install [RET] ripgrep [RET]
-;; M-x package install [RET] ox-pandoc [RET]
 ;; M-x package install [RET] org-starter [RET]
 ;; M-x package install [RET] shanty-themes [RET]
 ;; M-x package install [RET] hydra [RET]
@@ -63,3 +62,4 @@
 ;; M-x package install [RET] cdlatex [RET]
 ;; M-x package install [RET] org-modern [RET]
 ;; M-x package install [RET] citar [RET]
+;; M-x package install [RET] ox-hugo [RET]

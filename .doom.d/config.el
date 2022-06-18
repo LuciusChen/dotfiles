@@ -527,6 +527,9 @@
  
  (global-org-modern-mode)
 ;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
+;; ox-hugo
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
 
 ;; =============================================================
 ;; =================  self defined function   ==================

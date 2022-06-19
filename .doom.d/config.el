@@ -129,10 +129,9 @@
   (setq org-src-fontify-natively t)
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
-  (require 'org-roam-protocol)
+  ;; (require 'org-roam-protocol)
   (require 'org-roam-export)
 )
-
 ;; node-find 的时候展示文件夹
 ;; org-roam-node-type
 (cl-defmethod org-roam-node-type ((node org-roam-node))
@@ -145,17 +144,13 @@
     (error "")))
 
 (global-set-key (kbd "C-c rr") 'bms/org-roam-rg-search)
-;; 解决中文下 bold (* *), italics (/ /), underline (_ _)and strikethrough (+ +) 失效的问题(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
-;; 若是还不能生效，就插入零宽字符，C-x 8 <RET> zero width space <RET> 或 C-x 8 <RET> 200B <RET> 插入零宽空格。
-(setq org-emphasis-regexp-components '("-[:multibyte:][:space:]('\"{" "-[:multibyte:][:space:].,:!?;'\")}\\[" "[:space:]" "." 1))
-(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-(org-element-update-syntax)
-;; (setq org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+;; =============================================================
+;; =======================  Agenda   ===========================
+;; =============================================================
 ;; org-agenda
 (require 'org)
 ;; Files
 (setq org-agenda-files (file-expand-wildcards "~/Dropbox/org/agenda/*.org"))
-
 ;; Add it after refile
 (advice-add 'org-refile :after (lambda (&rest _) (gtd-save-org-buffers)))
 ;; Capture
@@ -267,8 +262,46 @@
               ))
           )
        ))
-
-;; org-roam-ui
+;; org-starter
+(setq org-refile-use-outline-path 'file)
+(use-package org-starter
+  :config
+  ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
+  (org-starter-def "~/Dropbox/org"
+                   :files
+                   ("agenda/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
+                   ("agenda/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
+                   ("agenda/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
+                   ("agenda/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
+                   ("agenda/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
+                   ("agenda/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
+                   ("agenda/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
+                   ("agenda/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
+                   ("daily/journal.org"         :agenda t :key "j" :refile (:maxlevel . 2))
+                   )
+;; hydra
+ (defhydra hydra-org-agenda-menu (:color blue)
+  "
+  Org-agenda-menu
+  ^^^^------------------------------------------------
+  _i_: inbox.org     _w_: work.org      _t_: technical-debt.org 
+  _b_: books.org     _n_: notes.org     _p_: personal.org
+  _a_: agenda.org    _s_: someday.org   _j_: journal.org
+  "
+      ("i" org-starter-find-file:inbox)
+      ("w" org-starter-find-file:work)
+      ("t" org-starter-find-file:technical-debt)
+      ("p" org-starter-find-file:personal)
+      ("b" org-starter-find-file:books)
+      ("n" org-starter-find-file:notes)
+      ("s" org-starter-find-file:someday)
+      ("a" org-starter-find-file:agenda)
+      ("j" org-starter-find-file:journal)
+):bind("C-c e" . hydra-org-agenda-menu/body)
+)
+;; =============================================================
+;; ======================  org-roam-ui  ========================
+;; =============================================================
 (use-package! websocket
     :after org-roam)
 (use-package! org-roam-ui
@@ -282,6 +315,17 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+;; =============================================================
+;; ======================  Appearance  =========================
+;; =============================================================
+;; 解决中文下 bold (* *), italics (/ /), underline (_ _)and strikethrough (+ +) 失效的问题(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
+;; 若是还不能生效，就插入零宽字符，C-x 8 <RET> zero width space <RET> 或 C-x 8 <RET> 200B <RET> 插入零宽空格。
+(setq org-emphasis-regexp-components '("-[:multibyte:][:space:]('\"{" "-[:multibyte:][:space:].,:!?;'\")}\\[" "[:space:]" "." 1))
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+(org-element-update-syntax)
+;; 高亮
+(setq org-src-fontify-natively t)
 ;; Modify Priorities
 (use-package org-fancy-priorities
   :ensure t
@@ -417,94 +461,6 @@
   (load-theme 'modus-vivendi)
   :bind ("<f5>" . modus-themes-toggle))
 
-;; org-habit
-(require 'org-habit)
-(setq org-habit-show-done-always-green t) 
-;;; 减少显示天数，使其可以放在任务条的左边
-;; (setq org-habit-graph-column 1)
-;; (setq org-habit-preceding-days 10)
-;; (setq org-habit-following-days 2)
-;;; 恢复默认日历行为
-;; (setq org-habit-show-habits-only-for-today 1)
-(let ((agenda-sorting-strategy
-       (assoc 'agenda org-agenda-sorting-strategy)))
-  (setcdr agenda-sorting-strategy
-          (remove 'habit-down (cdr agenda-sorting-strategy))))
-
-;; agenda 各个文件的快速选择
-(setq org-refile-use-outline-path 'file)
-(use-package org-starter
-  :config
-  ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
-  (org-starter-def "~/Dropbox/org"
-                   :files
-                   ("agenda/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
-                   ("agenda/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
-                   ("agenda/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
-                   ("agenda/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
-                   ("agenda/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
-                   ("agenda/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
-                   ("agenda/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
-                   ("agenda/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
-                   ("daily/journal.org"      :agenda t :key "j" :refile (:maxlevel . 2))
-                   )
-
- (defhydra hydra-org-agenda-menu (:color blue)
-  "
-  Org-agenda-menu
-  ^^^^------------------------------------------------
-  _i_: inbox.org     _w_: work.org      _t_: technical-debt.org 
-  _b_: books.org     _n_: notes.org     _p_: personal.org
-  _a_: agenda.org    _s_: someday.org   _j_: journal.org
-  "
-      ("i" org-starter-find-file:inbox)
-      ("w" org-starter-find-file:work)
-      ("t" org-starter-find-file:technical-debt)
-      ("p" org-starter-find-file:personal)
-      ("b" org-starter-find-file:books)
-      ("n" org-starter-find-file:notes)
-      ("s" org-starter-find-file:someday)
-      ("a" org-starter-find-file:agenda)
-      ("j" org-starter-find-file:journal)
-):bind("C-c e" . hydra-org-agenda-menu/body)
-)
-;; Latex
-(add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
-;; 高亮
-(setq org-src-fontify-natively t)
-
-;; (setq org-latex-pdf-process
-;;       '(
-;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;;   "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;;   "rm -fr %b.out %b.log %b.tex auto"
-;;   ))
-;; ;; 设置默认后端为 `xelatex'
-;; (setq org-latex-compiler "xelatex")
-;; #+LaTeX_HEADER: \usepackage{fontspec}
-;; #+LaTeX_HEADER: \setmainfont{HanaMinA}
-
-(use-package citar
-  :general
-(:keymaps 'org-mode-map
-          :prefix "C-c b"
-          "b" '(citar-insert-citation :wk "Insert citation")
-          "r" '(citar-insert-reference :wk "Insert reference"))
-  :custom
-  (setq citar-templates
-      '((main . "${author editor:30}     ${date year issued:4}     ${title:48}")
-        (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords:*}")
-        (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
-        (note . "Notes on ${author editor}, ${title}")))
-  (setq citar-symbols
-      `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
-        (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
-        (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
-  (setq citar-symbol-separator "  ")
-  (citar-bibliography '("~/Dropbox/bib/bib.bib"))
-)
-
 ;; org-modern
 ;; Minimal UI
 (menu-bar-mode -1)
@@ -525,14 +481,81 @@
  org-pretty-entities t
  org-ellipsis "…")
  
- (global-org-modern-mode)
-;; (setq org-archive-location "~/Dropbox/PKM/archive.org::")
-;; ox-hugo
-(with-eval-after-load 'ox
-  (require 'ox-hugo))
+(global-org-modern-mode)
+;; =============================================================
+;; ======================  org-habit  ==========================
+;; =============================================================
+(require 'org-habit)
+(setq org-habit-show-done-always-green t)
+;;; 减少显示天数，使其可以放在任务条的左边
+;; (setq org-habit-graph-column 1)
+;; (setq org-habit-preceding-days 10)
+;; (setq org-habit-following-days 2)
+;;; 恢复默认日历行为
+;; (setq org-habit-show-habits-only-for-today 1)
+(let ((agenda-sorting-strategy
+       (assoc 'agenda org-agenda-sorting-strategy)))
+  (setcdr agenda-sorting-strategy
+          (remove 'habit-down (cdr agenda-sorting-strategy))))
 
 ;; =============================================================
-;; =================  self defined function   ==================
+;; ========================  citar  ============================
+;; =============================================================
+(use-package citar
+  :general
+(:keymaps 'org-mode-map
+          :prefix "C-c b"
+          "b" '(citar-insert-citation :wk "Insert citation")
+          "r" '(citar-insert-reference :wk "Insert reference"))
+  :custom
+  (setq citar-templates
+      '((main . "${author editor:30}     ${date year issued:4}     ${title:48}")
+        (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags keywords:*}")
+        (preview . "${author editor} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+        (note . "Notes on ${author editor}, ${title}")))
+  (setq citar-symbols
+      `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+        (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+        (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (setq citar-symbol-separator "  ")
+  (citar-bibliography '("~/Dropbox/bib/bib.bib"))
+)
+;; =============================================================
+;; =======================  ox-hugo  ===========================
+;; =============================================================
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
+;; =============================================================
+;; ========================  Latex  ============================
+;; =============================================================
+(add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
+;; 导出中文 PDF
+;; 需要将 elegantpaper.cls 文件放在 org 目录下
+;; 需要安装依赖 brew install pygments
+;; org 文件头部增加
+;; #+LATEX_COMPILER: xelatex
+;; #+LATEX_CLASS: elegantpaper
+;; #+OPTIONS: prop:t
+(with-eval-after-load 'ox-latex
+ ;; http://orgmode.org/worg/org-faq.html#using-xelatex-for-pdf-export
+ ;; latexmk runs pdflatex/xelatex (whatever is specified) multiple times
+ ;; automatically to resolve the cross-references.
+ (setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
+ (add-to-list 'org-latex-classes
+               '("elegantpaper"
+                 "\\documentclass[lang=cn]{elegantpaper}
+                 [NO-DEFAULT-PACKAGES]
+                 [PACKAGES]
+                 [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (setq org-latex-listings 'minted)
+  (add-to-list 'org-latex-packages-alist '("" "minted")))
+;; =============================================================
+;; ========================  function  =========================
 ;; =============================================================
 ;; Copy Done To-Dos to Today
 (defun my/org-roam-copy-todo-to-today ()

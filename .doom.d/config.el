@@ -129,7 +129,7 @@
   (setq org-src-fontify-natively t)
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
-  ;; (require 'org-roam-protocol)
+  (require 'org-roam-protocol)
   (require 'org-roam-export)
 )
 ;; node-find 的时候展示文件夹

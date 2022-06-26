@@ -51,7 +51,6 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 ;; need to install
-;; M-x package install [RET] magit [RET]
 ;; M-x package install [RET] ripgrep [RET]
 ;; M-x package install [RET] org-starter [RET]
 ;; M-x package install [RET] hydra [RET]

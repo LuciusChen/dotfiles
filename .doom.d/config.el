@@ -300,8 +300,28 @@
 ):bind("C-c e" . hydra-org-agenda-menu/body)
 )
 ;; =============================================================
+;; ==========================  deft  ===========================
+;; =============================================================
+(setq deft-extensions '("txt" "tex" "org"))
+(setq deft-directory "~/Dropbox/org/")
+(setq deft-recursive t)
+  
+(advice-add 'deft-parse-title :override #'cm/deft-parse-title)
+
+(setq deft-strip-summary-regexp
+(concat "\\("
+  "[\n\t]" ;; blank
+  "\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
+  "\\|^#\s[-]*$" ;; org-mode metadata
+  "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
+  "\\)"))
+
+(global-set-key [f8] 'deft)
+(global-set-key (kbd "C-x C-g") 'deft-find-file)
+;; =============================================================
 ;; ======================  org-roam-ui  ========================
 ;; =============================================================
+(define-key minibuffer-local-completion-map (kbd "SPC") 'self-insert-command)
 (use-package! websocket
     :after org-roam)
 (use-package! org-roam-ui
@@ -557,6 +577,16 @@
 ;; =============================================================
 ;; ========================  function  =========================
 ;; =============================================================
+;; deft parse title
+(defun cm/deft-parse-title (file contents)
+  "Parse the given FILE and CONTENTS and determine the title.
+If `deft-use-filename-as-title' is nil, the title is taken to
+be the first non-empty line of the FILE.  Else the base name of the FILE is
+used as title."
+    (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
+(if begin
+    (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+  (deft-base-filename file))))
 ;; Copy Done To-Dos to Today
 (defun my/org-roam-copy-todo-to-today ()
   (interactive)

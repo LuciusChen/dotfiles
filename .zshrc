@@ -129,8 +129,10 @@ unproxy(){
 
 # python
 alias python2='/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
-alias python3='/usr/local/Cellar/python@3.9/3.9.12/bin/python3.9'
+alias python3='/usr/local/Cellar/python@3.9/3.9.13_1/bin/python3.9'
 alias python=python3
 alias pip=pip3
-#doom
+# doom
 export PATH="$HOME/.emacs.d/bin:$PATH"
+# grep
+PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"

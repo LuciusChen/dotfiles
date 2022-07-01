@@ -50,13 +50,12 @@
 ;(unpin! t)
 (unpin! org-roam)
 (package! org-roam-ui)
-;; need to install
-;; M-x package install [RET] ripgrep [RET]
-;; M-x package install [RET] org-starter [RET]
-;; M-x package install [RET] hydra [RET]
-;; M-x package install [RET] auctex [RET]
-;; M-x package install [RET] cdlatex [RET]
-;; M-x package install [RET] org-modern [RET]
-;; M-x package install [RET] citar [RET]
-;; M-x package install [RET] ox-hugo [RET]
-;; M-x package install [RET] json-mode [RET]
+(package! ripgrep)
+(package! org-starter)
+(package! hydra)
+(package! auctex)
+(package! cdlatex)
+(package! org-modern)
+(package! citar)
+(package! ox-hugo)
+(package! json-mode)

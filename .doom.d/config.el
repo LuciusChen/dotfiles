@@ -109,8 +109,13 @@
   )
   (org-roam-dailies-capture-templates
   ;; %<%H:%M> 为24小时制，%<%I:%M %p> 为12小时制
-    '(("d" "default" entry "** %<%H:%M> %?"
-       :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>")))))
+    '(
+      ("d" "default" entry "** %<%H:%M> %?"
+       :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>")))
+       ("r" "read" entry "*** %?"
+       :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+ARCHIVE: journal.org::\n" ("%<%Y-%m-%d>" "What I read?")))
+      )
+  )
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
@@ -302,7 +307,7 @@
 ;; =============================================================
 ;; ==========================  deft  ===========================
 ;; =============================================================
-(setq deft-extensions '("txt" "tex" "org" "mw"))
+(setq deft-extensions '("md" "tex" "org" "mw" "conf"))
 (setq deft-directory "~/Dropbox/org/")
 (setq deft-recursive t)
   
@@ -538,7 +543,7 @@
         (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
         (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
   (setq citar-symbol-separator "  ")
-  (citar-bibliography '("~/Dropbox/bib/bib.bib"))
+  (citar-bibliography '("~/Dropbox/org/references/bibtex.bib"))
 )
 ;; =============================================================
 ;; =======================  ox-hugo  ===========================
@@ -747,6 +752,16 @@
 ;; Hooks that run before/after the modeline version string is updated
 (setq doom-modeline-before-update-env-hook nil)
 (setq doom-modeline-after-update-env-hook nil)
+;; =============================================================
+;; ========================  plantuml  =========================
+;; =============================================================
+;; active Org-babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t)))
+(setq org-plantuml-jar-path
+      (expand-file-name "~/Dropbox/org/planuml/plantuml.jar"))
 ;; =============================================================
 ;; ========================  function  =========================
 ;; =============================================================

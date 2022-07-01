@@ -59,3 +59,4 @@
 ;; M-x package install [RET] org-modern [RET]
 ;; M-x package install [RET] citar [RET]
 ;; M-x package install [RET] ox-hugo [RET]
+;; M-x package install [RET] json-mode [RET]

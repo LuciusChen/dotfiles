@@ -81,7 +81,10 @@
   :demand t ;; ensure org-roam is loaded by default
   :init
   :custom
+  (org-roam-database-connector 'sqlite-builtin)
   (org-roam-directory (file-truename "~/Dropbox/org/"))
+  (org-roam-db-location "~/Dropbox/org/org.db")
+  (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(
@@ -126,13 +129,22 @@
          ;; Ctrl-Alt-i
          ("C-M-i" . completion-at-point))
   :config
+  (unless (file-exists-p org-roam-directory)
+    (make-directory org-roam-directory t))
+  (org-roam-db-autosync-enable)
+  ;;使用侧边栏而不是完整buffer
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer)))
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   ;; ${type:15} 是为了在文件搜索列表展示当前所在文件夹，提高搜索效率。
   (setq org-roam-node-display-template (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-export-backends (quote (ascii html icalendar latex md)))
   ;; code hightlight
   (setq org-src-fontify-natively t)
-  (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol)
   (require 'org-roam-export)
@@ -303,6 +315,13 @@
       ("a" org-starter-find-file:agenda)
       ("j" org-starter-find-file:journal)
 ):bind("C-c e" . hydra-org-agenda-menu/body)
+)
+;; =============================================================
+;; =================  emacsql-sqlite-builtin  ==================
+;; =============================================================
+(use-package org-roam
+  :custom
+  (org-roam-database-connector 'sqlite-builtin)
 )
 ;; =============================================================
 ;; ==========================  deft  ===========================
@@ -765,6 +784,51 @@
 ;; =============================================================
 ;; ========================  function  =========================
 ;; =============================================================
+;; insert notes for reference
+(defun jethro/org-roam-node-from-cite (keys-entries)
+    (interactive (list (citar-select-ref :multiple nil :rebuild-cache t)))
+    (let ((title (citar--format-entry-no-widths (cdr keys-entries)
+                                                "${author editor} :: ${title}")))
+      (org-roam-capture- :templates
+                         '(("r" "reference" plain "%?" :if-new
+                            (file+head "reference/${citekey}.org"
+                                       ":PROPERTIES:
+:ROAM_REFS: [cite:@${citekey}]
+:END:
+#+title: ${title}\n")
+                            :immediate-finish t
+                            :unnarrowed t))
+                         :info (list :citekey (car keys-entries))
+                         :node (org-roam-node-create :title title)
+                         :props '(:finalize find-file))))
+;; Codes blow are used to general a hierachy for title nodes that under a file
+(cl-defmethod org-roam-node-doom-filetitle ((node org-roam-node))
+  "Return the value of \"#+title:\" (if any) from file that NODE resides in.
+If there's no file-level title in the file, return empty string."
+  (or (if (= (org-roam-node-level node) 0)
+          (org-roam-node-title node)
+        (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
+      ""))
+(cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
+  "Return hierarchy for NODE, constructed of its file title, OLP and direct title.
+  If some elements are missing, they will be stripped out."
+  (let ((title     (org-roam-node-title node))
+        (olp       (org-roam-node-olp   node))
+        (level     (org-roam-node-level node))
+        (filetitle (org-roam-node-doom-filetitle node))
+        (separator (propertize " > " 'face 'shadow)))
+    (cl-case level
+      ;; node is a top-level file
+      (0 filetitle)
+      ;; node is a level 1 heading
+      (1 (concat (propertize filetitle 'face '(shadow italic))
+                 separator title))
+      ;; node is a heading with an arbitrary outline path
+      (t (concat (propertize filetitle 'face '(shadow italic))
+                 separator (propertize (string-join olp " > ") 'face '(shadow italic))
+                 separator title)))))
+
+(setq org-roam-node-display-template (concat "${type:15} ${doom-hierarchy:80} " (propertize "${tags:*}" 'face 'org-tag)))
 ;; deft parse title
 (defun cm/deft-parse-title (file contents)
   "Parse the given FILE and CONTENTS and determine the title.
@@ -810,14 +874,14 @@ used as title."
     (apply #'org-roam-node-insert args)))
 
 ;; "org-export-data: Unable to resolve link: FILE-ID"
-(defun force-org-rebuild-cache ()
-  "Rebuild the `org-mode' and `org-roam' cache."
-  (interactive)
-  (org-id-update-id-locations)
-  ;; Note: you may need `org-roam-db-clear-all'
-  ;; followed by `org-roam-db-sync'
-  (org-roam-db-sync)
-  (org-roam-update-org-id-locations))
+;; (defun force-org-rebuild-cache ()
+;;   "Rebuild the `org-mode' and `org-roam' cache."
+;;   (interactive)
+;;   (org-id-update-id-locations)
+;;   ;; Note: you may need `org-roam-db-clear-all'
+;;   ;; followed by `org-roam-db-sync'
+;;   (org-roam-db-sync)
+;;   (org-roam-update-org-id-locations))
 ;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
 ;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
 (defun dired-copy-images-links ()

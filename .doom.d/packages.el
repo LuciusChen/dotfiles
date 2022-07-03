@@ -59,3 +59,5 @@
 (package! citar)
 (package! ox-hugo)
 (package! json-mode)
+(package! ox-pandoc)
+(package! emacsql-sqlite-builtin)

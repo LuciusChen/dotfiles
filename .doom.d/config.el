@@ -417,7 +417,7 @@
       ;; of padding and NATNUM), and a floating point for the height of
       ;; the text relative to the base font size (or a cons cell of
       ;; height and FLOAT)
-      modus-themes-mode-line '(accented borderless (padding . 4) (height . 0.9))
+      modus-themes-mode-line '(accented borderless (padding . 1) (height . 1))
 
       ;; Same as above:
       ;; modus-themes-mode-line '(accented borderless 4 0.9)
@@ -562,7 +562,7 @@
         (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
         (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
   (setq citar-symbol-separator "  ")
-  (citar-bibliography '("~/Dropbox/org/references/bibtex.bib"))
+  (citar-bibliography '("~/Dropbox/org/bib/bibtex.bib"))
 )
 ;; =============================================================
 ;; =======================  ox-hugo  ===========================
@@ -862,7 +862,8 @@ used as title."
 (add-to-list 'org-after-todo-state-change-hook
              (lambda ()
                ;; DONE 和 CANCELLED 的 To-Dos 自动复制到今日
-               (when (or (equal org-state "DONE") (equal org-state "CANCELLED"))
+               ;; 同时过滤掉 habit 的 To-Dos
+               (when (and (or (equal org-state "DONE") (equal org-state "CANCELLED")) (not (org-find-property "STYLE")))
                  (my/org-roam-copy-todo-to-today))))
 
 ;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。

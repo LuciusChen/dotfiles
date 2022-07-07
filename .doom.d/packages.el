@@ -60,4 +60,11 @@
 (package! ox-hugo)
 (package! json-mode)
 (package! ox-pandoc)
-(package! emacsql-sqlite-builtin)
+(package! posframe)
+(package! tree-sitter)
+(package! tree-sitter-langs)
+(package! flycheck)
+(package! apheleia)
+;; M-x package-install [RET] yasnippet [RET]
+;; 需要 emacs-plus@29 版本
+;; (package! emacsql-sqlite-builtin)

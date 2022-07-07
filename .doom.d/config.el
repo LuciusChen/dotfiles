@@ -81,10 +81,11 @@
   :demand t ;; ensure org-roam is loaded by default
   :init
   :custom
-  (org-roam-database-connector 'sqlite-builtin)
   (org-roam-directory (file-truename "~/Dropbox/org/"))
-  (org-roam-db-location "~/Dropbox/org/org.db")
-  (org-roam-db-gc-threshold most-positive-fixnum)
+  ;; 需要 emacs-plus@29 版本
+  ;; (org-roam-database-connector 'sqlite-builtin)
+  ;; (org-roam-db-location "~/Dropbox/org/org.db")
+  ;; (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(
@@ -141,7 +142,7 @@
                  (window-height . fit-window-to-buffer)))
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   ;; ${type:15} 是为了在文件搜索列表展示当前所在文件夹，提高搜索效率。
-  (setq org-roam-node-display-template (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  ;; (setq org-roam-node-display-template (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-export-backends (quote (ascii html icalendar latex md)))
   ;; code hightlight
   (setq org-src-fontify-natively t)
@@ -319,10 +320,10 @@
 ;; =============================================================
 ;; =================  emacsql-sqlite-builtin  ==================
 ;; =============================================================
-(use-package org-roam
-  :custom
-  (org-roam-database-connector 'sqlite-builtin)
-)
+;; (use-package org-roam
+;;   :custom
+;;   (org-roam-database-connector 'sqlite-builtin)
+;; )
 ;; =============================================================
 ;; ==========================  deft  ===========================
 ;; =============================================================
@@ -385,7 +386,10 @@
 ;; set transparency
 ;; (set-frame-parameter (selected-frame) 'alpha '(90 90))
 ;; (add-to-list 'default-frame-alist '(alpha 95 95))
-
+;;
+;; =============================================================
+;; ===================== modus-themes  =========================
+;; =============================================================
 (use-package emacs
   :init
   ;; Add all your customizations prior to loading the themes
@@ -417,7 +421,7 @@
       ;; of padding and NATNUM), and a floating point for the height of
       ;; the text relative to the base font size (or a cons cell of
       ;; height and FLOAT)
-      modus-themes-mode-line '(accented borderless (padding . 1) (height . 1))
+      modus-themes-mode-line '(accented borderless (padding . 4) (height . 0.9))
 
       ;; Same as above:
       ;; modus-themes-mode-line '(accented borderless 4 0.9)
@@ -505,7 +509,9 @@
   (load-theme 'modus-vivendi)
   :bind ("<f5>" . modus-themes-toggle))
 
-;; org-modern
+;; =============================================================
+;; =====================  org-modern  ==========================
+;; =============================================================
 ;; Minimal UI
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -541,7 +547,77 @@
        (assoc 'agenda org-agenda-sorting-strategy)))
   (setcdr agenda-sorting-strategy
           (remove 'habit-down (cdr agenda-sorting-strategy))))
+;; =============================================================
+;; ======================  flycheck  ===========================
+;; =============================================================
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+;; =============================================================
+;; ======================  tree-sitter  ========================
+;; =============================================================
+(require 'tree-sitter)
+(require 'tree-sitter-langs)
+(tree-sitter-require 'rust)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;; =============================================================
+;; =======================  apheleia  ==========================
+;; =============================================================
+(apheleia-global-mode +1)
+;; =============================================================
+;; ======================  lsp-bridge  =========================
+;; =============================================================
+;; 需要在 init.el 中禁用 company 和 lsp
+;; rust 需要安装 rust-analyzer
+;; $ git clone https://github.com/rust-analyzer/rust-analyzer.git
+;; $ cd rust-analyzer
+;; $ cargo xtask install --server # will install rust-analyzer into $HOME/.cargo/bin
+;; python 需要安装 pyright
+;; $ pip install pyright
+(add-to-list 'load-path "~/lsp-bridge")
+;; $ brew install multimarkdown
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+(require 'yasnippet)
+(yas-global-mode 1)
 
+;;; Require
+(require 'lsp-bridge)
+(require 'lsp-bridge-jdtls)
+
+;;; Code:
+(global-lsp-bridge-mode)
+
+;; 融合 `lsp-bridge' `find-function' 以及 `dumb-jump' 的智能跳转
+(defun lsp-bridge-jump ()
+  (interactive)
+  (cond
+   ((eq major-mode 'emacs-lisp-mode)
+    (let ((symb (function-called-at-point)))
+      (when symb
+        (find-function symb))))
+   (lsp-bridge-mode
+    (lsp-bridge-find-def))
+   (t
+    (require 'dumb-jump)
+    (dumb-jump-go))))
+
+(defun lsp-bridge-jump-back ()
+  (interactive)
+  (cond
+   (lsp-bridge-mode
+    (lsp-bridge-return-from-def))
+   (t
+    (require 'dumb-jump)
+    (dumb-jump-back))))
+
+;; 打开日志，开发者才需要
+;; (setq lsp-bridge-enable-log t)
+(provide 'init-lsp-bridge)
+;;; init-lsp-bridge.el ends here
 ;; =============================================================
 ;; ========================  citar  ============================
 ;; =============================================================
@@ -784,8 +860,18 @@
 ;; =============================================================
 ;; ========================  function  =========================
 ;; =============================================================
+;; this piece of advice switches to a dedicated roam workspace before opening any roam buffer, 
+;; it saves me littering org roam buffers all over my workspaces, though this may not be for everyone.
+;; (defadvice! yeet/org-roam-in-own-workspace-a (&rest _)
+;;   "Open all roam buffers in there own workspace."
+;;   :before #'org-roam-node-find
+;;   :before #'org-roam-node-random
+;;   :before #'org-roam-buffer-display-dedicated
+;;   :before #'org-roam-buffer-toggle
+;;   (when (featurep! :ui workspaces)
+;;     (+workspace-switch "*roam*" t)))
 ;; insert notes for reference
-(defun jethro/org-roam-node-from-cite (keys-entries)
+(defun my/org-roam-node-from-cite (keys-entries)
     (interactive (list (citar-select-ref :multiple nil :rebuild-cache t)))
     (let ((title (citar--format-entry-no-widths (cdr keys-entries)
                                                 "${author editor} :: ${title}")))
@@ -875,14 +961,14 @@ used as title."
     (apply #'org-roam-node-insert args)))
 
 ;; "org-export-data: Unable to resolve link: FILE-ID"
-;; (defun force-org-rebuild-cache ()
-;;   "Rebuild the `org-mode' and `org-roam' cache."
-;;   (interactive)
-;;   (org-id-update-id-locations)
-;;   ;; Note: you may need `org-roam-db-clear-all'
-;;   ;; followed by `org-roam-db-sync'
-;;   (org-roam-db-sync)
-;;   (org-roam-update-org-id-locations))
+(defun force-org-rebuild-cache ()
+  "Rebuild the `org-mode' and `org-roam' cache."
+  (interactive)
+  (org-id-update-id-locations)
+  ;; Note: you may need `org-roam-db-clear-all'
+  ;; followed by `org-roam-db-sync'
+  (org-roam-db-sync)
+  (org-roam-update-org-id-locations))
 ;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
 ;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
 (defun dired-copy-images-links ()

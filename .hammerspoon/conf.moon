@@ -24,7 +24,7 @@ conf =
   appMap:
     w: 'ru.keepcoder.Telegram' --com.hnc.Discord
     s: 'com.tencent.xinWeChat'
-    x: 'com.electron.logseq'
+    x: 'org.gnu.Emacs'
     e: 'com.jetbrains.intellij'
     d: 'com.jetbrains.datagrip'
     c: 'com.googlecode.iterm2'
@@ -36,7 +36,7 @@ conf =
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'
     h: 'com.tencent.WeWorkMac'
-    n: 'org.gnu.Emacs' -- com.culturedcode.ThingsMac
+    n: 'com.electron.logseq' -- com.culturedcode.ThingsMac
     u: 'com.readdle.smartemail-Mac'
     j: 'com.seriflabs.affinitydesigner'
     m: 'com.postmanlabs.mac'

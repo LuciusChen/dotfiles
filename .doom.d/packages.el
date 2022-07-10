@@ -65,6 +65,10 @@
 (package! tree-sitter-langs)
 (package! flycheck)
 (package! apheleia)
+(package! nyan-mode)
+(package! vterm)
+(package! vterm-toggle)
+(package! org-fancy-priorities)
 ;; M-x package-install [RET] yasnippet [RET]
 ;; 需要 emacs-plus@29 版本
-;; (package! emacsql-sqlite-builtin)
+(package! emacsql-sqlite-builtin)

@@ -83,9 +83,9 @@
   :custom
   (org-roam-directory (file-truename "~/Dropbox/org/"))
   ;; 需要 emacs-plus@29 版本
-  ;; (org-roam-database-connector 'sqlite-builtin)
-  ;; (org-roam-db-location "~/Dropbox/org/org.db")
-  ;; (org-roam-db-gc-threshold most-positive-fixnum)
+  (org-roam-database-connector 'sqlite-builtin)
+  (org-roam-db-location "~/Dropbox/org/org.db")
+  (org-roam-db-gc-threshold most-positive-fixnum)
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(
@@ -161,169 +161,74 @@
          (file-relative-name (org-roam-node-file node) org-roam-directory))))
     (error "")))
 
-(global-set-key (kbd "C-c rr") 'bms/org-roam-rg-search)
-;; =============================================================
-;; =======================  Agenda   ===========================
-;; =============================================================
-;; org-agenda
-(require 'org)
-;; Files
-(setq org-agenda-files (file-expand-wildcards "~/Dropbox/org/agenda/*.org"))
-;; Add it after refile
-(advice-add 'org-refile :after (lambda (&rest _) (gtd-save-org-buffers)))
-;; Capture
-(setq org-capture-templates
-      `(
-        ("i" "Inbox" entry  (file "agenda/inbox.org")
-        ,(concat "* TODO %?\n%U"))
-        ("m" "Meeting" entry  (file+headline "agenda/agenda.org" "Future")
-        ,(concat "* %? :meeting:\n<%<%Y-%m-%d %a %H:00>>"))
-        ("n" "Note" entry  (file "agenda/notes.org")
-        ,(concat "* Note (%a)\n%U\n\n%?"))
-        )
-)
-(defun org-capture-inbox ()
-     (interactive)
-     (call-interactively 'org-store-link)
-     (org-capture nil "i"))
-;; Use full window for org-capture
-(add-hook 'org-capture-mode-hook 'delete-other-windows)
-;; Key bindings
-(define-key global-map            (kbd "C-c a") 'org-agenda)
-(define-key global-map            (kbd "C-c c") 'org-capture)
-(define-key global-map            (kbd "C-c i") 'org-capture-inbox)
-;; TODO
-;; HOLD(h@)       ; 进入时添加笔记
-;; HOLD(h/!)      ; 离开时添加变更信息
-;; HOLD(h@/!)     ; 进入时添加笔记，离开时添加变更信息
-;; (setq org-todo-keywords
-;;       '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w!)" "HOLD(h@/!)" "|" "DONE(d!)")))
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n!)" "HOLD(h@/!)" "|" "DONE(d!)")
-        (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
-(setq org-log-done 'time)
+;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
 
-;; 将没有时间标记的任务，放在上方显示。
-(setq org-sort-agenda-notime-is-late nil)
-;; 过滤掉部分 tags
-(setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic")))
-;; org-agenda-custom-commands
-(setq org-agenda-custom-commands
-      '(("g" "Get Things Done (GTD)"
-         ((agenda "" (
-                      (org-agenda-skip-scheduled-if-done nil)
-                      (org-agenda-time-leading-zero t)
-                      (org-agenda-timegrid-use-ampm nil)
-                      (org-agenda-skip-timestamp-if-done t)
-                      (org-agenda-skip-deadline-if-done t)
-                      (org-agenda-start-day "+0d")
-                      (org-agenda-span 3)
-                      (org-agenda-overriding-header 
-                      (propertize  "- Calendar -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
-                      (org-agenda-repeating-timestamp-show-all nil)
-                      ;; (org-agenda-remove-tags t)
-                      (org-agenda-prefix-format "   %i %?-2 t%s")
-                      ;; (org-agenda-prefix-format "  %-3i  %-15b%t %s")
-                      ;; (concat "  %-3i  %-15b %t%s" org-agenda-hidden-separator))
-                      ;; (org-agenda-todo-keyword-format " ☐ ")
-                      ;; (org-agenda-todo-keyword-format "")
-                      (org-agenda-time)
-                      (org-agenda-current-time-string "ᐊ┈┈┈┈┈┈┈ NOW")
-                      (org-agenda-scheduled-leaders '("" ""))
-                      (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
-                      (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
-          (todo "NEXT|WAITING"
-                ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'deadline))
-                ;;  (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                 (org-agenda-overriding-header 
-                   (propertize  "- Tasks -" 'face 
-                    '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
-          (agenda nil
-                  ((org-agenda-entry-types '(:deadline))
-                  ;;  (org-agenda-format-date "")
-                   (org-agenda-show-all-dates nil)
-                   (org-deadline-warning-days 0)
-                  ;;  (org-agenda-skip-function
-                  ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
-                   (org-agenda-overriding-header 
-                     (propertize  "- Deadlines - " 'face 
-                      '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
-          (tags-todo "inbox"
-                     ((org-agenda-prefix-format "  %?-12t% s")
-                      (org-agenda-overriding-header 
-                        (propertize  "- Inbox -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
-          (tags "CLOSED>=\"<today>\""
-                ((org-agenda-overriding-header 
-                (propertize  "- Completed Today -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
-          (todo "TODO" (
-            (org-agenda-overriding-header 
-            (propertize  "- All To-Dos -" 'face 
-                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
-            (org-agenda-sorting-strategy '(priority-down))
-            (org-agenda-remove-tags t)
-            (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
-            (org-agenda-todo-ignore-scheduled 'all)
-            (org-agenda-prefix-format "   %-2i %?b")
-            (org-agenda-todo-keyword-format "")))
-          ))
-          
-          ("w" "Completed and/or deferred tasks from previous week"
-            ((agenda "" 
-              ((org-agenda-span 7)
-              (org-agenda-start-day "-7d")
-              (org-agenda-entry-types '(:timestamp))
-              (org-agenda-show-log t))
-              ))
-          )
-       ))
-;; org-starter
-(setq org-refile-use-outline-path 'file)
-(use-package org-starter
-  :config
-  ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
-  (org-starter-def "~/Dropbox/org"
-                   :files
-                   ("agenda/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
-                   ("agenda/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
-                   ("agenda/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
-                   ("agenda/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
-                   ("agenda/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
-                   ("agenda/notes.org"          :agenda t :key "n" :refile (:maxlevel . 2))
-                   ("agenda/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
-                   ("agenda/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
-                   ("daily/journal.org"         :agenda t :key "j" :refile (:maxlevel . 2))
-                   )
-;; hydra
- (defhydra hydra-org-agenda-menu (:color blue)
-  "
-  Org-agenda-menu
-  ^^^^------------------------------------------------
-  _i_: inbox.org     _w_: work.org      _t_: technical-debt.org 
-  _b_: books.org     _n_: notes.org     _p_: personal.org
-  _a_: agenda.org    _s_: someday.org   _j_: journal.org
-  "
-      ("i" org-starter-find-file:inbox)
-      ("w" org-starter-find-file:work)
-      ("t" org-starter-find-file:technical-debt)
-      ("p" org-starter-find-file:personal)
-      ("b" org-starter-find-file:books)
-      ("n" org-starter-find-file:notes)
-      ("s" org-starter-find-file:someday)
-      ("a" org-starter-find-file:agenda)
-      ("j" org-starter-find-file:journal)
-):bind("C-c e" . hydra-org-agenda-menu/body)
-)
+;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
+;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
+(defun dired-copy-images-links ()
+  "Works only in dired-mode, put in kill-ring,
+  ready to be yanked in some other org-mode file,
+  the links of marked image files using file-name-base as #+CAPTION.
+  If no file marked then do it on all images files of directory.
+  No file is moved nor copied anywhere.
+  This is intended to be used with org-redisplay-inline-images."
+  (interactive)
+  (if (derived-mode-p 'dired-mode)                           ; if we are in dired-mode
+      (let* ((marked-files (dired-get-marked-files))         ; get marked file list
+             (number-marked-files                            ; store number of marked files
+              (string-to-number                              ; as a number
+               (dired-number-of-marked-files))))             ; for later reference
+        (when (= number-marked-files 0)                      ; if none marked then
+          (dired-toggle-marks)                               ; mark all files
+          (setq marked-files (dired-get-marked-files)))      ; get marked file list
+        (message "Files marked for copy")                    ; info message
+        (dired-number-of-marked-files)                       ; marked files info
+        (kill-new "\n")                                      ; start with a newline
+        (dolist (marked-file marked-files)                   ; walk the marked files list
+          (when (org-file-image-p marked-file)               ; only on image files
+            (kill-append                                     ; append image to kill-ring
+             (concat "#+CAPTION: "                           ; as caption,
+                     (file-name-base marked-file)            ; use file-name-base
+                     "\n#+ATTR_ORG: :width 800"              ; img width
+                     "\n[[file:" marked-file "]]\n\n") nil))); link to marked-file
+        (when (= number-marked-files 0)                      ; if none were marked then
+          (dired-toggle-marks)))                             ; unmark all
+    (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
+    (ding)))                                                 ; error sound
+
+;; "org-export-data: Unable to resolve link: FILE-ID"
+;; (defun force-org-rebuild-cache ()
+;;   "Rebuild the `org-mode' and `org-roam' cache."
+;;   (interactive)
+;;   (org-id-update-id-locations)
+;;   ;; Note: you may need `org-roam-db-clear-all'
+;;   ;; followed by `org-roam-db-sync'
+;;   (org-roam-db-sync)
+;;   (org-roam-update-org-id-locations))
+;; =============================================================
+;; ===================  consult-ripgrep   ======================
+;; =============================================================
+;; ripgrep search
+(defun bms/org-roam-rg-search ()
+  "Search org-roam directory using consult-ripgrep. With live-preview."
+  (interactive)
+  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
+    (consult-ripgrep org-roam-directory)))
+
+(global-set-key (kbd "C-c rr") 'bms/org-roam-rg-search)
 ;; =============================================================
 ;; =================  emacsql-sqlite-builtin  ==================
 ;; =============================================================
-;; (use-package org-roam
-;;   :custom
-;;   (org-roam-database-connector 'sqlite-builtin)
-;; )
+(use-package org-roam
+  :custom
+  (org-roam-database-connector 'sqlite-builtin)
+)
 ;; =============================================================
 ;; ==========================  deft  ===========================
 ;; =============================================================
@@ -341,8 +246,19 @@
   "\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
   "\\)"))
 
-(global-set-key [f8] 'deft)
+(global-set-key [f7] 'deft)
 (global-set-key (kbd "C-x C-g") 'deft-find-file)
+
+;; deft parse title
+(defun cm/deft-parse-title (file contents)
+  "Parse the given FILE and CONTENTS and determine the title.
+If `deft-use-filename-as-title' is nil, the title is taken to
+be the first non-empty line of the FILE.  Else the base name of the FILE is
+used as title."
+    (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
+(if begin
+    (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+  (deft-base-filename file))))
 ;; =============================================================
 ;; ======================  org-roam-ui  ========================
 ;; =============================================================
@@ -371,22 +287,16 @@
 (org-element-update-syntax)
 ;; 高亮
 (setq org-src-fontify-natively t)
-;; Modify Priorities
+;; =============================================================
+;; =================  org-fancy-priorities  ====================
+;; =============================================================
 (use-package org-fancy-priorities
   :ensure t
   :hook
   (org-mode . org-fancy-priorities-mode)
   :config
   (setq org-fancy-priorities-list '("[#A]" "[#B]" "[#C]")))
-;; theme
-;; (add-to-list 'custom-theme-load-path (expand-file-name "~/.doom.d/themes/"))
-;; (load-theme 'gotham t)
-;; (load-theme 'shanty-themes-dark t)
 
-;; set transparency
-;; (set-frame-parameter (selected-frame) 'alpha '(90 90))
-;; (add-to-list 'default-frame-alist '(alpha 95 95))
-;;
 ;; =============================================================
 ;; ===================== modus-themes  =========================
 ;; =============================================================
@@ -421,7 +331,7 @@
       ;; of padding and NATNUM), and a floating point for the height of
       ;; the text relative to the base font size (or a cons cell of
       ;; height and FLOAT)
-      modus-themes-mode-line '(accented borderless (padding . 4) (height . 0.9))
+      modus-themes-mode-line '(accented borderless (padding . 4) (height . 1))
 
       ;; Same as above:
       ;; modus-themes-mode-line '(accented borderless 4 0.9)
@@ -522,7 +432,7 @@
  ;; Edit settings
  org-auto-align-tags nil
  org-tags-column 0
- org-catch-invisible-edits 'show-and-error
+ org-fold-catch-invisible-edits 'show-and-error
  org-special-ctrl-a/e t
  org-insert-heading-respect-content t
 
@@ -547,6 +457,40 @@
        (assoc 'agenda org-agenda-sorting-strategy)))
   (setcdr agenda-sorting-strategy
           (remove 'habit-down (cdr agenda-sorting-strategy))))
+;; =============================================================
+;; ========================  vterm  ============================
+;; =============================================================
+;; # 在 ~/.zshrc 中添加
+;; if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+;;     && [[ -n ${EMACS_VTERM_PATH} ]] \
+;;     && [[ -f ${EMACS_VTERM_PATH}/etc/emacs-vterm-zsh.sh ]]; then
+;;     source ${EMACS_VTERM_PATH}/etc/emacs-vterm-zsh.sh
+;; fi
+(use-package vterm-toggle
+  :when (memq window-system '(mac ns x pgtk))
+  :bind (([f8] . vterm-toggle)
+         ([f9] . vterm-compile)
+         :map vterm-mode-map
+         ([f8] . vterm-toggle)
+         ([(control return)] . vterm-toggle-insert-cd))
+  :config
+  (setq vterm-toggle-cd-auto-create-buffer nil)
+  (defvar vterm-compile-buffer nil)
+  (defun vterm-compile ()
+    "Compile the program including the current buffer in `vterm'."
+    (interactive)
+    (setq compile-command (compilation-read-command compile-command))
+    (let ((vterm-toggle-use-dedicated-buffer t)
+          (vterm-toggle--vterm-dedicated-buffer (if (vterm-toggle--get-window)
+                                                    (vterm-toggle-hide)
+                                                  vterm-compile-buffer)))
+      (with-current-buffer (vterm-toggle-cd)
+        (setq vterm-compile-buffer (current-buffer))
+        (rename-buffer "*vterm compilation*")
+        (compilation-shell-minor-mode 1)
+        (vterm-send-M-w)
+        (vterm-send-string compile-command t)
+        (vterm-send-return)))))
 ;; =============================================================
 ;; ======================  flycheck  ===========================
 ;; =============================================================
@@ -614,10 +558,13 @@
     (require 'dumb-jump)
     (dumb-jump-back))))
 
+(define-key global-map (kbd "M-[") 'lsp-bridge-jump)
+(define-key global-map (kbd "M-]") 'lsp-bridge-jump-back)
 ;; 打开日志，开发者才需要
 ;; (setq lsp-bridge-enable-log t)
 (provide 'init-lsp-bridge)
-;;; init-lsp-bridge.el ends here
+;; 暂时先关闭掉，会报错。
+(global-eldoc-mode -1)
 ;; =============================================================
 ;; ========================  citar  ============================
 ;; =============================================================
@@ -640,6 +587,52 @@
   (setq citar-symbol-separator "  ")
   (citar-bibliography '("~/Dropbox/org/bib/bibtex.bib"))
 )
+
+;; insert notes for reference
+(defun my/org-roam-node-from-cite (keys-entries)
+    (interactive (list (citar-select-ref :multiple nil :rebuild-cache t)))
+    (let ((title (citar--format-entry-no-widths (cdr keys-entries)
+                                                "${author editor} :: ${title}")))
+      (org-roam-capture- :templates
+                         '(("r" "reference" plain "%?" :if-new
+                            (file+head "reference/${citekey}.org"
+                                       ":PROPERTIES:
+:ROAM_REFS: [cite:@${citekey}]
+:END:
+#+title: ${title}\n")
+                            :immediate-finish t
+                            :unnarrowed t))
+                         :info (list :citekey (car keys-entries))
+                         :node (org-roam-node-create :title title)
+                         :props '(:finalize find-file))))
+;; Codes blow are used to general a hierachy for title nodes that under a file
+(cl-defmethod org-roam-node-doom-filetitle ((node org-roam-node))
+  "Return the value of \"#+title:\" (if any) from file that NODE resides in.
+If there's no file-level title in the file, return empty string."
+  (or (if (= (org-roam-node-level node) 0)
+          (org-roam-node-title node)
+        (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
+      ""))
+(cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
+  "Return hierarchy for NODE, constructed of its file title, OLP and direct title.
+  If some elements are missing, they will be stripped out."
+  (let ((title     (org-roam-node-title node))
+        (olp       (org-roam-node-olp   node))
+        (level     (org-roam-node-level node))
+        (filetitle (org-roam-node-doom-filetitle node))
+        (separator (propertize " > " 'face 'shadow)))
+    (cl-case level
+      ;; node is a top-level file
+      (0 filetitle)
+      ;; node is a level 1 heading
+      (1 (concat (propertize filetitle 'face '(shadow italic))
+                 separator title))
+      ;; node is a heading with an arbitrary outline path
+      (t (concat (propertize filetitle 'face '(shadow italic))
+                 separator (propertize (string-join olp " > ") 'face '(shadow italic))
+                 separator title)))))
+
+(setq org-roam-node-display-template (concat "${type:15} ${doom-hierarchy:80} " (propertize "${tags:*}" 'face 'org-tag)))
 ;; =============================================================
 ;; =======================  ox-hugo  ===========================
 ;; =============================================================
@@ -858,73 +851,152 @@
 (setq org-plantuml-jar-path
       (expand-file-name "~/Dropbox/org/planuml/plantuml.jar"))
 ;; =============================================================
-;; ========================  function  =========================
+;; =======================  Agenda   ===========================
 ;; =============================================================
-;; this piece of advice switches to a dedicated roam workspace before opening any roam buffer, 
-;; it saves me littering org roam buffers all over my workspaces, though this may not be for everyone.
-;; (defadvice! yeet/org-roam-in-own-workspace-a (&rest _)
-;;   "Open all roam buffers in there own workspace."
-;;   :before #'org-roam-node-find
-;;   :before #'org-roam-node-random
-;;   :before #'org-roam-buffer-display-dedicated
-;;   :before #'org-roam-buffer-toggle
-;;   (when (featurep! :ui workspaces)
-;;     (+workspace-switch "*roam*" t)))
-;; insert notes for reference
-(defun my/org-roam-node-from-cite (keys-entries)
-    (interactive (list (citar-select-ref :multiple nil :rebuild-cache t)))
-    (let ((title (citar--format-entry-no-widths (cdr keys-entries)
-                                                "${author editor} :: ${title}")))
-      (org-roam-capture- :templates
-                         '(("r" "reference" plain "%?" :if-new
-                            (file+head "reference/${citekey}.org"
-                                       ":PROPERTIES:
-:ROAM_REFS: [cite:@${citekey}]
-:END:
-#+title: ${title}\n")
-                            :immediate-finish t
-                            :unnarrowed t))
-                         :info (list :citekey (car keys-entries))
-                         :node (org-roam-node-create :title title)
-                         :props '(:finalize find-file))))
-;; Codes blow are used to general a hierachy for title nodes that under a file
-(cl-defmethod org-roam-node-doom-filetitle ((node org-roam-node))
-  "Return the value of \"#+title:\" (if any) from file that NODE resides in.
-If there's no file-level title in the file, return empty string."
-  (or (if (= (org-roam-node-level node) 0)
-          (org-roam-node-title node)
-        (org-roam-get-keyword "TITLE" (org-roam-node-file node)))
-      ""))
-(cl-defmethod org-roam-node-doom-hierarchy ((node org-roam-node))
-  "Return hierarchy for NODE, constructed of its file title, OLP and direct title.
-  If some elements are missing, they will be stripped out."
-  (let ((title     (org-roam-node-title node))
-        (olp       (org-roam-node-olp   node))
-        (level     (org-roam-node-level node))
-        (filetitle (org-roam-node-doom-filetitle node))
-        (separator (propertize " > " 'face 'shadow)))
-    (cl-case level
-      ;; node is a top-level file
-      (0 filetitle)
-      ;; node is a level 1 heading
-      (1 (concat (propertize filetitle 'face '(shadow italic))
-                 separator title))
-      ;; node is a heading with an arbitrary outline path
-      (t (concat (propertize filetitle 'face '(shadow italic))
-                 separator (propertize (string-join olp " > ") 'face '(shadow italic))
-                 separator title)))))
+;; org-agenda
+(require 'org)
+;; Files
+(setq org-agenda-files (file-expand-wildcards "~/Dropbox/org/agenda/*.org"))
+;; Add it after refile
+(advice-add 'org-refile :after (lambda (&rest _) (gtd-save-org-buffers)))
+;; Capture
+(setq org-capture-templates
+      `(("i" "Inbox" entry  (file "agenda/inbox.org")
+        ,(concat "* TODO %?\n%U")))
+)
+(defun org-capture-inbox ()
+     (interactive)
+     (call-interactively 'org-store-link)
+     (org-capture nil "i"))
+;; Use full window for org-capture
+(add-hook 'org-capture-mode-hook 'delete-other-windows)
+;; Key bindings
+(define-key global-map            (kbd "C-c a") 'org-agenda)
+(define-key global-map            (kbd "C-c i") 'org-capture-inbox)
+;; TODO
+;; HOLD(h@)       ; 进入时添加笔记
+;; HOLD(h/!)      ; 离开时添加变更信息
+;; HOLD(h@/!)     ; 进入时添加笔记，离开时添加变更信息
+;; (setq org-todo-keywords
+;;       '((sequence "TODO(t)" "NEXT(n!)" "WAITING(w!)" "HOLD(h@/!)" "|" "DONE(d!)")))
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n!)" "HOLD(h@/!)" "|" "DONE(d!)")
+        (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+(setq org-log-done 'time)
 
-(setq org-roam-node-display-template (concat "${type:15} ${doom-hierarchy:80} " (propertize "${tags:*}" 'face 'org-tag)))
-;; deft parse title
-(defun cm/deft-parse-title (file contents)
-  "Parse the given FILE and CONTENTS and determine the title.
-If `deft-use-filename-as-title' is nil, the title is taken to
-be the first non-empty line of the FILE.  Else the base name of the FILE is
-used as title."
-    (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
-(if begin
-    (string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
-  (deft-base-filename file))))
+;; 将没有时间标记的任务，放在上方显示。
+(setq org-agenda-sort-notime-is-late nil)
+;; 过滤掉部分 tags
+(setq org-agenda-hide-tags-regexp (regexp-opt '("dynamic")))
+;; org-agenda-custom-commands
+(setq org-agenda-custom-commands
+      '(("g" "Get Things Done (GTD)"
+         ((agenda "" (
+                      (org-agenda-skip-scheduled-if-done nil)
+                      (org-agenda-time-leading-zero t)
+                      (org-agenda-timegrid-use-ampm nil)
+                      (org-agenda-skip-timestamp-if-done t)
+                      (org-agenda-skip-deadline-if-done t)
+                      (org-agenda-start-day "+0d")
+                      (org-agenda-span 3)
+                      (org-agenda-overriding-header 
+                      (propertize  "- Calendar -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
+                      (org-agenda-repeating-timestamp-show-all nil)
+                      ;; (org-agenda-remove-tags t)
+                      (org-agenda-prefix-format "   %i %?-2 t%s")
+                      ;; (org-agenda-prefix-format "  %-3i  %-15b%t %s")
+                      ;; (concat "  %-3i  %-15b %t%s" org-agenda-hidden-separator))
+                      ;; (org-agenda-todo-keyword-format " ☐ ")
+                      ;; (org-agenda-todo-keyword-format "")
+                      (org-agenda-time)
+                      (org-agenda-current-time-string "ᐊ┈┈┈┈┈┈┈ NOW")
+                      (org-agenda-scheduled-leaders '("" ""))
+                      (org-agenda-deadline-leaders '("Deadline:  " "In %3d d.: " "%2d d. ago: "))
+                      (org-agenda-time-grid (quote ((today require-timed remove-match) () "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))
+          (todo "NEXT|WAITING"
+                ((org-agenda-skip-function
+                  '(org-agenda-skip-entry-if 'deadline))
+                ;;  (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                 (org-agenda-overriding-header 
+                   (propertize  "- Tasks -" 'face 
+                    '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+          (agenda nil
+                  ((org-agenda-entry-types '(:deadline))
+                  ;;  (org-agenda-format-date "")
+                   (org-agenda-show-all-dates nil)
+                   (org-deadline-warning-days 0)
+                  ;;  (org-agenda-skip-function
+                  ;;   '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                   (org-agenda-overriding-header 
+                     (propertize  "- Deadlines - " 'face 
+                      '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+          (tags-todo "inbox"
+                     ((org-agenda-prefix-format "  %?-12t% s")
+                      (org-agenda-overriding-header 
+                        (propertize  "- Inbox -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+          (tags "CLOSED>=\"<today>\""
+                ((org-agenda-overriding-header 
+                (propertize  "- Completed Today -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))))
+          (todo "TODO" (
+            (org-agenda-overriding-header 
+            (propertize  "- All To-Dos -" 'face 
+                        '(:foreground "#FFB11B" :height 150 :weight bold :slant italic)))
+            (org-agenda-sorting-strategy '(priority-down))
+            (org-agenda-remove-tags t)
+            (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
+            (org-agenda-todo-ignore-scheduled 'all)
+            (org-agenda-prefix-format "   %-2i %?b")
+            (org-agenda-todo-keyword-format "")))
+          ))
+          
+          ("w" "Completed and/or deferred tasks from previous week"
+            ((agenda "" 
+              ((org-agenda-span 7)
+              (org-agenda-start-day "-7d")
+              (org-agenda-entry-types '(:timestamp))
+              (org-agenda-show-log t))
+              ))
+          )
+       ))
+;; org-starter
+(setq org-refile-use-outline-path 'file)
+(use-package org-starter
+  :config
+  ;; (add-hook! 'after-init-hook 'org-starter-load-all-files-in-path)
+  (org-starter-def "~/Dropbox/org"
+                   :files
+                   ("agenda/inbox.org"          :agenda t :key "i" :refile (:maxlevel . 2))
+                   ("agenda/work.org"           :agenda t :key "w" :refile (:maxlevel . 2))
+                   ("agenda/technical-debt.org" :agenda t :key "t" :refile (:maxlevel . 2))
+                   ("agenda/personal.org"       :agenda t :key "p" :refile (:maxlevel . 2))
+                   ("agenda/books.org"          :agenda t :key "b" :refile (:maxlevel . 2))
+                   ("agenda/someday.org"        :agenda t :key "s" :refile (:maxlevel . 2))
+                   ("agenda/agenda.org"         :agenda t :key "a" :refile (:maxlevel . 2))
+                   ("daily/journal.org"         :agenda t :key "j" :refile (:maxlevel . 2))
+                   )
+;; hydra
+ (defhydra hydra-org-agenda-menu (:color blue)
+  "
+  Org-agenda-menu
+  ^^^^------------------------------------------------
+  _i_: inbox.org     _w_: work.org      _t_: technical-debt.org 
+  _b_: books.org     _a_: agenda.org    _p_: personal.org
+  _s_: someday.org   _j_: journal.org
+  "
+      ("i" org-starter-find-file:inbox)
+      ("w" org-starter-find-file:work)
+      ("t" org-starter-find-file:technical-debt)
+      ("p" org-starter-find-file:personal)
+      ("b" org-starter-find-file:books)
+      ("s" org-starter-find-file:someday)
+      ("a" org-starter-find-file:agenda)
+      ("j" org-starter-find-file:journal)
+):bind("C-c e" . hydra-org-agenda-menu/body)
+)
+
 ;; Copy Done To-Dos to Today
 (defun my/org-roam-copy-todo-to-today ()
   (interactive)
@@ -951,64 +1023,6 @@ used as title."
                ;; 同时过滤掉 habit 的 To-Dos
                (when (and (or (equal org-state "DONE") (equal org-state "CANCELLED")) (not (org-find-property "STYLE")))
                  (my/org-roam-copy-todo-to-today))))
-
-;; 在记录的时候创建新的 node 时不退出当前状态，保存新建的 node。
-(defun org-roam-node-insert-immediate (arg &rest args)
-  (interactive "P")
-  (let ((args (push arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-
-;; "org-export-data: Unable to resolve link: FILE-ID"
-(defun force-org-rebuild-cache ()
-  "Rebuild the `org-mode' and `org-roam' cache."
-  (interactive)
-  (org-id-update-id-locations)
-  ;; Note: you may need `org-roam-db-clear-all'
-  ;; followed by `org-roam-db-sync'
-  (org-roam-db-sync)
-  (org-roam-update-org-id-locations))
-;; C-x d 进入 dired 模式，m 来标记对应需要复制链接的图片，C-c n m 即可复制到需要的图片插入文本。
-;; source: https://org-roam.discourse.group/t/is-there-a-solution-for-images-organization-in-org-roam/925
-(defun dired-copy-images-links ()
-  "Works only in dired-mode, put in kill-ring,
-  ready to be yanked in some other org-mode file,
-  the links of marked image files using file-name-base as #+CAPTION.
-  If no file marked then do it on all images files of directory.
-  No file is moved nor copied anywhere.
-  This is intended to be used with org-redisplay-inline-images."
-  (interactive)
-  (if (derived-mode-p 'dired-mode)                           ; if we are in dired-mode
-      (let* ((marked-files (dired-get-marked-files))         ; get marked file list
-             (number-marked-files                            ; store number of marked files
-              (string-to-number                              ; as a number
-               (dired-number-of-marked-files))))             ; for later reference
-        (when (= number-marked-files 0)                      ; if none marked then
-          (dired-toggle-marks)                               ; mark all files
-          (setq marked-files (dired-get-marked-files)))      ; get marked file list
-        (message "Files marked for copy")                    ; info message
-        (dired-number-of-marked-files)                       ; marked files info
-        (kill-new "\n")                                      ; start with a newline
-        (dolist (marked-file marked-files)                   ; walk the marked files list
-          (when (org-file-image-p marked-file)               ; only on image files
-            (kill-append                                     ; append image to kill-ring
-             (concat "#+CAPTION: "                           ; as caption,
-                     (file-name-base marked-file)            ; use file-name-base
-                     "\n#+ATTR_ORG: :width 800"              ; img width
-                     "\n[[file:" marked-file "]]\n\n") nil))); link to marked-file
-        (when (= number-marked-files 0)                      ; if none were marked then
-          (dired-toggle-marks)))                             ; unmark all
-    (message "Error: Does not work outside dired-mode")      ; can't work not in dired-mode
-    (ding)))                                                 ; error sound
-
-;; ripgrep search
-(defun bms/org-roam-rg-search ()
-  "Search org-roam directory using consult-ripgrep. With live-preview."
-  (interactive)
-  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
-    (consult-ripgrep org-roam-directory)))
-
 ;; Save the corresponding buffers
 (defun gtd-save-org-buffers ()
   "Save `org-agenda-files' buffers without user confirmation.

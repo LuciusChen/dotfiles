@@ -63,7 +63,7 @@
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
-       snippets           ; my elves. They type so I don't have to
+       snippets            ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
@@ -77,7 +77,7 @@
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       ;;vterm             ; the best terminal emulation in Emacs
+       ;;vterm               ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -155,9 +155,7 @@
        (org                ; organize your plain life in plain text
         + pretty 
         + roam2
-        + noter
         + hugo             ; Enables integration with hugo to export from Emacs well-formed (blackfriday) markdown.
-        + present          ; using org-mode for presentations
         )        
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more

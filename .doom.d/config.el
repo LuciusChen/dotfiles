@@ -1366,3 +1366,8 @@ belongs as a list."
 (defun org-archive-subtree ()
   (org-archive-subtree-hierarchical)
   )
+;; =============================================================
+;; =====================  key-mapping  =========================
+;; =============================================================
+(evil-define-key 'insert global-map (kbd "C-j") 'evil-next-line)
+(evil-define-key 'insert global-map (kbd "C-k") 'evil-previous-line)

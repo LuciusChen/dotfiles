@@ -68,7 +68,7 @@
 (package! nyan-mode)
 (package! vterm)
 (package! vterm-toggle)
-(package! org-fancy-priorities)
+(package! org-roam-bibtex)
 ;; M-x package-install [RET] yasnippet [RET]
 ;; 需要 emacs-plus@29 版本
 (package! emacsql-sqlite-builtin)

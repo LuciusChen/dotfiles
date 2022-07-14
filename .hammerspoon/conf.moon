@@ -21,14 +21,18 @@ conf =
   hyper: '⌘⌃⌥'
   hyperPlus: '⌘⌃⌥⇧'
   bind: hs.hotkey.bind
+  -- org.zotero.zotero
+  -- com.hnc.Discord
+  -- com.culturedcode.ThingsMac
+  -- com.electron.logseq
   appMap:
-    w: 'ru.keepcoder.Telegram' --com.hnc.Discord
+    w: 'ru.keepcoder.Telegram' 
     s: 'com.tencent.xinWeChat'
-    x: 'org.gnu.Emacs'
+    x: 'com.tapbots.Tweetbot3Mac'
     e: 'com.jetbrains.intellij'
     d: 'com.jetbrains.datagrip'
     c: 'com.googlecode.iterm2'
-    r: 'com.tapbots.Tweetbot3Mac'
+    r: 'org.gnu.Emacs'
     f: 'com.apple.finder'
     v: 'com.microsoft.VSCode'
     t: 'md.obsidian'
@@ -36,11 +40,11 @@ conf =
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'
     h: 'com.tencent.WeWorkMac'
-    n: 'com.electron.logseq' -- com.culturedcode.ThingsMac
+    n: 'net.ankiweb.dtop' 
     u: 'com.readdle.smartemail-Mac'
     j: 'com.seriflabs.affinitydesigner'
     m: 'com.postmanlabs.mac'
-    i: 'com.ideasoncanvas.mindnode.macos'
+    i: 'org.zotero.zotero'
     k: 'com.nssurge.surge-mac'
     o: 'com.captureone.captureone14'
     l: 'com.figma.Desktop'

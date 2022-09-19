@@ -35,7 +35,7 @@ conf =
     r: 'org.gnu.Emacs'
     f: 'com.apple.finder'
     v: 'com.microsoft.VSCode'
-    t: 'md.obsidian'
+    t: 'com.calibre-ebook.ebook-viewer'
     g: 'com.google.Chrome'
     b: 'com.readdle.PDFExpert-Mac'
     y: 'com.spotify.client'
@@ -46,7 +46,7 @@ conf =
     m: 'com.postmanlabs.mac'
     i: 'org.zotero.zotero'
     k: 'com.nssurge.surge-mac'
-    o: 'com.captureone.captureone14'
+    o: 'com.captureone.captureone15'
     l: 'com.figma.Desktop'
     p: 'com.adobe.Photoshop'
   layoutMap:

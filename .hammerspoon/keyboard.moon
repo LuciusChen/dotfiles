@@ -2,7 +2,7 @@ _ = require 'lodash'
 
 -- execute hs.keycodes.currentSourceID() in Hammerspoon's console to query SourceID
 squirrel= ->
-  hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hant")
+  hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
 --  hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
 abc= ->
   hs.keycodes.currentSourceID("com.apple.keylayout.ABC")

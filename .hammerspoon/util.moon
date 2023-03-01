@@ -9,6 +9,7 @@ util =
     if app\bundleID! == id
       app\hide!
     else
+      hs.logger.new('myapp', 'debug')\i('的 Bundle ID 是 ' .. id)
       hs.application.launchOrFocusByBundleID id
       layout\maximize! if maximize
       -- move cursor between monitors

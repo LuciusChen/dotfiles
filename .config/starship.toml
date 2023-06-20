@@ -1,31 +1,89 @@
-# 设置配置范例，开启编辑器的自动补全
-"$schema" = 'https://starship.rs/config-schema.json'
-
-# 在命令之间插入空行
-add_newline = false
 # ~/.config/starship.toml
 
-# A minimal left prompt
-format = """$character"""
-# move the rest of the prompt to the right
-right_format = """$all"""
-[line_break]
-disabled = true
-# 将提示符的“❯”替换为“➜”
-[character] # “character”是我们正在配置的组件
-success_symbol = "[❯](bold green)" # 设置“success_symbol” 字段为绿色加粗的“➜”
+[battery]
+full_symbol = "🔋"
+charging_symbol = "🔌"
+discharging_symbol = "⚡"
 
-# 禁用 package 组件，完全隐藏它的提示符
+[[battery.display]]
+threshold = 30
+style = "bold red"
+
+[character]
+error_symbol = "[✖](bold red) "
+
+[cmd_duration]
+min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
+format = " took [$duration]($style)"
+
+[directory]
+truncation_length = 5
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+
+[git_branch]
+format = " [$symbol$branch]($style) "
+symbol = "🍣 "
+style = "bold yellow"
+
+[git_commit]
+commit_hash_length = 8
+style = "bold white"
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+
+[git_status]
+conflicted = "⚔️ "
+ahead = "🏎️ 💨 ×${count}"
+behind = "🐢 ×${count}"
+diverged = "🔱 🏎️ 💨 ×${ahead_count} 🐢 ×${behind_count}"
+untracked = "🛤️  ×${count}"
+stashed = "📦 "
+modified = "📝 ×${count}"
+staged = "🗃️  ×${count}"
+renamed = "📛 ×${count}"
+deleted = "🗑️  ×${count}"
+style = "bright-white"
+format = "$all_status$ahead_behind"
+
+[hostname]
+ssh_only = false
+format = "<[$hostname]($style)>"
+trim_at = "-"
+style = "bold dimmed white"
+disabled = true
+
+[julia]
+format = "[$symbol$version]($style) "
+symbol = "ஃ "
+style = "bold green"
+
+[memory_usage]
+format = "$symbol[${ram}( | ${swap})]($style) "
+threshold = 70
+style = "bold dimmed white"
+disabled = false
+
 [package]
 disabled = true
 
-[localip]
-ssh_only = true
-format = "@[$localipv4](bold red) "
-disabled = false
+[python]
+format = "[$symbol$version]($style) "
+style = "bold green"
+
+[rust]
+format = "[$symbol$version]($style) "
+style = "bold green"
 
 [time]
+time_format = "%T"
+format = "🕙 $time($style) "
+style = "bright-white"
 disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:none"
-format = '[[♥ $time ](bg:none)]($style)'
+
+[username]
+style_user = "bold dimmed blue"
+show_always = false
+
+[nodejs]
+format = "via [🤖 $version](bold green) "

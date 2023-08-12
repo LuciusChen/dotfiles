@@ -39,7 +39,7 @@ _.forEach appMap, (v, k) ->
 
 -- blacklist
 blacklist = util.merge(_.values(appMap), {
-  'org.hammerspoon.Hammerspoon',  
+  'org.hammerspoon.Hammerspoon',
   'com.apple.notificationcenterui'
   })
 

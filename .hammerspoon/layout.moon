@@ -81,7 +81,7 @@ layout =
     @win!\minimize!
   center: (win) =>
     win or= @win!
-    win\move('[25,25,75,75]')
+    win\move('[33,10,70,90]')
   eastScreen: =>
     @win!\moveOneScreenEast!\maximize!
   westScreen: =>

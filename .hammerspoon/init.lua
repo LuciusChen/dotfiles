@@ -13,8 +13,9 @@ end
 require 'moonscript'
 require 'main'
 
-
-
+hs.hotkey.bind('⌘⌃⌥', "z",nil, function()
+    hs.execute("pkill -SIGUSR2 -i emacs; emacsclient -e '(setq debug-on-quit local)'")
+end)
 
 -- local k = require ('HSKeybindings')
 -- k:init()

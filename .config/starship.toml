@@ -1,5 +1,6 @@
 # ~/.config/starship.toml
 # https://gist.github.com/ryo-ARAKI/48a11585299f9032fa4bda60c9bba593
+add_newline = false
 
 [battery]
 full_symbol = "🔋"

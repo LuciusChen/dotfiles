@@ -1,8 +1,8 @@
 # Lucius's dotfiles
 
-## iTerm2
-- ohmyzsh
-- font: [FiraCode](https://github.com/tonsky/FiraCode)
+## zsh
+- fzf
+- zsh-autosuggesctions
 
 ## HammerSpoon
 ![](images/Modifier-Keys.png)

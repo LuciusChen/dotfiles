@@ -2,6 +2,12 @@ export PATH=$PATH:/usr/local/git/bin:/usr/local/bin
 # starship
 eval "$(starship init zsh)"
 # zsh
+## case-insensitive (uppercase from lowercase) completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+## case-insensitive (all) completion
+#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+## case-insensitive,partial-word and then substring completion
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # fzf-tab

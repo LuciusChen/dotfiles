@@ -2,6 +2,9 @@ export PATH=$PATH:/usr/local/git/bin:/usr/local/bin
 # starship
 eval "$(starship init zsh)"
 # zsh
+# LSCOLORS
+export LSCOLORS="exfxcxdxbxexexabagacad"
+alias ls='ls -G'
 ## case-insensitive (uppercase from lowercase) completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ## case-insensitive (all) completion
@@ -20,7 +23,8 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
     source ${EMACS_VTERM_PATH}/etc/emacs-vterm-zsh.sh
 fi
 # python
-alias python3='/opt/homebrew/Cellar/python@3.11/3.11.8/bin/python3.11'
+# alias python3='/opt/homebrew/Cellar/python@3.12/3.12.2_1/bin/python3.12'
+alias python3='/opt/homebrew/opt/python@3.12/libexec/bin/python'
 alias python=python3
 alias pip=pip3
 # java

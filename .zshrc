@@ -2,9 +2,6 @@ export PATH=$PATH:/usr/local/git/bin:/usr/local/bin
 # starship
 eval "$(starship init zsh)"
 # zsh
-# LSCOLORS
-export LSCOLORS="exfxcxdxbxexexabagacad"
-alias ls='ls -G'
 ## case-insensitive (uppercase from lowercase) completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ## case-insensitive (all) completion
@@ -32,3 +29,18 @@ alias pip=pip3
 # export PATH=$JAVA_HOME/bin:$PATH
 # grep
 PATH="/opt/homebrew/Cellar/grep/3.11/libexec:$PATH"
+# eza
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    autoload -Uz compinit
+    compinit
+fi
+
+alias ls='eza'
+alias la='eza -a'
+alias ll='eza -lh'
+#alias la='eza -lah'
+alias lr='eza -lR'
+# Homebrew
+alias bupg='brew upgrade'
+alias bclean='brew cleanup --prune=all'

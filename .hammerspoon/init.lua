@@ -353,23 +353,25 @@ for k, v in pairs(conf.appMap) do
     if type(v) == 'function' then
         conf.bind(conf.hyper, k, v)
     elseif #v > 0 then
-        conf.bind(conf.hyper, k, function()
-                                     util:toggle(v)
-                                 end)
+        conf.bind(conf.hyper, k,
+                  function()
+                      util:toggle(v)
+                  end)
     end
 end
 
 for k, v in pairs(conf.layoutMap) do
-    conf.bind(conf.hyperPlus, k, function()
-                                     k = tonumber(k)
-                                     return layout[v](layout, (function()
-                                         if type(k) == 'number' then
-                                             return k
-                                         end
-                                                               end)())
-                                 end)
+    conf.bind(conf.hyperPlus, k,
+              function()
+                  k = tonumber(k)
+                  return layout[v](layout, (
+                      function()
+                          if type(k) == 'number' then
+                              return k
+                          end
+                      end)())
+              end)
 end
-
 
 function updateFrontmostAppInput()
     local appID = hs.application.frontmostApplication():bundleID()
@@ -425,18 +427,19 @@ conf.bind(conf.hyperPlus, 'i', noop)
 
 
 executeCommand = function(eventType, profile)
-  if (eventType == "added") then
-    hs.alert.show("Keyboard detected.")
-    return hs.execute("'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile " .. profile)
-  elseif (eventType == "removed") then
-    hs.alert.show("Keyboard removed.")
-    return hs.execute("'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile ")
-  end
+    if (eventType == "added") then
+        hs.alert.show("Keyboard detected.")
+        return hs.execute("'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile " .. profile)
+    elseif (eventType == "removed") then
+        hs.alert.show("Keyboard removed.")
+        return hs.execute("'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile ")
+    end
 end
-return hs.usb.watcher.new(function(data)
-  if (data["productName"] == "HHKB Professional") then
-    return executeCommand(data["eventType"], "⌨️")
-  elseif (data["productName"] == "IFKB 2.4G REC (STM)") then
-    return executeCommand(data["eventType"], "🪽")
-  end
-end):start()
+return hs.usb.watcher.new(
+    function(data)
+        if (data["productName"] == "HHKB Professional") then
+            return executeCommand(data["eventType"], "⌨️")
+        elseif (data["productName"] == "IFKB 2.4G REC (STM)") then
+            return executeCommand(data["eventType"], "🪽")
+        end
+    end):start()

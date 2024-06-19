@@ -435,11 +435,13 @@ executeCommand = function(eventType, profile)
         return hs.execute("'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile ")
     end
 end
-return hs.usb.watcher.new(
+
+usbWatcher = hs.usb.watcher.new(
     function(data)
         if (data["productName"] == "HHKB Professional") then
             return executeCommand(data["eventType"], "⌨️")
         elseif (data["productName"] == "IFKB 2.4G REC (STM)") then
             return executeCommand(data["eventType"], "🪽")
         end
-    end):start()
+    end)
+usbWatcher:start()

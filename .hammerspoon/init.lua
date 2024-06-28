@@ -76,6 +76,11 @@ appItem = {
     'com.eusoft.eudic'
 }
 
+blackList = {
+    'org.hammerspoon.Hammerspoon',
+    'com.apple.notificationcenterui'
+}
+
 notification = {
     up = {
         x = 80,
@@ -349,6 +354,10 @@ local powerMap = {
 
 appMap = util:tableMerge(conf.appMap, powerMap)
 
+for _, value in pairs(appMap) do
+    table.insert(blackList, value)
+end
+
 for k, v in pairs(conf.appMap) do
     if type(v) == 'function' then
         conf.bind(conf.hyper, k, v)
@@ -372,6 +381,51 @@ for k, v in pairs(conf.layoutMap) do
                       end)())
               end)
 end
+
+createWindowChooser = function()
+  local chooser = hs.chooser.new(function(choice)
+    if choice ~= nil then
+      local window = hs.window.get(choice["id"])
+      return window:focus()
+    end
+  end)
+
+  return conf.bind(conf.hyper, 'space', function()
+    local windows = { }
+    local wf = hs.window.filter.new()
+    local allWindows = wf:getWindows()
+
+    for _, v in ipairs(allWindows) do
+      local id = v:application():bundleID()
+
+      -- Check if the id is in blacklist
+      local isInBlacklist = false
+      for _, blacklistedId in ipairs(blackList) do
+        if blacklistedId == id then
+          print(isInAppMap)
+          isInBlacklist = true
+          break
+        end
+      end
+
+      if not isInBlacklist then
+        table.insert(windows, {
+          ["text"] = v:application():name(),
+          ["subText"] = v:title(),
+          ["bundleID"] = v:application():bundleID(),
+          ["id"] = v:id()
+        })
+      end
+    end
+
+    if #windows > 0 then
+      chooser:choices(windows)
+      return chooser:show()
+    end
+  end)
+end
+
+createWindowChooser()
 
 function updateFrontmostAppInput()
     local appID = hs.application.frontmostApplication():bundleID()

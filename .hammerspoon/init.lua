@@ -1,20 +1,16 @@
--- Needed until  https://github.com/Hammerspoon/hammerspoon/issues/2478 is fixed
 hs.configdir = os.getenv("HOME") .. "/.hammerspoon"
-package.path = hs.configdir
-        .. "/?.lua;"
-        .. hs.configdir
-        .. "/?/init.lua;"
-        .. hs.configdir
-        .. "/Spoons/?.spoon/init.lua;"
-        .. package.path
+package.path = table.concat({
+        hs.configdir .. "/?.lua",
+        hs.configdir .. "/?/init.lua",
+        hs.configdir .. "/Spoons/?.spoon/init.lua",
+        package.path,
+}, ";")
 hs.window.animationDuration = 0
 hs.window.setFrameCorrectness = false
 
 conf = {
         debug = true,
-        securityAgentWhiteList = {
-                "System Preferences",
-        },
+        securityAgentWhiteList = { "System Preferences" },
         hyper = "⌘⌃⌥",
         hyperPlus = "⌘⌃⌥⇧",
         bind = hs.hotkey.bind,
@@ -63,8 +59,8 @@ conf = {
         },
 }
 
-rectTable = {}
-frozen = {
+local rectTable = {}
+local frozen = {
         "ru.keepcoder.Telegram",
         "com.tencent.xinWeChat",
         "com.culturedcode.ThingsMac",
@@ -73,7 +69,7 @@ frozen = {
         "org.gnu.Emacs",
 }
 
-appItem = {
+local appItem = {
         "net.kovidgoyal.kitty",
         "com.jetbrains.intellij",
         "com.jetbrains.datagrip",
@@ -82,26 +78,19 @@ appItem = {
         "com.eusoft.eudic",
 }
 
-blackList = {
+local blackList = {
         "org.hammerspoon.Hammerspoon",
         "com.apple.notificationcenterui",
 }
 
-notification = {
-        up = {
-                x = 80,
-                y = 60,
-        },
-        down = {
-                x = 80,
-                y = 80,
-        },
+local notification = {
+        up = { x = 80, y = 60 },
+        down = { x = 80, y = 80 },
 }
 
-mouseCircle = nil
-mouseCircleTimer = nil
+local mouseCircle, mouseCircleTimer
 
-mouse = {
+local mouse = {
         moveToNextScreen = function(self)
                 local fullFrame = hs.mouse.getCurrentScreen():next():fullFrame()
                 return hs.mouse.absolutePosition(hs.geometry.rectMidPoint(fullFrame))
@@ -126,12 +115,7 @@ mouse = {
                 end
                 local mousepoint = hs.mouse.absolutePosition()
                 mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x - 40, mousepoint.y - 40, 80, 80))
-                mouseCircle:setStrokeColor({
-                        ["red"] = 1,
-                        ["blue"] = 0,
-                        ["green"] = 0,
-                        ["alpha"] = 1,
-                })
+                mouseCircle:setStrokeColor({ red = 1, blue = 0, green = 0, alpha = 1 })
                 mouseCircle:setFill(false)
                 mouseCircle:setStrokeWidth(5)
                 mouseCircle:show()
@@ -142,7 +126,7 @@ mouse = {
         end,
 }
 
-layout = {
+local layout = {
         win = function()
                 return hs.window.frontmostWindow()
         end,
@@ -177,31 +161,17 @@ layout = {
         larger = function(self)
                 local frame = self:frame(self:win())
                 local center = frame.center
-                frame.w = frame.w / 0.9
-                if frame.w > 1 then
-                        frame.w = 1
-                end
-                frame.h = frame.h / 0.9
-                if frame.h > 1 then
-                        frame.h = 1
-                end
-                frame.x = center.x - frame.w / 2
-                if frame.x < 0 then
-                        frame.x = 0
-                end
-                frame.y = center.y - frame.h / 2
-                if frame.y < 0 then
-                        frame.y = 0
-                end
+                frame.w, frame.h = frame.w / 0.9, frame.h / 0.9
+                frame.w, frame.h = math.min(frame.w, 1), math.min(frame.h, 1)
+                frame.x, frame.y = center.x - frame.w / 2, center.y - frame.h / 2
+                frame.x, frame.y = math.max(frame.x, 0), math.max(frame.y, 0)
                 return self:win():move(frame)
         end,
         smaller = function(self)
                 local frame = self:frame(self:win())
                 local center = frame.center
-                frame.w = frame.w * 0.9
-                frame.h = frame.h * 0.9
-                frame.x = center.x - frame.w / 2
-                frame.y = center.y - frame.h / 2
+                frame.w, frame.h = frame.w * 0.9, frame.h * 0.9
+                frame.x, frame.y = center.x - frame.w / 2, center.y - frame.h / 2
                 return self:win():move(frame)
         end,
         toggle = function(self)
@@ -210,13 +180,7 @@ layout = {
                 local frame = self:frame(win)
                 if frame.x == 0 and frame.y == 0 and frame.h >= 0.99 and frame.w >= 0.99 then
                         local rect = rectTable[id]
-                        return win:move((function()
-                                if rect then
-                                        return rect
-                                else
-                                        return "[25,25,75,75]"
-                                end
-                        end)())
+                        return win:move(rect or "[25,25,75,75]")
                 else
                         rectTable[id] = frame
                         return self:maximize(win)
@@ -282,7 +246,7 @@ layout = {
         end,
 }
 
-util = {
+local util = {
         includes = function(self, tbl, item)
                 for _, value in pairs(tbl) do
                         if value == item then
@@ -292,12 +256,10 @@ util = {
                 return false
         end,
         toggle = function(self, id, maximize)
-                toggle = true
                 local app = hs.application.frontmostApplication()
                 if app:bundleID() == id then
                         return app:hide()
                 else
-                        hs.logger.new("myapp", "debug"):i("的 Bundle ID 是 " .. id)
                         hs.application.launchOrFocusByBundleID(id)
                         if maximize then
                                 layout:maximize()
@@ -306,12 +268,7 @@ util = {
                 end
         end,
         notify = function(self, title, text)
-                return hs.notify
-                        .new({
-                                title = title,
-                                informativeText = text,
-                        })
-                        :send()
+                return hs.notify.new({ title = title, informativeText = text }):send()
         end,
         trim = function(self, str)
                 return string.gsub(str, "^%s*(.-)%s*$", "%1")
@@ -364,7 +321,7 @@ local powerMap = {
         ["return"] = hs.caffeinate.lockScreen,
 }
 
-appMap = util:tableMerge(conf.appMap, powerMap)
+local appMap = util:tableMerge(conf.appMap, powerMap)
 
 for _, value in pairs(appMap) do
         table.insert(blackList, value)
@@ -394,125 +351,100 @@ for k, v in pairs(conf.layoutMap) do
         end)
 end
 
-createWindowChooser = function()
+local createWindowChooser = function()
         local chooser = hs.chooser.new(function(choice)
-                if choice ~= nil then
-                        local window = hs.window.get(choice["id"])
-                        return window:focus()
+                if choice then
+                        local window = hs.window.get(choice.id)
+                        window:focus()
                 end
         end)
 
-        return conf.bind(conf.hyper, "space", function()
-                local windows = {}
-                local wf = hs.window.filter.new()
+        conf.bind(conf.hyper, "space", function()
+                local windows, wf = {}, hs.window.filter.new()
                 local allWindows = wf:getWindows()
 
                 for _, v in ipairs(allWindows) do
                         local id = v:application():bundleID()
-
-                        -- Check if the id is in blacklist
-                        local isInBlacklist = false
-                        for _, blacklistedId in ipairs(blackList) do
-                                if blacklistedId == id then
-                                        print(isInAppMap)
-                                        isInBlacklist = true
-                                        break
-                                end
-                        end
-
-                        if not isInBlacklist then
+                        if not util:includes(blackList, id) then
                                 table.insert(windows, {
-                                        ["text"] = v:application():name(),
-                                        ["subText"] = v:title(),
-                                        ["bundleID"] = v:application():bundleID(),
-                                        ["id"] = v:id(),
+                                        text = v:application():name(),
+                                        subText = v:title(),
+                                        bundleID = v:application():bundleID(),
+                                        id = v:id(),
                                 })
                         end
                 end
 
                 if #windows > 0 then
                         chooser:choices(windows)
-                        return chooser:show()
+                        chooser:show()
                 end
         end)
 end
 
 createWindowChooser()
 
-function updateFrontmostAppInput()
+local updateFrontmostAppInput = function()
         local appID = hs.application.frontmostApplication():bundleID()
         if util:includes(appItem, appID) then
-                return hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
+                hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
         else
-                return hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
+                hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
         end
 end
 
-function applicationWatcher(appName, eventType, appObject)
+local applicationWatcher = function(appName, eventType, appObject)
         if eventType == hs.application.watcher.activated then
                 updateFrontmostAppInput()
                 if appName == "Finder" then
-                        updateFrontmostAppInput()
-                        -- Bring all Finder windows forward when one gets activated
                         appObject:selectMenuItem({ "Window", "Bring All to Front" })
                 end
         end
 end
-appWatcher = hs.application.watcher.new(applicationWatcher)
+
+local appWatcher = hs.application.watcher.new(applicationWatcher)
 appWatcher:start()
 
--- Add print(hs.location.get()) at the top of your init.lua and reload the config.
--- This will add Hammerspoon to System Settings -> Location Services. Enable location services for HS and restart HS.
--- After this hs.wifi.currentNetwork() should provide the proper SSID.
-function setOutputMuted()
+local setOutputMuted = function()
         local outputDeviceName = "MacBook Pro Speakers"
         local currentOutput = hs.audiodevice.current(false)
         local currentWifi = hs.wifi.currentNetwork()
-        if (currentWifi == "ChangJH" or currentWifi == "ChangJH-jishu") and currentOutput.name == outputDeviceName then
-                return hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(true)
-        else
-                return hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(false)
+        local mute = currentWifi == "ChangJH" or currentWifi == "ChangJH-jishu"
+        if currentOutput.name == outputDeviceName then
+                hs.audiodevice.findDeviceByName(outputDeviceName):setOutputMuted(mute)
         end
 end
 
-wifiWatcher = hs.wifi.watcher.new(setOutputMuted)
+local wifiWatcher = hs.wifi.watcher.new(setOutputMuted)
 wifiWatcher:start()
 
--- "clipboard History" and "Emojis" dependent on "SpoonInstall"
 hs.loadSpoon("SpoonInstall")
-spoon.SpoonInstall:andUse(
-        "TextClipboardHistory",
-        { config = { show_in_menubar = false }, hotkeys = { toggle_clipboard = { conf.hyper, "3" } }, start = true }
-)
+spoon.SpoonInstall:andUse("TextClipboardHistory", {
+        config = { show_in_menubar = false },
+        hotkeys = { toggle_clipboard = { conf.hyper, "3" } },
+        start = true,
+})
 spoon.SpoonInstall:andUse("Emojis")
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", { config = { control = { spotify = true }, start = true } })
 spoon.Emojis:bindHotkeys({ toggle = { conf.hyper, "2" } })
 
--- ignore system shortcuts
-function noop() end
--- conf.bind({ 'cmd' }, 'h', noop)
+local noop = function() end
 conf.bind({ "cmd", "alt" }, "h", noop)
 conf.bind(conf.hyperPlus, "i", noop)
 
-executeCommand = function(eventType, profile)
-        if eventType == "added" then
-                hs.alert.show("Keyboard detected.")
-                return hs.execute(
-                        "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile " .. profile
-                )
-        elseif eventType == "removed" then
-                hs.alert.show("Keyboard removed.")
-                return hs.execute(
-                        "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile "
-                )
-        end
+local executeCommand = function(eventType, profile)
+        hs.alert.show("Keyboard " .. (eventType == "added" and "detected" or "removed") .. ".")
+        local profileArg = eventType == "added" and profile or ""
+        hs.execute(
+                "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile " .. profileArg
+        )
 end
 
-usbWatcher = hs.usb.watcher.new(function(data)
-        if data["productName"] == "HHKB Professional" then
-                return executeCommand(data["eventType"], "⌨️")
-        elseif data["productName"] == "IFKB 2.4G REC (STM)" then
-                return executeCommand(data["eventType"], "🪽")
+local usbWatcher = hs.usb.watcher.new(function(data)
+        if data.productName == "HHKB Professional" then
+                executeCommand(data.eventType, "⌨️")
+        elseif data.productName == "IFKB 2.4G REC (STM)" then
+                executeCommand(data.eventType, "🪽")
         end
 end)
 usbWatcher:start()

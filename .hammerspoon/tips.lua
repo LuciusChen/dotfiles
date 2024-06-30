@@ -2,19 +2,6 @@
 --- Display Keybindings registered with bindHotkeys() and Spoons
 local conf = require("conf")
 
--- Add anchor of attention
-iconMap = {
-        ["DaVinci Resolve"] = true,
-        ["Affinity Designer"] = true,
-        ["MindNode"] = true,
-        ["WeChat"] = false,
-        ["QQ"] = false,
-        ["Intellij IDEA"] = false,
-        ["DataGrip"] = false,
-        ["iTerm2"] = false,
-        ["Tweetbot"] = false,
-}
-
 appMap = {
         w = {
                 app = "",
@@ -155,12 +142,6 @@ local function processHotkeysCSS()
                                 .. "{ content: ''; display: inline-block; background-image: url(\""
                                 .. v.SVG
                                 .. '");}'
-                        if iconMap[v.app] then
-                                css = css
-                                        .. " .cmdtext"
-                                        .. k
-                                        .. "::before {content: ''; display: inline-block; height: 30px; border-left: 4px solid #2b92d4; position: absolute; top: 15px;}"
-                        end
                 end
         end)
         return css

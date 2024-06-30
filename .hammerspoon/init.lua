@@ -8,57 +8,9 @@ package.path = table.concat({
 hs.window.animationDuration = 0
 hs.window.setFrameCorrectness = false
 
-conf = {
-        debug = true,
-        securityAgentWhiteList = { "System Preferences" },
-        hyper = "⌘⌃⌥",
-        hyperPlus = "⌘⌃⌥⇧",
-        bind = hs.hotkey.bind,
-        appMap = {
-                w = "ru.keepcoder.Telegram",
-                s = "com.tencent.xinWeChat",
-                x = "md.obsidian",
-                e = "com.jetbrains.intellij",
-                d = "com.jetbrains.datagrip",
-                c = "net.kovidgoyal.kitty",
-                r = "org.gnu.Emacs",
-                f = "com.apple.finder",
-                v = "com.microsoft.VSCode",
-                t = "com.calibre-ebook.ebook-viewer",
-                g = "company.thebrowser.Browser",
-                b = "com.readdle.PDFExpert-Mac",
-                y = "com.spotify.client",
-                h = "com.tencent.WeWorkMac",
-                n = "net.ankiweb.dtop",
-                u = "com.readdle.smartemail-Mac",
-                j = "org.inkscape.Inkscape",
-                m = "io.mpv",
-                i = "org.zotero.zotero",
-                k = "com.nssurge.surge-mac",
-                o = "com.captureone.captureone15",
-                l = "com.figma.Desktop",
-                p = "com.adobe.Photoshop",
-        },
-        layoutMap = {
-                h = "center",
-                i = "minimize",
-                ["space"] = "toggle",
-                k = "maximize",
-                y = "upHalf",
-                n = "downHalf",
-                g = "leftHalf",
-                j = "rightHalf",
-                t = "leftUp",
-                u = "rightUp",
-                b = "leftDown",
-                m = "rightDown",
-                ["["] = "preScreen",
-                ["]"] = "nextScreen",
-                ["="] = "larger",
-                ["-"] = "smaller",
-        },
-}
-
+local conf = require("conf")
+local tips = require("tips")
+tips:init()
 local rectTable = {}
 local frozen = {
         "ru.keepcoder.Telegram",
@@ -81,11 +33,6 @@ local appItem = {
 local blackList = {
         "org.hammerspoon.Hammerspoon",
         "com.apple.notificationcenterui",
-}
-
-local notification = {
-        up = { x = 80, y = 60 },
-        down = { x = 80, y = 80 },
 }
 
 local mouseCircle, mouseCircleTimer
@@ -319,6 +266,9 @@ local powerMap = {
         [","] = "com.apple.systempreferences",
         ["."] = hs.toggleConsole,
         ["return"] = hs.caffeinate.lockScreen,
+        ["/"] = function()
+                tips:toggle()
+        end,
 }
 
 local appMap = util:tableMerge(conf.appMap, powerMap)

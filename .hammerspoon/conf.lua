@@ -7,7 +7,7 @@ conf = {
     appMap = {
         w = "ru.keepcoder.Telegram",
         s = "com.tencent.xinWeChat",
-        x = "md.obsidian",
+        x = "com.tencent.qq",
         e = "com.jetbrains.intellij",
         d = "com.jetbrains.datagrip",
         c = "net.kovidgoyal.kitty",
@@ -23,11 +23,19 @@ conf = {
         u = "com.readdle.smartemail-Mac",
         j = "org.inkscape.Inkscape",
         m = "io.mpv",
-        i = "org.zotero.zotero",
+        i = "com.tencent.weread",
         k = "com.nssurge.surge-mac",
         o = "com.captureone.captureone15",
         l = "com.figma.Desktop",
         p = "com.adobe.Photoshop",
+    },
+    frozen = {
+        "ru.keepcoder.Telegram",
+        "com.tencent.xinWeChat",
+        "com.culturedcode.ThingsMac",
+        "com.readdle.smartemail-Mac",
+        "com.apple.finder",
+        "org.gnu.Emacs",
     },
     layoutMap = {
         h = "center",
@@ -46,6 +54,18 @@ conf = {
         ["]"] = "nextScreen",
         ["="] = "larger",
         ["-"] = "smaller",
+    },
+    blackList = {
+        "org.hammerspoon.Hammerspoon",
+        "com.apple.notificationcenterui",
+    },
+    inputMethod = {
+        "net.kovidgoyal.kitty",
+        "com.jetbrains.intellij",
+        "com.jetbrains.datagrip",
+        "org.gnu.Emacs",
+        "org.hammerspoon.Hammerspoon",
+        "com.eusoft.eudic",
     },
 }
 return conf

@@ -148,7 +148,6 @@ local function processHotkeysCSS()
 end
 
 local function generateHtml()
-    local app_title = "Hammerspoon Keybindings"
     local allmenuitems = processHotkeys()
     local allCSS = processHotkeysCSS()
     -- === light mode ===
@@ -156,7 +155,7 @@ local function generateHtml()
     -- local font_color = "#000"
     -- local background_img = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='350' fill='%23cccccc' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E"
     -- === dark mode ===
-    local background_color = "#12161b"
+    local background_color = "#020202"
     local font_color = "#fff"
     local background_img =
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='300' fill='%23666666' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E⌘⌃⌥%3C/text%3E%3C/svg%3E"
@@ -237,10 +236,6 @@ local function generateHtml()
         </style>
         </head>
           <body>
-            <header>
-              <div class="title"><strong>]] .. app_title .. [[ (<a href="https://icons8.com/icon/63306/telegram-app">App icon by Icons8</a>)</strong></div>
-              <hr />
-            </header>
             <div class="content maincontent">]] .. allmenuitems .. [[</div>
             <br>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>

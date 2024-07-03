@@ -55,6 +55,25 @@ conf = {
         ["="] = "larger",
         ["-"] = "smaller",
     },
+    powerMap = {
+        ["7"] = function()
+            mouse:mouseHighlight()
+        end,
+        ["8"] = hs.spotify.previous,
+        ["9"] = hs.spotify.playpause,
+        ["0"] = hs.spotify.next,
+        ["-"] = hs.spotify.volumeDown,
+        ["="] = hs.spotify.volumeUp,
+        ["\\"] = function()
+            util:reload()
+        end,
+        [","] = "com.apple.systempreferences",
+        ["."] = hs.toggleConsole,
+        ["return"] = hs.caffeinate.lockScreen,
+        ["/"] = function()
+            tips:toggle()
+        end,
+    },
     blackList = {
         "org.hammerspoon.Hammerspoon",
         "com.apple.notificationcenterui",

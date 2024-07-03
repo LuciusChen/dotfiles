@@ -14,33 +14,13 @@ local conf = require("conf")
 local util = require("util")
 local layout = require("layout")
 
-local powerMap = {
-    ["7"] = function()
-        mouse:mouseHighlight()
-    end,
-    ["8"] = hs.spotify.previous,
-    ["9"] = hs.spotify.playpause,
-    ["0"] = hs.spotify.next,
-    ["-"] = hs.spotify.volumeDown,
-    ["="] = hs.spotify.volumeUp,
-    ["\\"] = function()
-        util:reload()
-    end,
-    [","] = "com.apple.systempreferences",
-    ["."] = hs.toggleConsole,
-    ["return"] = hs.caffeinate.lockScreen,
-    ["/"] = function()
-        tips:toggle()
-    end,
-}
+local fullMap = util:tableMerge(conf.powerMap, conf.appMap)
 
-local appMap = util:tableMerge(conf.appMap, powerMap)
-
-for _, value in pairs(appMap) do
+for _, value in pairs(conf.appMap) do
     table.insert(conf.blackList, value)
 end
 
-for k, v in pairs(conf.appMap) do
+for k, v in pairs(fullMap) do
     if type(v) == "function" then
         conf.bind(conf.hyper, k, v)
     elseif #v > 0 then
@@ -97,39 +77,54 @@ local createWindowChooser = function()
 end
 createWindowChooser()
 
--- inputMethod
-local appWatcher = nil
-
-local function safeCallback(appName, eventType, appObject)
-    local status, err = pcall(function()
-        if eventType == hs.application.watcher.activated then
-            local appID = hs.application.frontmostApplication():bundleID()
-            -- logger.d("App activated: " .. appID)
-
-            if util:includes(conf.inputMethod, appID) then
-                -- logger.d("Switching to ABC")
-                hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
-            else
-                -- logger.d("Switching to Squirrel")
-                hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
-            end
+local inputMethodSwitcher = function(appName, eventType, appObject)
+    if eventType == hs.application.watcher.activated then
+        local appID = hs.application.frontmostApplication():bundleID()
+        if util:includes(conf.inputMethod, appID) then
+            hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
+        else
+            hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
         end
-    end)
-end
-
-local function startAppWatcher()
-    if appWatcher then
-        appWatcher:stop()
     end
-    appWatcher = hs.application.watcher.new(safeCallback)
-    appWatcher:start()
 end
 
--- 初始启动
-startAppWatcher()
+appWatcher = hs.application.watcher.new(inputMethodSwitcher)
+appWatcher:start()
 
--- 每小时重启一次
-hs.timer.doEvery(3600, startAppWatcher)
+-- -- local logger = hs.logger.new("appWatcher", "debug")
+-- appWatcher = nil
+
+-- local function safeCallback(appName, eventType, appObject)
+--     local status, err = pcall(function()
+--         if eventType == hs.application.watcher.activated then
+--             local appID = hs.application.frontmostApplication():bundleID()
+--             if util:includes(conf.inputMethod, appID) then
+--                 hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
+--             else
+--                 hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
+--             end
+--         end
+--     end)
+--     if not status then
+--         -- logger.e("Error in appWatcher callback: " .. err)
+--     end
+-- end
+
+-- local function startAppWatcher()
+--     if appWatcher then
+--         appWatcher:stop()
+--     end
+
+--     appWatcher = hs.application.watcher.new(safeCallback)
+--     appWatcher:start()
+--     -- logger.i("App watcher started")
+-- end
+
+-- -- 初始启动
+-- startAppWatcher()
+
+-- -- 每小时重启一次
+-- hs.timer.doEvery(3600, startAppWatcher)
 
 -- wifi
 local setOutputMuted = function()
@@ -142,7 +137,7 @@ local setOutputMuted = function()
     end
 end
 
-local wifiWatcher = hs.wifi.watcher.new(setOutputMuted)
+wifiWatcher = hs.wifi.watcher.new(setOutputMuted)
 wifiWatcher:start()
 
 -- TextClipboardHistory
@@ -156,11 +151,6 @@ spoon.SpoonInstall:andUse("Emojis")
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", { config = { control = { spotify = true }, start = true } })
 spoon.Emojis:bindHotkeys({ toggle = { conf.hyper, "2" } })
 
--- disable hide windows shortcuts
-local noop = function() end
-conf.bind({ "cmd", "alt" }, "h", noop)
-conf.bind(conf.hyperPlus, "i", noop)
-
 -- Keyboard
 local executeCommand = function(eventType, profile)
     hs.alert.show("Keyboard " .. (eventType == "added" and "detected" or "removed") .. ".")
@@ -170,7 +160,7 @@ local executeCommand = function(eventType, profile)
     )
 end
 
-local usbWatcher = hs.usb.watcher.new(function(data)
+usbWatcher = hs.usb.watcher.new(function(data)
     if data.productName == "HHKB Professional" then
         executeCommand(data.eventType, "⌨️")
     elseif data.productName == "IFKB 2.4G REC (STM)" then
@@ -178,3 +168,8 @@ local usbWatcher = hs.usb.watcher.new(function(data)
     end
 end)
 usbWatcher:start()
+
+-- disable hide windows shortcuts
+local noop = function() end
+conf.bind({ "cmd", "alt" }, "h", noop)
+conf.bind(conf.hyperPlus, "i", noop)

@@ -1,6 +1,8 @@
 local conf = require("conf")
+local rectTable = {}
+
 layout = {
-    includes = function(self, tbl, item)
+    include = function(self, tbl, item)
         for _, value in pairs(tbl) do
             if value == item then
                 return true
@@ -78,24 +80,12 @@ layout = {
         win = win or self:win()
         return win:move("[29,10,74,90]")
     end,
-    eastScreen = function(self)
-        return self:win():moveOneScreenEast():maximize()
-    end,
-    westScreen = function(self)
-        return self:win():moveOneScreenWest():maximize()
-    end,
-    southScreen = function(self)
-        return self:win():moveOneScreenSouth():maximize()
-    end,
-    northScreen = function(self)
-        return self:win():moveOneScreenNorth():maximize()
-    end,
     nextScreen = function(self)
         local win = self:win()
         local id = win:application():bundleID()
         local frame = self:frame(win)
         win:moveToScreen(win:screen():next(), true, true)
-        if self:includes(conf.frozen, id) then
+        if self:include(conf.frozen, id) then
             return win:move(frame)
         else
             return self:maximize(win)
@@ -106,7 +96,7 @@ layout = {
         local id = win:application():bundleID()
         local frame = self:frame(win)
         win:moveToScreen(win:screen():previous(), true, true)
-        if self:includes(conf.frozen, id) then
+        if self:include(conf.frozen, id) then
             return win:move(frame)
         else
             return self:maximize(win)
@@ -114,6 +104,7 @@ layout = {
     end,
     moveToScreen = function(self, i)
         local screen = hs.screen.allScreens()[tonumber(i)]
+        print(i)
         if screen then
             return self:win():moveToScreen(screen, true, true):maximize()
         end

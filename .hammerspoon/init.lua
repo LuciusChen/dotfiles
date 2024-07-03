@@ -13,7 +13,6 @@ tips:init()
 local conf = require("conf")
 local util = require("util")
 local layout = require("layout")
-local rectTable = {}
 
 local powerMap = {
     ["7"] = function()
@@ -98,27 +97,39 @@ local createWindowChooser = function()
 end
 createWindowChooser()
 
--- inputmethod auto
-local updateFrontmostAppInput = function()
-    local appID = hs.application.frontmostApplication():bundleID()
-    if util:includes(conf.inputMethod, appID) then
-        hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
-    else
-        hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
-    end
-end
+-- inputMethod
+local appWatcher = nil
 
-local applicationWatcher = function(appName, eventType, appObject)
-    if eventType == hs.application.watcher.activated then
-        updateFrontmostAppInput()
-        if appName == "Finder" then
-            appObject:selectMenuItem({ "Window", "Bring All to Front" })
+local function safeCallback(appName, eventType, appObject)
+    local status, err = pcall(function()
+        if eventType == hs.application.watcher.activated then
+            local appID = hs.application.frontmostApplication():bundleID()
+            -- logger.d("App activated: " .. appID)
+
+            if util:includes(conf.inputMethod, appID) then
+                -- logger.d("Switching to ABC")
+                hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
+            else
+                -- logger.d("Switching to Squirrel")
+                hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
+            end
         end
-    end
+    end)
 end
 
-local appWatcher = hs.application.watcher.new(applicationWatcher)
-appWatcher:start()
+local function startAppWatcher()
+    if appWatcher then
+        appWatcher:stop()
+    end
+    appWatcher = hs.application.watcher.new(safeCallback)
+    appWatcher:start()
+end
+
+-- 初始启动
+startAppWatcher()
+
+-- 每小时重启一次
+hs.timer.doEvery(3600, startAppWatcher)
 
 -- wifi
 local setOutputMuted = function()

@@ -231,6 +231,7 @@ local function generateHtml()
               text-align: center;
               font-size: 25px;
               font-weight: 900;
+              color: #eeeeee;
             }
             ]] .. allCSS .. [[
         </style>

@@ -73,6 +73,9 @@ conf = {
         ["/"] = function()
             tips:toggle()
         end,
+        [";"] = function()
+            util:emptyTrash()
+        end,
     },
     blackList = {
         "org.hammerspoon.Hammerspoon",

@@ -55,5 +55,12 @@ util = {
         end
         return result
     end,
+    emptyTrash = function()
+        hs.osascript.applescript([[
+        tell application "Finder"
+            empty the trash
+        end tell
+    ]])
+    end,
 }
 return util

@@ -161,10 +161,11 @@ local executeCommand = function(eventType, profile)
 end
 
 usbWatcher = hs.usb.watcher.new(function(data)
-    if data.productName == "HHKB Professional" then
-        executeCommand(data.eventType, "⌨️")
-    elseif data.productName == "IFKB 2.4G REC (STM)" then
-        executeCommand(data.eventType, "🪽")
+    print(data.productName)
+    if data.productName == "IFKB 2.4G REC (STM)" then
+        executeCommand(data.eventType, "Corne")
+    else
+        executeCommand(data.eventType, "")
     end
 end)
 usbWatcher:start()

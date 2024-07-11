@@ -76,6 +76,9 @@ conf = {
         [";"] = function()
             util:emptyTrash()
         end,
+        ["up"] = function()
+            util:toogleDock()
+        end,
     },
     blackList = {
         "org.hammerspoon.Hammerspoon",

@@ -91,41 +91,6 @@ end
 appWatcher = hs.application.watcher.new(inputMethodSwitcher)
 appWatcher:start()
 
--- -- local logger = hs.logger.new("appWatcher", "debug")
--- appWatcher = nil
-
--- local function safeCallback(appName, eventType, appObject)
---     local status, err = pcall(function()
---         if eventType == hs.application.watcher.activated then
---             local appID = hs.application.frontmostApplication():bundleID()
---             if util:includes(conf.inputMethod, appID) then
---                 hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
---             else
---                 hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
---             end
---         end
---     end)
---     if not status then
---         -- logger.e("Error in appWatcher callback: " .. err)
---     end
--- end
-
--- local function startAppWatcher()
---     if appWatcher then
---         appWatcher:stop()
---     end
-
---     appWatcher = hs.application.watcher.new(safeCallback)
---     appWatcher:start()
---     -- logger.i("App watcher started")
--- end
-
--- -- 初始启动
--- startAppWatcher()
-
--- -- 每小时重启一次
--- hs.timer.doEvery(3600, startAppWatcher)
-
 -- wifi
 local setOutputMuted = function()
     local outputDeviceName = "MacBook Pro Speakers"

@@ -128,7 +128,7 @@ end
 usbWatcher = hs.usb.watcher.new(function(data)
     print(data.productName)
     if data.productName == "IFKB 2.4G REC (STM)" then
-        executeCommand(data.eventType, "Corne")
+        executeCommand(data.eventType, "☯")
     else
         executeCommand(data.eventType, "")
     end

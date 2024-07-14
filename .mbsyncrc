@@ -1,0 +1,27 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User chenyh572@gmail.com
+PassCmd "security find-generic-password -s mu4e-gmail -a chenyh572@gmail.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs PLAIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+Path ~/.maildir/gmail/
+Inbox ~/.maildir/gmail/INBOX
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *

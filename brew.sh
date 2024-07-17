@@ -12,3 +12,4 @@ brew install vscode-langservers-extracted
 brew install isort black google-java-format prettier stylua
 -- 需要替换成 fork 的版本
 brew install macism
+brew install mu isync msmtp

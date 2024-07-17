@@ -83,6 +83,7 @@ conf = {
     blackList = {
         "org.hammerspoon.Hammerspoon",
         "com.apple.notificationcenterui",
+        "im.rime.inputmethod.Squirrel",
     },
     inputMethod = {
         "net.kovidgoyal.kitty",

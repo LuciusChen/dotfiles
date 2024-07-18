@@ -1,6 +1,7 @@
 IMAPAccount gmail
 Host imap.gmail.com
 User chenyh572@gmail.com
+# security add-generic-password -s mu4e-gmail -a chenyh572@gmail.com -w
 PassCmd "security find-generic-password -s mu4e-gmail -a chenyh572@gmail.com -w"
 Port 993
 SSLType IMAPS
@@ -20,6 +21,37 @@ Inbox ~/.maildir/gmail/INBOX
 Channel gmail
 Far :gmail-remote:
 Near :gmail-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *
+
+# =====================================================================
+
+IMAPAccount qq
+Host imap.exmail.qq.com
+User chenyaohua@njcjh.cn
+# security add-generic-password -s mu4e-qq -a chenyaohua@njcjh.cn -w
+PassCmd "security find-generic-password -s mu4e-qq -a chenyaohua@njcjh.cn -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs LOGIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore qq-remote
+Account qq
+
+MaildirStore qq-local
+SubFolders Verbatim
+Path ~/.maildir/qq/
+Inbox ~/.maildir/qq/INBOX
+
+Channel qq
+Far :qq-remote:
+Near :qq-local:
 Patterns *
 Create Near
 Sync All

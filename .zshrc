@@ -20,12 +20,12 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
     source ${EMACS_VTERM_PATH}/etc/emacs-vterm-zsh.sh
 fi
 # python
-# alias python3='/opt/homebrew/Cellar/python@3.12/3.12.2_1/bin/python3.12'
-alias python3='/opt/homebrew/opt/python@3.12/libexec/bin/python'
-alias python=python3
+# 直接指定路径会导致虚拟环境的解释器依旧是指定路径的解释器
+alias python=python3.12
 alias pip=pip3
 # java
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home
+export JAVA_HOME=$(/usr/libexec/java_home)
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-22.0.1/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH
 # grep
 PATH="/opt/homebrew/Cellar/grep/3.11/libexec:$PATH"
@@ -44,3 +44,18 @@ alias lr='eza -lR'
 # Homebrew
 alias bupg='brew upgrade'
 alias bclean='brew cleanup --prune=all'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="/Users/luciuschen/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# Created by `pipx` on 2024-06-24 06:51:56
+export PATH="$PATH:/Users/luciuschen/.local/bin"

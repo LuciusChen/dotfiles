@@ -77,7 +77,7 @@ local createWindowChooser = function()
 end
 createWindowChooser()
 
-local inputMethodSwitcher = function(appName, eventType, appObject)
+inputMethodSwitcher = function(appName, eventType, appObject)
     if eventType == hs.application.watcher.activated then
         local appID = hs.application.frontmostApplication():bundleID()
         if util:includes(conf.inputMethod, appID) then
@@ -92,7 +92,7 @@ appWatcher = hs.application.watcher.new(inputMethodSwitcher)
 appWatcher:start()
 
 -- wifi
-local setOutputMuted = function()
+setOutputMuted = function()
     local outputDeviceName = "MacBook Pro Speakers"
     local currentOutput = hs.audiodevice.current(false)
     local currentWifi = hs.wifi.currentNetwork()
@@ -117,7 +117,8 @@ spoon.SpoonInstall:andUse("HeadphoneAutoPause", { config = { control = { spotify
 spoon.Emojis:bindHotkeys({ toggle = { conf.hyper, "2" } })
 
 -- Keyboard
-local executeCommand = function(eventType, profile)
+local corne = 24679
+executeCommand = function(eventType, profile)
     hs.alert.show("Keyboard " .. (eventType == "added" and "detected" or "removed") .. ".")
     local profileArg = eventType == "added" and profile or ""
     hs.execute(
@@ -126,14 +127,24 @@ local executeCommand = function(eventType, profile)
 end
 
 usbWatcher = hs.usb.watcher.new(function(data)
-    print(data.productName)
     if data.productName == "IFKB 2.4G REC (STM)" then
-        executeCommand(data.eventType, "☯")
-    else
-        executeCommand(data.eventType, "")
+        if data.eventType == "added" then
+            executeCommand(data.eventType, "☯")
+        else
+            executeCommand(data.eventType, "")
+        end
     end
 end)
 usbWatcher:start()
+
+killCursorUIViewService = function()
+    local processName = "CursorUIViewService"
+    hs.execute("pkill -9 -f " .. processName)
+    hs.alert.show("Killed " .. processName)
+end
+
+local timer = hs.timer.doEvery(86400, killCursorUIViewService)
+killCursorUIViewService()
 
 -- disable hide windows shortcuts
 local noop = function() end

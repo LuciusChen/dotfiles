@@ -57,3 +57,34 @@ Create Near
 Sync All
 Expunge Both
 SyncState *
+
+# =====================================================================
+
+IMAPAccount 163
+Host imap.163.com
+User chenyh1013@163.com
+# security add-generic-password -s mu4e-163 -a chenyh1013@163.com -w
+PassCmd "security find-generic-password -s mu4e-163 -a chenyh1013@163.com -w"
+Port 993
+SSLType IMAPS
+SSLVersions TLSv1.2
+AuthMechs LOGIN
+SystemCertificates no
+CertificateFile ~/.maildir/certificates/root-certificates.pem
+
+IMAPStore 163-remote
+Account 163
+
+MaildirStore 163-local
+SubFolders Verbatim
+Path ~/.maildir/163/
+Inbox ~/.maildir/163/INBOX
+
+Channel 163
+Far :163-remote:
+Near :163-local:
+Patterns *
+Create Near
+Sync All
+Expunge Both
+SyncState *

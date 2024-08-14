@@ -6,7 +6,7 @@ brew install starship eza mactex pngpaste
 brew install ffmpeg cmake fzf gnupg brew install ffmpeg cmake fzf gnupg inkscape
 brew install hugo zsh-autosuggestions zsh-syntax-highlighting jdtls lua maven mpv neofetch btop node pnpm pandoc pass pass-otp zbar pinentry-mac ripgrep fd tomcat@8
 brew install hammerspoon kitty iina
-brew install jdtls
+brew install jdtls debugpy
 brew install pipx
 brew install vscode-langservers-extracted
 brew install isort black google-java-format prettier stylua

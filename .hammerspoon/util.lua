@@ -79,7 +79,7 @@ util = {
         rect:setStrokeWidth(5)
         rect:setFill(false)
         rect:show()
-        hs.timer.doAfter(0.3, function()
+        hs.timer.doAfter(0.2, function()
             rect:delete()
         end)
     end,

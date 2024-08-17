@@ -1,4 +1,5 @@
 local mouse = require("mouse")
+
 util = {
     includes = function(self, tbl, item)
         for _, value in pairs(tbl) do
@@ -69,6 +70,17 @@ util = {
             set dock preferences's autohide to not dockHidden
         end tell
     ]])
+    end,
+    highlightActiveWindow = function()
+        -- Draw a border around the active window for a short period to highlight
+        local rect = hs.drawing.rectangle(hs.window.focusedWindow():frame())
+        rect:setStrokeColor({ red = 1, blue = 0, green = 1, alpha = 1 })
+        rect:setStrokeWidth(5)
+        rect:setFill(false)
+        rect:show()
+        hs.timer.doAfter(0.3, function()
+            rect:delete()
+        end)
     end,
 }
 return util

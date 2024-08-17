@@ -54,10 +54,14 @@ conf = {
         ["]"] = "nextScreen",
         ["="] = "larger",
         ["-"] = "smaller",
+        ["left"] = "jumpWindowLeft",
+        ["down"] = "jumpWindowBelow",
+        ["up"] = "jumpWindowAbove",
+        ["right"] = "jumpWindowRight",
     },
     powerMap = {
         ["7"] = function()
-            mouse:mouseHighlight()
+            util:highlightActiveWindow()
         end,
         ["8"] = hs.spotify.previous,
         ["9"] = hs.spotify.playpause,

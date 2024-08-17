@@ -1,5 +1,7 @@
 local conf = require("conf")
+local util = require("util")
 local rectTable = {}
+local dir = { h = "West", j = "South", k = "North", l = "East" }
 
 layout = {
     include = function(self, tbl, item)
@@ -85,6 +87,7 @@ layout = {
         local id = win:application():bundleID()
         local frame = self:frame(win)
         win:moveToScreen(win:screen():next(), true, true)
+        print("conf.frozen:", hs.inspect(conf.frozen))
         if self:include(conf.frozen, id) then
             return win:move(frame)
         else
@@ -112,6 +115,24 @@ layout = {
     screen = function(self)
         local win = self:win()
         return win:moveToScreen(win:screen():next(), true, true)
+    end,
+    jumpWindow = function(self, arrow)
+        local frontmost_win = hs.window.frontmostWindow()
+        local focus_dir = "focusWindow" .. dir[arrow]
+        hs.window.filter.defaultCurrentSpace[focus_dir](hs.window.filter.defaultCurrentSpace, frontmost_win, true, true)
+        util:highlightActiveWindow()
+    end,
+    jumpWindowLeft = function(self)
+        self:jumpWindow("h")
+    end,
+    jumpWindowAbove = function(self)
+        self:jumpWindow("j")
+    end,
+    jumpWindowBelow = function(self)
+        self:jumpWindow("k")
+    end,
+    jumpWindowRight = function(self)
+        self:jumpWindow("l")
     end,
 }
 return layout

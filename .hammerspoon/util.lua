@@ -18,6 +18,7 @@ util = {
             if maximize then
                 self:win():minimize()
             end
+            self:highlightActiveWindow()
             return mouse:frontmost()
         end
     end,

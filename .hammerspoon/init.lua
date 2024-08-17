@@ -50,6 +50,7 @@ local createWindowChooser = function()
         if choice then
             local window = hs.window.get(choice.id)
             window:focus()
+            util:highlightActiveWindow()
         end
     end)
 

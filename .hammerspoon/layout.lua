@@ -120,7 +120,6 @@ layout = {
         local frontmost_win = hs.window.frontmostWindow()
         local focus_dir = "focusWindow" .. dir[arrow]
         hs.window.filter.defaultCurrentSpace[focus_dir](hs.window.filter.defaultCurrentSpace, frontmost_win, true, true)
-        util:highlightActiveWindow()
     end,
     jumpWindowLeft = function(self)
         self:jumpWindow("h")

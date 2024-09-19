@@ -10,7 +10,7 @@ conf = {
         x = "com.tencent.qq",
         e = "com.jetbrains.intellij",
         d = "com.jetbrains.datagrip",
-        c = "net.kovidgoyal.kitty",
+        c = "com.github.wez.wezterm",
         r = "org.gnu.Emacs",
         f = "com.apple.finder",
         v = "com.microsoft.VSCode",
@@ -90,7 +90,7 @@ conf = {
         "im.rime.inputmethod.Squirrel",
     },
     inputMethod = {
-        "net.kovidgoyal.kitty",
+        "com.github.wez.wezterm",
         "com.jetbrains.intellij",
         "com.jetbrains.datagrip",
         "org.gnu.Emacs",

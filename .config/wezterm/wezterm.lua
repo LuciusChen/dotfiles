@@ -1,4 +1,21 @@
 local wezterm = require("wezterm")
+
+wezterm.on("gui-attached", function(domain)
+    local mux = wezterm.mux
+    local workspace = mux.get_active_workspace()
+    for _, window in ipairs(mux.all_windows()) do
+        if window:get_workspace() == workspace then
+            window:gui_window():maximize()
+        end
+    end
+end)
+
+wezterm.on("window-focus-changed", function(window, pane)
+    if window:is_focused() then
+        window:maximize()
+    end
+end)
+
 local config = wezterm.config_builder()
 
 return {

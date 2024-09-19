@@ -3,7 +3,7 @@ brew tap d12frosted/emacs-plus
 brew install emacs-plus@30 --with-savchenkovaleriy-big-sur-icon --with-xwidgets
 brew install starship eza mactex pngpaste latexindent
 brew install ffmpeg cmake fzf gnupg
-brew install hugo zsh-autosuggestions zsh-syntax-highlighting jdtls lua maven mpv neofetch btop node pnpm pandoc pass pass-otp zbar pinentry-mac ripgrep fd tomcat@8
+brew install hugo zsh-autosuggestions zsh-syntax-highlighting jdtls lua maven mpv fastfetch btop node pnpm pandoc pass pass-otp zbar pinentry-mac ripgrep fd tomcat@8
 brew install hammerspoon kitty iina
 brew install jdtls wget
 brew install luarocks

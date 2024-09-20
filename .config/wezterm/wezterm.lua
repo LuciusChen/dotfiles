@@ -32,4 +32,5 @@ return {
         top = 8,
         bottom = 0,
     },
+    max_fps = 100,
 }

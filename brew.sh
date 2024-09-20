@@ -1,4 +1,3 @@
-brew tap daipeihust/tap
 brew tap d12frosted/emacs-plus
 brew install emacs-plus@30 --with-savchenkovaleriy-big-sur-icon --with-xwidgets
 brew install starship eza mactex pngpaste latexindent
@@ -12,6 +11,5 @@ brew install vscode-langservers-extracted
 brew install isort black google-java-format prettier stylua
 brew install redis
 -- 需要替换成 fork 的版本
-brew install macism \
-             mu isync msmtp
+brew install mu isync msmtp
 brew install --cask lunar inkscape medis

@@ -82,5 +82,8 @@ util = {
             rect:delete()
         end)
     end,
+    executeCommand = function(self, command)
+        hs.execute(command, true)
+    end,
 }
 return util

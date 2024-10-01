@@ -83,6 +83,12 @@ conf = {
         ["up"] = function()
             util:toogleDock()
         end,
+        ["F6"] = function()
+            util:executeCommand("emacsclient -e '(popup-frame-chatgpt-translate)'")
+        end,
+        ["F7"] = function()
+            util:executeCommand("emacsclient -e '(popup-frame-password-store-copy)'")
+        end,
     },
     blackList = {
         "org.hammerspoon.Hammerspoon",

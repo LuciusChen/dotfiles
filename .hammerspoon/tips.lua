@@ -208,7 +208,7 @@ local function generateHtml()
               background-image: url("]] .. background_img .. [[");
             }
             .content.maincontent{
-            position: relative;
+              position: relative;
               height: 577px;
               margin-top: 46px;
             }

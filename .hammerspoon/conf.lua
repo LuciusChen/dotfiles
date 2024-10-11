@@ -89,6 +89,15 @@ conf = {
         ["F7"] = function()
             util:executeCommand("emacsclient -e '(popup-frame-password-store-copy)'")
         end,
+        ["F8"] = function()
+            util:executeCommand("emacsclient -e '(popup-frame-org-capture)'")
+        end,
+        ["F9"] = function()
+            util:executeCommand("emacsclient -e '(popup-frame-org-roam-dailies-capture-today)'")
+        end,
+        ["F10"] = function()
+            util:executeCommand("emacsclient -e '(popup-frame-save-bookmark)'")
+        end,
     },
     blackList = {
         "org.hammerspoon.Hammerspoon",

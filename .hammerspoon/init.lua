@@ -137,15 +137,6 @@ usbWatcher = hs.usb.watcher.new(function(data)
 end)
 usbWatcher:start()
 
-killCursorUIViewService = function()
-    local processName = "CursorUIViewService"
-    hs.execute("pkill -9 -f " .. processName)
-    hs.alert.show("Killed " .. processName)
-end
-
-local timer = hs.timer.doEvery(86400, killCursorUIViewService)
-killCursorUIViewService()
-
 -- disable hide windows shortcuts
 local noop = function() end
 conf.bind({ "cmd", "alt" }, "h", noop)

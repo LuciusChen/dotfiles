@@ -1,4 +1,6 @@
 brew tap d12frosted/emacs-plus
+brew tap laishulu/homebrew
+brew install macism
 brew install emacs-plus@30 --with-savchenkovaleriy-big-sur-icon --with-xwidgets
 brew install starship eza mactex pngpaste latexindent curl ispell
 brew install ffmpeg cmake fzf gnupg

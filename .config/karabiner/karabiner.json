@@ -64,27 +64,6 @@
             ]
           },
           {
-            "description": "Map Right Shift to F13 when pressed alone",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "name": "right_shift_pressed",
-                    "type": "variable_if",
-                    "value": 0
-                  }
-                ],
-                "from": {
-                  "key_code": "right_shift",
-                  "modifiers": { "optional": ["any"] }
-                },
-                "to": [{ "key_code": "right_shift" }],
-                "to_if_alone": [{ "key_code": "f13" }],
-                "type": "basic"
-              }
-            ]
-          },
-          {
             "description": "HHKB RCtF: Function keys",
             "manipulators": [
               {
@@ -266,27 +245,6 @@
                   "modifiers": { "optional": ["any"] }
                 },
                 "to": [{ "key_code": "left_shift" }],
-                "to_if_alone": [{ "key_code": "f13" }],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "description": "Map Right Shift to F13 when pressed alone",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "name": "right_shift_pressed",
-                    "type": "variable_if",
-                    "value": 0
-                  }
-                ],
-                "from": {
-                  "key_code": "right_shift",
-                  "modifiers": { "optional": ["any"] }
-                },
-                "to": [{ "key_code": "right_shift" }],
                 "to_if_alone": [{ "key_code": "f13" }],
                 "type": "basic"
               }

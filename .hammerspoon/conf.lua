@@ -25,7 +25,7 @@ conf = {
         m = "io.mpv",
         i = "com.tencent.weread",
         k = "com.nssurge.surge-mac",
-        o = "com.captureone.captureone15",
+        o = "com.apple.ScreenContinuity",
         l = "com.figma.Desktop",
         p = "com.adobe.Photoshop",
     },
@@ -93,9 +93,6 @@ conf = {
             util:executeCommand("emacsclient -e '(popup-frame-org-capture)'")
         end,
         ["F9"] = function()
-            util:executeCommand("emacsclient -e '(popup-frame-org-roam-dailies-capture-today)'")
-        end,
-        ["F10"] = function()
             util:executeCommand("emacsclient -e '(popup-frame-save-bookmark)'")
         end,
     },

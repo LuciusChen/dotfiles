@@ -12,6 +12,10 @@ util = {
     toggle = function(self, id, maximize)
         local app = hs.application.frontmostApplication()
         if app:bundleID() == id then
+            local arc = hs.application.find("arc")
+            if arc:isFrontmost() then
+                app:selectMenuItem("Hide " .. arc:name())
+            end
             return app:hide()
         else
             hs.application.launchOrFocusByBundleID(id)

@@ -63,5 +63,6 @@ export PATH="$PATH:/Users/luciuschen/.local/bin"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
+# emacs eat
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
   source "$EAT_SHELL_INTEGRATION_DIR/zsh"

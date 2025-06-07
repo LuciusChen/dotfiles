@@ -61,8 +61,49 @@ esac
 export PATH="$PATH:/Users/luciuschen/.local/bin"
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 # emacs eat
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
   source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+
+# Function: smite
+# Description: This function allows users to interactively delete command history entries using fzf.
+#
+# Usage:
+#   smite [-a]
+#
+# Options:
+#   -a  List all command history entries, not just those from the current session.
+#
+# Behavior:
+#   - Without any options, it lists recent command history entries for selection.
+#   - If the '-a' option is provided, it lists all commands from history.
+#   - Users can select one or multiple commands to delete using the fzf interface.
+#   - Selected commands will be removed from the history file.
+#
+# Error Handling:
+#   - If an unsupported option or argument is provided, an error message is displayed and the function exits with status 1.
+#
+# Dependencies:
+#   - This function requires fzf to be installed for the interactive selection.
+function smite() {
+    setopt LOCAL_OPTIONS ERR_RETURN PIPE_FAIL
+
+    local opts=( -I )
+    if [[ $1 == '-a' ]]; then
+        opts=()
+    elif [[ -n $1 ]]; then
+        print >&2 'usage: smite [-a]'
+        return 1
+    fi
+
+    fc -l -n $opts 1 | \
+        fzf --no-sort --tac --multi | \
+        while IFS='' read -r command_to_delete; do
+            printf 'Removing history entry "%s"\n' $command_to_delete
+            local HISTORY_IGNORE="${(b)command_to_delete}"
+            fc -W
+            fc -p $HISTFILE $HISTSIZE $SAVEHIST
+        done
+}

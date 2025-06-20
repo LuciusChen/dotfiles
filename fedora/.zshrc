@@ -16,3 +16,5 @@ source /usr/share/fzf/shell/key-bindings.zsh
 # 为了一致性，这个也 git clone https://github.com/Aloxaf/fzf-tab ~/fzf-tab 后 mv 到 /usr/share
 autoload -U compinit; compinit
 source /usr/share/fzf-tab/fzf-tab.plugin.zsh
+# 切换 shell 为 zsh --> $ chsh -s $(which zsh)
+# 如果不成功的话，重启电脑。

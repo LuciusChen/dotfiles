@@ -1,0 +1,106 @@
+{
+    "layer": "top",
+    "position": "top",
+    "spacing": 6,
+    "margin-top": 8,
+    "margin-left": 8,
+    "margin-right": 8,
+    "margin-bottom": 0,
+    "height": 36,
+    "modules-left": ["hyprland/window"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["tray", "wireplumber", "network", "memory", "cpu", "battery", "clock"],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "*": 5
+        },
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "format-icons": {
+		    "1": "\uf303",
+            "2": "\uf121",
+		    "3": "\uf484",
+            "4": "\uf013",
+            "5": "\uf11b"
+	    }
+    },
+    "hyprland/window": {
+        "format": "\uf105 {}",
+        "rewrite": {
+               "(.*) - Mozilla Firefox": " $1",
+               "(.*) - kitty": " $1",
+               "(.*) - GNU Emacs at archlinux": " $1",
+        },
+        "separate-outputs": true
+    },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "interval": 1,
+        "format": "\uf017 {:%H:%M:%S}",
+        "format-alt": "\uf133 {:%Y-%m-%d %H:%M:%S}",
+        "tooltip-format": "{calendar}",
+		"timezone": "Asia/Chongqing",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'>{}</span>",
+                "days":       "<span color='#ecc6d9'>{}</span>",
+                "weeks":      "<span color='#99ffdd'>W{}</span>",
+                "weekdays":   "<span color='#ffcc66'>{}</span>",
+                "today":      "<span color='#ff6699'><u>{}</u></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "cpu": {
+        "interval": 1,
+        "format": "\uf4bc {usage:1}%",
+        "tooltip": true
+    },
+    "memory": {
+        "interval": 1,
+        "format": "\uefc5 {used:0.1f}G",
+        "tooltip": true,
+        "tooltip-format": " RAM: {used:0.2f}G / {total:0.2f}G\nSwap: {swapUsed:0.2f}G / {swapTotal:0.2f}G"
+    },
+    "network": {
+        "interval": 1,
+        "format-wifi": "\uf1eb {essid} ({signalStrength}%)",
+        "format-ethernet": "\uef09 {ifname}",
+        "format-linked": "\ueb32 No IP ({ifname})",
+        "format-disconnected": "\uf071 Disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}, Gateway: {gwaddr}",
+        "format-alt": "\uef09 {ipaddr}/{cidr}"
+    },
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-muted": "",
+        "on-click": "helvum",
+        "format-icons": ["", "", ""]
+    },
+    "battery": {
+        "bat": "BAT0",
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-icons": ["", "", "", "", ""],
+        "max-length": 25
+    }
+}

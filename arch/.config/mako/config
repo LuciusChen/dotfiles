@@ -10,7 +10,7 @@ icons=0
 max-icon-size=64
 default-timeout=5000
 ignore-timeout=0
-font="Noto Sans CJK SC" 14
+font="Noto Sans CJK SC" 12
 margin=12
 padding=12,20
 

@@ -37,7 +37,7 @@
         "separate-outputs": true
     },
     "tray": {
-        "icon-size": 21,
+        "icon-size": 16,
         "spacing": 10
     },
     "clock": {

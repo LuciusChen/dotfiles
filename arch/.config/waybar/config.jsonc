@@ -13,7 +13,7 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "persistent-workspaces": {
-            "*": 5
+            "*": 3
         },
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e+1",
@@ -23,7 +23,8 @@
             "2": "\uf121",
 		    "3": "\uf484",
             "4": "\uf013",
-            "5": "\uf11b"
+            "5": "\uf11b",
+            "6": "󰁯"
 	    }
     },
     "hyprland/window": {

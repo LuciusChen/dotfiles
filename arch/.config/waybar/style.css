@@ -6,6 +6,7 @@ window#waybar {
     /* Large size for shorter side padding*/
     /* border-radius: 100px */
     background-color: transparent;
+    opacity: 0.8;
 }
 
 .modules-left {
@@ -85,7 +86,7 @@ tooltip {
 #workspaces button.active {
     /* background: #ffffff; */
     color: #ffffff;
-    border-bottom: 3px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
     margin-bottom: 1px;
     /* padding: 0 4px; */
 }

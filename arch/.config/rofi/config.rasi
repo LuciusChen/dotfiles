@@ -6,7 +6,7 @@ configuration {
 @theme "arthur"
 
 * {
-    font: "PragmataPro liga 12";
+    font: "PragmataPro liga 16";
 }
 
 message {

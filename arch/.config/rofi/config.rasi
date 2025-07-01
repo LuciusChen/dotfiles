@@ -10,5 +10,5 @@ configuration {
 }
 
 message {
-    font: "PragmataPro liga 8";
+    font: "PragmataPro liga 12";
  }

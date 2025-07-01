@@ -38,7 +38,8 @@
     },
     "tray": {
         "icon-size": 16,
-        "spacing": 10
+        "spacing": 10,
+        "icons": {}
     },
     "clock": {
         "interval": 1,

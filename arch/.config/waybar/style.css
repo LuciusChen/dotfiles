@@ -41,6 +41,7 @@ tooltip {
 #network,
 #wireplumber,
 #tray,
+#battery,
 #mode,
 #window,
 #workspaces {
@@ -106,7 +107,7 @@ tooltip {
 }
 
 #battery {
-    color: #a0e0a0
+    color: #a0e0a0;
 }
 
 #cpu {

@@ -88,7 +88,7 @@
         "format-alt": "\uef09 {ipaddr}/{cidr}"
     },
     "wireplumber": {
-        "format": "{icon}{volume}%",
+        "format": "{icon} {volume}%",
         "format-muted": "",
         "on-click": "helvum",
         "format-icons": ["", "", ""]
@@ -100,7 +100,7 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}{capacity}%",
+        "format": "{icon} {capacity}%",
         "format-icons": ["", "", "", "", ""],
         "max-length": 25
     }

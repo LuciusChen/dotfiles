@@ -30,9 +30,11 @@
     "hyprland/window": {
         "format": "\uf105 {}",
         "rewrite": {
-               "(.*) - Mozilla Firefox": " $1",
-               "(.*) - kitty": " $1",
-               "(.*) - GNU Emacs at archlinux": " $1",
+               "(.*)Mozilla Firefox": " $1",
+               "(.*)~": " $1",
+               "(.*)微信": " $1",
+               "(.*)Discord": " $1",
+               "(.*)GNU Emacs at archlinux": " $1",
         },
         "separate-outputs": true
     },

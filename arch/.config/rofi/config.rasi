@@ -7,6 +7,7 @@ configuration {
 
 * {
     font: "PragmataPro liga 16";
+    highlight: underline bold yellow;
 }
 
 message {

@@ -1,5 +1,3 @@
 # Lucius's dotfiles
 
-## HammerSpoon
-![](images/Modifier-Keys.png)
-[Learn more](/.hammerspoon/README.md)
+Arch 配置额外包含了 `/etc` 下的内容。

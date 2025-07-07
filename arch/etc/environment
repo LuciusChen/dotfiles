@@ -4,6 +4,6 @@
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
 XMODIFIERS=@im=fcitx
+QT_IM_MODULES="wayland;fcitx;ibus"
 QT_IM_MODULE=fcitx
-QT_SCALE_FACTOR=0.8
-GDK_SCALE=1
+QT_SCALE_FACTOR=0.75

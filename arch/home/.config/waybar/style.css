@@ -30,7 +30,6 @@ tooltip {
     background-color: rgba(18, 18, 18, 1.0);
     border: 1px solid rgba(34, 34, 34, 0.5);
     border-radius: 15px;
-
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
     font-size: 16px;
 }
@@ -42,6 +41,7 @@ tooltip {
 #wireplumber,
 #tray,
 #battery,
+#bluetooth,
 #mode,
 #window,
 #workspaces {
@@ -49,9 +49,17 @@ tooltip {
     margin-bottom: 0px;
     padding: 0px 6px 0px 6px;
     background-color: transparent;
-
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
     font-size: 16px;
+}
+
+#custom-power {
+    border-radius: 4px;
+    font-size: 25px;
+}
+
+#custom-power:hover {
+    color: #eb4d4b;
 }
 
 #workspaces {
@@ -122,8 +130,20 @@ tooltip {
     color: #a4e4fe;
 }
 
+#wireplumber.muted {
+    color: #FE968B;
+}
+
 #network {
     color: #b0f5e5;
+}
+
+#bluetooth.on {
+    color: #a0e0a0;
+}
+
+#bluetooth.off {
+    color: #FE968B;
 }
 
 #tray {

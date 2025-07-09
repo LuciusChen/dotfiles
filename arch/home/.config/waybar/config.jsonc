@@ -9,7 +9,7 @@
     "height": 36,
     "modules-left": ["hyprland/window"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["tray", "wireplumber", "network", "memory", "cpu", "battery", "clock"],
+    "modules-right": ["custom/network_traffic", "tray", "bluetooth", "wireplumber", "network", "memory", "cpu", "battery", "clock", "custom/power"],
     "hyprland/workspaces": {
         "format": "{icon}",
         "persistent-workspaces": {
@@ -87,7 +87,21 @@
         "format-linked": "\ueb32 No IP ({ifname})",
         "format-disconnected": "\uf071 Disconnected",
         "tooltip-format": "{ifname}: {ipaddr}/{cidr}, Gateway: {gwaddr}",
-        "format-alt": "\uef09 {ipaddr}/{cidr}"
+        "format-alt": "\uef09 {ipaddr}/{cidr}",
+        "on-click-right": "kitty -T waybar_nmtui -e nmtui"
+    },
+    "bluetooth": {
+    	"format": "󰂯 {status}:{num_connections}",
+    	"format-on": "",
+    	"format-off": "󰂲",
+    	"format-disabled": "",
+    	"format-icons": ["󰤾", "󰤿", "󰥀", "󰥁", "󰥂", "󰥃", "󰥄", "󰥅", "󰥆", "󰥈"],
+    	"tooltip-format": "L󰍽: bluetui\nR󰍽: bluetoothctl power on/off\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}",
+    	"tooltip-format-connected": "L󰍽: bluetui\nR󰍽: bluetoothctl power on/off\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}\nDevice---------------Address------------Battery\n{device_enumerate}",
+    	"tooltip-format-enumerate-connected": "{device_alias:<20} {device_address:<18}",
+    	"tooltip-format-enumerate-connected-battery": "{device_alias:<20.20} {device_address:<18.18} {icon} {device_battery_percentage}%",
+       	"on-click-right": "kitty -T waybar_bluetui -e bluetui",
+       	"on-click": "~/.config/waybar/scripts/bluetooth_toggle.sh"
     },
     "wireplumber": {
         "format": "{icon} {volume}%",
@@ -103,7 +117,17 @@
             "critical": 15
         },
         "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", ""],
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
         "max-length": 25
+    },
+     "custom/power": {
+        "format":"⏻",
+        "on-click": "systemctl poweroff",
+        "tooltip-format": "Shutdown"
+    },
+    "custom/network_traffic": {
+        "exec": "~/.config/waybar/scripts/network_traffic.sh",
+        "return-type": "json",
+        "format-ethernet": "{icon} {ifname} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}"
     }
 }

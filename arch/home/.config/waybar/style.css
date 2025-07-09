@@ -29,37 +29,71 @@ window#waybar {
 tooltip {
     background-color: rgba(18, 18, 18, 1.0);
     border: 1px solid rgba(34, 34, 34, 0.5);
-    border-radius: 15px;
+    border-radius: 4px;
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #clock,
 #cpu,
 #memory,
+#temperature,
+#disk,
 #network,
 #wireplumber,
 #tray,
 #battery,
 #bluetooth,
 #mode,
+#custom-power,
+#custom-reboot,
+#custom-lock,
+#custom-network_traffic,
 #window,
 #workspaces {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0px 6px 0px 6px;
+    /* margin-top: 0px; */
+    /* margin-bottom: 0px; */
+    /* padding: 0px 6px 0px 6px; */
     background-color: transparent;
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
-    font-size: 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    padding: 4px;
+    margin: 4px;
 }
 
-#custom-power {
-    border-radius: 4px;
-    font-size: 25px;
+#clock:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#disk:hover,
+#network:hover,
+#wireplumber:hover,
+#tray:hover,
+#battery:hover,
+#bluetooth:hover,
+#mode:hover,
+#custom-power:hover,
+#custom-reboot:hover,
+#custom-lock:hover,
+#custom-network_traffic:hover,
+#window:hover,
+#workspaces:hover{
+    background: rgba(129,161,193,0.4);
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
 }
 
 #custom-power:hover {
     color: #eb4d4b;
+}
+
+#custom-reboot:hover {
+    color: yellow;
+}
+
+#custom-lock:hover {
+    color: #a0e0a0;
 }
 
 #workspaces {
@@ -122,7 +156,7 @@ tooltip {
     color: #FE968B;
 }
 
-#memory {
+#memory, #disk {
     color: #FFEAAA;
 }
 
@@ -134,7 +168,7 @@ tooltip {
     color: #FE968B;
 }
 
-#network {
+#network, #temperature {
     color: #b0f5e5;
 }
 

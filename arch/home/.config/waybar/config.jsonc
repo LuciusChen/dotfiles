@@ -1,133 +1,187 @@
 {
-    "layer": "top",
-    "position": "top",
-    "spacing": 6,
-    "margin-top": 2,
-    "margin-left": 8,
-    "margin-right": 8,
-    "margin-bottom": 0,
-    "height": 36,
-    "modules-left": ["hyprland/window"],
-    "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["custom/network_traffic", "tray", "bluetooth", "wireplumber", "network", "memory", "cpu", "battery", "clock", "custom/power"],
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "persistent-workspaces": {
-            "*": 3
-        },
-        "on-click": "activate",
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1",
-        "format-icons": {
-		    "1": "\uf303",
-            "2": "\uf121",
-		    "3": "\uf484",
-            "4": "\uf013",
-            "5": "\uf11b",
-            "6": "󰁯"
-	    }
+  "layer": "top",
+  "position": "top",
+  "spacing": 6,
+  "margin-top": 2,
+  "margin-left": 4,
+  "margin-right": 4,
+  "margin-bottom": 0,
+  "height": 44,
+  "modules-left": ["hyprland/window"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": [
+    "custom/network_traffic",
+    "tray",
+    "bluetooth",
+    "wireplumber",
+    "network",
+    "group/resources",
+    "battery",
+    "clock",
+    "group/power"
+  ],
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "persistent-workspaces": {
+      "*": 3
     },
-    "hyprland/window": {
-        "format": "\uf105 {}",
-        "rewrite": {
-               "(.*)Mozilla Firefox": " $1",
-               "(.*)~": " $1",
-               "(.*)微信": " $1",
-               "(.*)Discord": " $1",
-               "(.*)GNU Emacs at archlinux": " $1",
-        },
-        "separate-outputs": true
-    },
-    "tray": {
-        "icon-size": 21,
-        "spacing": 10,
-    },
-    "clock": {
-        "interval": 1,
-        "format": "\uf017 {:%H:%M:%S}",
-        "format-alt": "\uf133 {:%Y-%m-%d %H:%M:%S}",
-        "tooltip-format": "{calendar}",
-		"timezone": "Asia/Chongqing",
-        "calendar": {
-            "mode"          : "month",
-            "mode-mon-col"  : 3,
-            "weeks-pos"     : "right",
-            "on-scroll"     : 1,
-            "format": {
-                "months":     "<span color='#ffead3'>{}</span>",
-                "days":       "<span color='#ecc6d9'>{}</span>",
-                "weeks":      "<span color='#99ffdd'>W{}</span>",
-                "weekdays":   "<span color='#ffcc66'>{}</span>",
-                "today":      "<span color='#ff6699'><u>{}</u></span>"
-            }
-        },
-        "actions": {
-            "on-click-right": "mode",
-            "on-click-forward": "tz_up",
-            "on-click-backward": "tz_down",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
-        }
-    },
-    "cpu": {
-        "interval": 1,
-        "format": "\uf4bc {usage:1}%",
-        "tooltip": true
-    },
-    "memory": {
-        "interval": 1,
-        "format": "\uefc5 {used:0.1f}G",
-        "tooltip": true,
-        "tooltip-format": " RAM: {used:0.2f}G / {total:0.2f}G\nSwap: {swapUsed:0.2f}G / {swapTotal:0.2f}G"
-    },
-    "network": {
-        "interval": 1,
-        "format-wifi": "\uf1eb {essid} ({signalStrength}%)",
-        "format-ethernet": "\uef09 {ifname}",
-        "format-linked": "\ueb32 No IP ({ifname})",
-        "format-disconnected": "\uf071 Disconnected",
-        "tooltip-format": "{ifname}: {ipaddr}/{cidr}, Gateway: {gwaddr}",
-        "format-alt": "\uef09 {ipaddr}/{cidr}",
-        "on-click-right": "kitty -T waybar_nmtui -e nmtui"
-    },
-    "bluetooth": {
-    	"format": "󰂯 {status}:{num_connections}",
-    	"format-on": "",
-    	"format-off": "󰂲",
-    	"format-disabled": "",
-    	"format-icons": ["󰤾", "󰤿", "󰥀", "󰥁", "󰥂", "󰥃", "󰥄", "󰥅", "󰥆", "󰥈"],
-    	"tooltip-format": "L󰍽: bluetui\nR󰍽: bluetoothctl power on/off\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}",
-    	"tooltip-format-connected": "L󰍽: bluetui\nR󰍽: bluetoothctl power on/off\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}\nDevice---------------Address------------Battery\n{device_enumerate}",
-    	"tooltip-format-enumerate-connected": "{device_alias:<20} {device_address:<18}",
-    	"tooltip-format-enumerate-connected-battery": "{device_alias:<20.20} {device_address:<18.18} {icon} {device_battery_percentage}%",
-       	"on-click-right": "kitty -T waybar_bluetui -e bluetui",
-       	"on-click": "~/.config/waybar/scripts/bluetooth_toggle.sh"
-    },
-    "wireplumber": {
-        "format": "{icon} {volume}%",
-        "format-muted": "",
-        "on-click": "helvum",
-        "format-icons": ["", "", ""]
-    },
-    "battery": {
-        "bat": "BAT0",
-        "interval": 60,
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "max-length": 25
-    },
-     "custom/power": {
-        "format":"⏻",
-        "on-click": "systemctl poweroff",
-        "tooltip-format": "Shutdown"
-    },
-    "custom/network_traffic": {
-        "exec": "~/.config/waybar/scripts/network_traffic.sh",
-        "return-type": "json",
-        "format-ethernet": "{icon} {ifname} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}"
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "format-icons": {
+      "1": "\uf303",
+      "2": "\uf121",
+      "3": "\uf484",
+      "4": "\uf013",
+      "5": "\uf11b",
+      "6": "󰁯"
     }
+  },
+  "hyprland/window": {
+    "format": "\uf105 {}",
+    "rewrite": {
+      "(.*)Mozilla Firefox": " $1",
+      "(.*)~": " $1",
+      "(.*)微信": " $1",
+      "(.*)Discord": " $1",
+      "(.*)GNU Emacs at archlinux": " $1"
+    },
+    "separate-outputs": true
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+  "clock": {
+    "interval": 1,
+    "format": "\uf017 {:%H:%M:%S}",
+    "format-alt": "\uf133 {:%Y-%m-%d %H:%M:%S}",
+    "tooltip-format": "{calendar}",
+    "timezone": "Asia/Chongqing",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'>{}</span>",
+        "days": "<span color='#ecc6d9'>{}</span>",
+        "weeks": "<span color='#99ffdd'>W{}</span>",
+        "weekdays": "<span color='#ffcc66'>{}</span>",
+        "today": "<span color='#ff6699'><u>{}</u></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  "group/resources": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "resources-drawer",
+      "transition-left-to-right": true
+    },
+    "modules": ["memory", "cpu", "temperature", "disk"]
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "\uf4bc{usage:1}%",
+    "tooltip": true
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C",
+    "format": "{temperatureC}°C",
+    "tooltip-format": "  󰍽: s-tui\n {temperatureC}° Celsius\n{temperatureF}° Fahrenheit\n{temperatureK}° Kelvin",
+    "on-click": "kitty -T waybar_s-tui -e s-tui"
+  },
+  "disk": {
+    "interval": 600,
+    "format": "󰋊{percentage_used}%",
+    "path": "/",
+    "on-click": "kitty -T waybar_dua -e dua i /",
+    "tooltip-format": "    󰍽: dua\nTotal: {total}\n Used: {used} ({percentage_used}%)\n Free: {free} ({percentage_free}%)"
+  },
+  "memory": {
+    "interval": 5,
+    "format": "{}%",
+    "on-click": "kitty -T waybar_btm -e btm",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "tooltip-format": "        󰍽: btm\n   Memory: {total} GiB\n   In use: {used} GiB ({percentage}%)\nAvailable: {avail} GiB\n     Swap: {swapTotal} GiB\n   In use: {swapUsed} GiB ({swapPercentage}%)\nAvailable: {swapAvail} GiB"
+  },
+  "network": {
+    "format-disabled": "Disabled",
+    "format-wifi": "{bandwidthDownBits:>}󰶡 {bandwidthUpBits:>}󰶣",
+    "tooltip-format-wifi": "{essid}/{ipaddr}",
+    "format-ethernet": "󰈀{bandwidthDownBits:>}󰶡 {bandwidthUpBits:>}󰶣",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+    "format-disconnected": "Disconnected",
+    "on-click": "kitty -T waybar_nmtui -e nmtui",
+    "interval": 2
+  },
+  "bluetooth": {
+    "format": "󰂯 {status}:{num_connections}",
+    "format-on": "",
+    "format-off": "󰂲",
+    "format-disabled": "",
+    "format-icons": ["󰤾", "󰤿", "󰥀", "󰥁", "󰥂", "󰥃", "󰥄", "󰥅", "󰥆", "󰥈"],
+    "tooltip-format": "L󰍽: bluetoothctl power on/off\nR󰍽: bluetui\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}",
+    "tooltip-format-connected": "L󰍽: bluetui\nR󰍽: bluetoothctl power on/off\nController: {controller_alias}\t{controller_address}\nConnected devices: {num_connections}\nDevice---------------Address------------Battery\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias:<20} {device_address:<18}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias:<20.20} {device_address:<18.18} {icon} {device_battery_percentage}%",
+    "on-click-right": "kitty -T waybar_bluetui -e bluetui",
+    "on-click": "~/.config/waybar/scripts/bluetooth_toggle.sh"
+  },
+  "wireplumber": {
+    "format": "{icon}{volume}%",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": ["", "", ""],
+    "tooltip-format": "󰍽: helvum"
+  },
+  "battery": {
+    "states": {
+      "warning": 20,
+      "critical": 10
+    },
+    "format": "{icon}{capacity}%",
+    "format-charging": "{icon}{capacity}%",
+    "format-plugged": "{icon}{capacity}%",
+    "format-full": "{icon}{capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "󰍽: battop\n{timeTo}",
+    "on-click": "kitty -T waybar_battop -e battop"
+  },
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "power-drawer",
+      "transition-left-to-right": true
+    },
+    "modules": ["custom/power", "custom/reboot", "custom/lock"]
+  },
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "systemctl poweroff",
+    "tooltip-format": "Shutdown"
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "on-click": "systemctl reboot",
+    "tooltip-format": "Reboot"
+  },
+  "custom/lock": {
+    "format": "󰌾",
+    "on-click": "hyprlock",
+    "tooltip-format": "Lock"
+  }
 }

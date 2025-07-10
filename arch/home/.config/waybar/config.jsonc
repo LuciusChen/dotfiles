@@ -156,7 +156,7 @@
     "format-charging": "{icon}{capacity}%󱐋",
     "format-plugged": "{icon}{capacity}%󱐋",
     "format-full": "{icon}{capacity}%󱐋",
-    "format-icons": ["", "", "", "", ""],
+    "format-icons": ["󰂎", "󱊡", "󱊢", "󱊣"],
     "tooltip-format": "󰍽: battop\n{timeTo}",
     "on-click": "kitty -T waybar_battop -e battop"
   },

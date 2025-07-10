@@ -11,23 +11,23 @@ window#waybar {
 
 .modules-left {
     border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
+    background-color: rgba(18, 18, 18, 1);
     padding: 0 8px;
 }
 
 .modules-center {
     border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
+    background-color: rgba(18, 18, 18, 1);
 }
 
 .modules-right {
     border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
+    background-color: rgba(18, 18, 18, 1);
     padding: 0 8px;
 }
 
 tooltip {
-    background-color: rgba(18, 18, 18, 1.0);
+    background-color: rgba(18, 18, 18, 1);
     border: 1px solid rgba(34, 34, 34, 0.5);
     border-radius: 4px;
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
@@ -51,14 +51,11 @@ tooltip {
 #custom-network_traffic,
 #window,
 #workspaces {
-    /* margin-top: 0px; */
-    /* margin-bottom: 0px; */
-    /* padding: 0px 6px 0px 6px; */
     background-color: transparent;
     font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
     font-size: 14px;
     border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     padding: 4px;
     margin: 4px;
 }
@@ -79,9 +76,9 @@ tooltip {
 #custom-lock:hover,
 #custom-network_traffic:hover,
 #window:hover,
-#workspaces:hover{
-    background: rgba(129,161,193,0.4);
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+#workspaces:hover {
+    background: rgba(129, 161, 193, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 #custom-power:hover {
@@ -140,7 +137,7 @@ tooltip {
 }
 
 #mode {
-    background-color: #64727D;
+    background-color: #64727d;
     border-bottom: 3px solid #ffffff;
 }
 
@@ -153,11 +150,12 @@ tooltip {
 }
 
 #cpu {
-    color: #FE968B;
+    color: #fe968b;
 }
 
-#memory, #disk {
-    color: #FFEAAA;
+#memory,
+#disk {
+    color: #ffeaaa;
 }
 
 #wireplumber {
@@ -165,10 +163,11 @@ tooltip {
 }
 
 #wireplumber.muted {
-    color: #FE968B;
+    color: #fe968b;
 }
 
-#network, #temperature {
+#network,
+#temperature {
     color: #b0f5e5;
 }
 
@@ -177,7 +176,7 @@ tooltip {
 }
 
 #bluetooth.off {
-    color: #FE968B;
+    color: #fe968b;
 }
 
 #tray {

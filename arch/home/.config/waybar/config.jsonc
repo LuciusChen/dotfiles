@@ -119,9 +119,9 @@
   },
   "network": {
     "format-disabled": "Disabled",
-    "format-wifi": "{bandwidthDownBits:>}󰶡 {bandwidthUpBits:>}󰶣",
+    "format-wifi": "{bandwidthDownBits:>}󰶡{bandwidthUpBits:>}󰶣",
     "tooltip-format-wifi": "{essid}/{ipaddr}",
-    "format-ethernet": "󰈀{bandwidthDownBits:>}󰶡 {bandwidthUpBits:>}󰶣",
+    "format-ethernet": "󰈀{bandwidthDownBits:>}󰶡{bandwidthUpBits:>}󰶣",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
     "format-disconnected": "Disconnected",
     "on-click": "kitty -T waybar_nmtui -e nmtui",

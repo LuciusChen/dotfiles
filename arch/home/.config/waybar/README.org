@@ -1,0 +1,1 @@
+参考：[[https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-sway-settings/-/tree/master/etc/skel/.config/waybar?ref_type=heads][etc/skel/.config/waybar · master · Garuda Linux 🦅 / Themes and Settings / Set...]]

@@ -167,7 +167,13 @@
       "children-class": "power-drawer",
       "transition-left-to-right": true
     },
-    "modules": ["custom/power", "custom/reboot", "custom/lock"]
+    "modules": [
+      "custom/power",
+      "custom/reboot",
+      "custom/log-off",
+      "custom/suspend",
+      "custom/lock"
+    ]
   },
   "custom/power": {
     "format": "⏻",
@@ -178,6 +184,16 @@
     "format": "󰜉",
     "on-click": "systemctl reboot",
     "tooltip-format": "Reboot"
+  },
+  "custom/log-off": {
+    "format": "󰍃",
+    "on-click": "hyprctl dispatch exit",
+    "tooltip-format": "Log out"
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "on-click": "systemctl suspend",
+    "tooltip-format": "Suspend"
   },
   "custom/lock": {
     "format": "󰌾",

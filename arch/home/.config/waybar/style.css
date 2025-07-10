@@ -46,6 +46,8 @@ tooltip {
 #bluetooth,
 #mode,
 #custom-power,
+#custom-log-off,
+#custom-suspend,
 #custom-reboot,
 #custom-lock,
 #window,
@@ -70,8 +72,10 @@ tooltip {
 #battery:hover,
 #bluetooth:hover,
 #mode:hover,
+#custom-log-off:hover,
 #custom-power:hover,
 #custom-reboot:hover,
+#custom-suspend:hover,
 #custom-lock:hover,
 #window:hover,
 #workspaces:hover {
@@ -79,16 +83,21 @@ tooltip {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-#custom-power:hover {
+#custom-power:hover,
+#custom-log-off:hover {
     color: #eb4d4b;
 }
 
 #custom-reboot:hover {
-    color: yellow;
+    color: #f6c177;
 }
 
 #custom-lock:hover {
     color: #a0e0a0;
+}
+
+#custom-suspend:hover {
+    color: #b294bb;
 }
 
 #workspaces {

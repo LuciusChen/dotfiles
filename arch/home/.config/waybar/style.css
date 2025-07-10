@@ -48,7 +48,6 @@ tooltip {
 #custom-power,
 #custom-reboot,
 #custom-lock,
-#custom-network_traffic,
 #window,
 #workspaces {
     background-color: transparent;
@@ -74,7 +73,6 @@ tooltip {
 #custom-power:hover,
 #custom-reboot:hover,
 #custom-lock:hover,
-#custom-network_traffic:hover,
 #window:hover,
 #workspaces:hover {
     background: rgba(129, 161, 193, 0.4);

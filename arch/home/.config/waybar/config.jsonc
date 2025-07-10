@@ -153,9 +153,9 @@
       "critical": 10
     },
     "format": "{icon}{capacity}%",
-    "format-charging": "{icon}{capacity}%",
-    "format-plugged": "{icon}{capacity}%",
-    "format-full": "{icon}{capacity}%",
+    "format-charging": "{icon}{capacity}%󱐋",
+    "format-plugged": "{icon}{capacity}%󱐋",
+    "format-full": "{icon}{capacity}%󱐋",
     "format-icons": ["", "", "", "", ""],
     "tooltip-format": "󰍽: battop\n{timeTo}",
     "on-click": "kitty -T waybar_battop -e battop"

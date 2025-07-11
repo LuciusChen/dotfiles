@@ -83,23 +83,6 @@ tooltip {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-#custom-power:hover,
-#custom-log-off:hover {
-    color: #eb4d4b;
-}
-
-#custom-reboot:hover {
-    color: #f6c177;
-}
-
-#custom-lock:hover {
-    color: #a0e0a0;
-}
-
-#custom-suspend:hover {
-    color: #b294bb;
-}
-
 #workspaces {
     /* border: rgba(255, 255, 255, 0.2) solid 2px; */
     padding: 4px 12px;
@@ -148,42 +131,51 @@ tooltip {
     border-bottom: 3px solid #ffffff;
 }
 
-#clock {
-    color: #eefff1;
-}
-
-#battery {
-    color: #a0e0a0;
-}
-
-#cpu {
-    color: #fe968b;
-}
-
-#memory,
-#disk {
-    color: #ffeaaa;
-}
-
-#wireplumber {
-    color: #a4e4fe;
-}
-
-#wireplumber.muted {
-    color: #fe968b;
-}
-
-#network,
-#temperature {
-    color: #b0f5e5;
-}
-
+#battery.full,
 #bluetooth.on {
     color: #a0e0a0;
 }
 
-#bluetooth.off {
+#battery.critical,
+#bluetooth.off,
+#wireplumber.muted {
     color: #fe968b;
+}
+
+#battery.warning {
+    color: #ffeaaa;
+}
+
+#cpu,
+#disk,
+#clock,
+#memory,
+#network,
+#temperature,
+#wireplumber,
+#custom-log-off,
+#custom-reboot,
+#custom-lock,
+#custom-suspend,
+#custom-power {
+    color: #b0f5e5;
+}
+
+#custom-power:hover,
+#custom-log-off:hover {
+    color: #eb4d4b;
+}
+
+#custom-reboot:hover {
+    color: #f6c177;
+}
+
+#custom-lock:hover {
+    color: #a0e0a0;
+}
+
+#custom-suspend:hover {
+    color: #b294bb;
 }
 
 #tray {

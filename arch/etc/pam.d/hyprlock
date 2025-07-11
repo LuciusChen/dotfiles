@@ -1,0 +1,5 @@
+# PAM configuration file for hyprlock
+# the 'login' configuration file (see /etc/pam.d/login)
+auth        sufficient  pam_fprintd.so
+auth        include     login
+

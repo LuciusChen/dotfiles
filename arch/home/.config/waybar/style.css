@@ -179,7 +179,7 @@ tooltip {
 }
 
 #tray {
-    /* border: rgba(255, 255, 255, 0.2) solid 2px; */
+    border: rgba(255, 255, 255, 0.2) solid 2px;
     color: transparent;
 }
 

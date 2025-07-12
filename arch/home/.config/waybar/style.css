@@ -123,21 +123,6 @@ tooltip {
     border-bottom: 3px solid #ffffff;
 }
 
-#battery.full,
-#bluetooth.on {
-    color: #a0e0a0;
-}
-
-#battery.critical,
-#bluetooth.off,
-#wireplumber.muted {
-    color: #fe968b;
-}
-
-#battery.warning {
-    color: #ffeaaa;
-}
-
 #cpu,
 #disk,
 #clock,
@@ -154,21 +139,19 @@ tooltip {
     color: #e6f2d6;
 }
 
-#custom-power:hover,
-#custom-log-off:hover {
-    color: #eb4d4b;
-}
-
-#custom-reboot:hover {
-    color: #f6c177;
-}
-
-#custom-lock:hover {
+#battery.full,
+#bluetooth.on {
     color: #a0e0a0;
 }
 
-#custom-suspend:hover {
-    color: #b294bb;
+#battery.critical,
+#bluetooth.off,
+#wireplumber.muted {
+    color: #fe968b;
+}
+
+#battery.warning {
+    color: #ffeaaa;
 }
 
 #tray {

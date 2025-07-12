@@ -30,7 +30,7 @@ tooltip {
     background-color: rgba(18, 18, 18, 1);
     border: 1px solid rgba(34, 34, 34, 0.5);
     border-radius: 4px;
-    font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
+    font-family: "JetBrainsMono Nerd Font Propo";
     font-size: 14px;
 }
 
@@ -53,9 +53,10 @@ tooltip {
 #window,
 #workspaces {
     background-color: transparent;
-    font-family: "PragmataPro liga", "LXGW Wenkai", "Symbols Nerd Font";
+    transition: border-bottom 0.6s ease;
+    font-family:
+        "PragmataPro liga", "LXGW Wenkai", "JetBrainsMono Nerd Font Propo";
     font-size: 14px;
-    border-radius: 100px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     padding: 4px;
     margin: 4px;
@@ -76,11 +77,12 @@ tooltip {
 #custom-power:hover,
 #custom-reboot:hover,
 #custom-suspend:hover,
-#custom-lock:hover,
-#window:hover,
-#workspaces:hover {
-    background: rgba(129, 161, 193, 0.4);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+#custom-lock:hover
+/* #window:hover, */
+/* #workspaces:hover */ {
+    /* background: rgba(129, 161, 193, 0.4); */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); */
+    border-bottom: 2px solid #ffffff;
 }
 
 #workspaces {
@@ -99,14 +101,14 @@ tooltip {
     color: #ffffff;
     margin: 0 4px;
     min-width: 24px;
-
+    transition: border-bottom 0.6s ease;
     transition-property: background, color, border, margin, padding;
-    transition-duration: 0.2s;
+    transition-duration: 0.6s;
 }
 
 #workspaces button:hover {
-    /* background: rgba(255, 255, 255, 0.5); */
     color: rgba(255, 255, 255, 0.5);
+    border-bottom: 2px solid #ffffff;
 }
 
 #workspaces button.empty {
@@ -157,8 +159,9 @@ tooltip {
 #custom-reboot,
 #custom-lock,
 #custom-suspend,
-#custom-power {
-    color: #b0f5e5;
+#custom-power,
+#window {
+    color: #e6f2d6;
 }
 
 #custom-power:hover,
@@ -179,11 +182,10 @@ tooltip {
 }
 
 #tray {
-    border: rgba(255, 255, 255, 0.2) solid 2px;
     color: transparent;
 }
 
-#window {
-    color: #e6f2d6;
-    margin-left: 4px;
-}
+/* { */
+/*     color: #e6f2d6; */
+/*     margin-left: 4px; */
+/* } */

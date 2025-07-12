@@ -54,8 +54,8 @@
   },
   "clock": {
     "interval": 1,
-    "format": "\uf017 {:%H:%M:%S}",
-    "format-alt": "\uf133 {:%Y-%m-%d %H:%M:%S}",
+    "format": "\uf017{:%H:%M:%S}",
+    "format-alt": "\uf133{:%Y-%m-%d %H:%M:%S}",
     "tooltip-format": "{calendar}",
     "timezone": "Asia/Chongqing",
     "calendar": {
@@ -81,23 +81,23 @@
   },
   "privacy": {
     "icon-spacing": 4,
-    "icon-size": 18,
+    "icon-size": 14,
     "transition-duration": 250,
     "modules": [
       {
         "type": "screenshare",
         "tooltip": true,
-        "tooltip-icon-size": 24
+        "tooltip-icon-size": 20
       },
       {
         "type": "audio-out",
         "tooltip": true,
-        "tooltip-icon-size": 24
+        "tooltip-icon-size": 20
       },
       {
         "type": "audio-in",
         "tooltip": true,
-        "tooltip-icon-size": 24
+        "tooltip-icon-size": 20
       }
     ]
   },

@@ -1,10 +1,9 @@
 * {
+    font-family: "PragmataPro Liga", "LXGW Wenkai";
     text-shadow: none;
 }
 
 window#waybar {
-    /* Large size for shorter side padding*/
-    /* border-radius: 100px */
     background-color: transparent;
     opacity: 0.8;
 }
@@ -30,7 +29,6 @@ tooltip {
     background-color: rgba(18, 18, 18, 1);
     border: 1px solid rgba(34, 34, 34, 0.5);
     border-radius: 4px;
-    font-family: "JetBrainsMono Nerd Font Propo";
     font-size: 14px;
 }
 
@@ -55,8 +53,6 @@ tooltip {
 #workspaces {
     background-color: transparent;
     transition: border-bottom 0.6s ease;
-    font-family:
-        "PragmataPro liga", "LXGW Wenkai", "JetBrainsMono Nerd Font Propo";
     font-size: 14px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     padding: 4px;
@@ -79,18 +75,12 @@ tooltip {
 #custom-power:hover,
 #custom-reboot:hover,
 #custom-suspend:hover,
-#custom-lock:hover
-/* #window:hover, */
-/* #workspaces:hover */ {
-    /* background: rgba(129, 161, 193, 0.4); */
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); */
+#custom-lock:hover {
     border-bottom: 2px solid #ffffff;
 }
 
 #workspaces {
-    /* border: rgba(255, 255, 255, 0.2) solid 2px; */
     padding: 4px 12px;
-
     transition-property: background, color, border;
     transition-duration: 0.2s;
 }
@@ -118,11 +108,9 @@ tooltip {
 }
 
 #workspaces button.active {
-    /* background: #ffffff; */
     color: #ffffff;
     border-bottom: 2px solid #ffffff;
     margin-bottom: 1px;
-    /* padding: 0 4px; */
 }
 
 #workspaces button.urgent {
@@ -186,8 +174,3 @@ tooltip {
 #tray {
     color: transparent;
 }
-
-/* { */
-/*     color: #e6f2d6; */
-/*     margin-left: 4px; */
-/* } */

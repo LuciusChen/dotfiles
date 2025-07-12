@@ -10,8 +10,8 @@
   "modules-left": ["hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": [
-    "custom/network_traffic",
     "tray",
+    "privacy",
     "bluetooth",
     "wireplumber",
     "network",
@@ -78,6 +78,28 @@
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
+  },
+  "privacy": {
+    "icon-spacing": 4,
+    "icon-size": 18,
+    "transition-duration": 250,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      },
+      {
+        "type": "audio-out",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      }
+    ]
   },
   "group/resources": {
     "orientation": "inherit",

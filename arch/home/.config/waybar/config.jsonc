@@ -131,7 +131,7 @@
   },
   "memory": {
     "interval": 5,
-    "format": "{}%",
+    "format": " {}%",
     "on-click": "kitty -T waybar_btm -e btm",
     "states": {
       "warning": 70,

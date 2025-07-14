@@ -4,8 +4,7 @@ User chenyh572@gmail.com
 # security add-generic-password -s mu4e-gmail -a chenyh572@gmail.com -w
 PassCmd "security find-generic-password -s mu4e-gmail -a chenyh572@gmail.com -w"
 Port 993
-SSLType IMAPS
-SSLVersions TLSv1.2
+TLSType IMAPS
 AuthMechs PLAIN
 SystemCertificates no
 CertificateFile ~/.maildir/certificates/root-certificates.pem
@@ -35,8 +34,7 @@ User chenyaohua@njcjh.cn
 # security add-generic-password -s mu4e-qq -a chenyaohua@njcjh.cn -w
 PassCmd "security find-generic-password -s mu4e-qq -a chenyaohua@njcjh.cn -w"
 Port 993
-SSLType IMAPS
-SSLVersions TLSv1.2
+TLSType IMAPS
 AuthMechs LOGIN
 SystemCertificates no
 CertificateFile ~/.maildir/certificates/root-certificates.pem
@@ -66,8 +64,7 @@ User chenyh1013@163.com
 # security add-generic-password -s mu4e-163 -a chenyh1013@163.com -w
 PassCmd "security find-generic-password -s mu4e-163 -a chenyh1013@163.com -w"
 Port 993
-SSLType IMAPS
-SSLVersions TLSv1.2
+TLSType IMAPS
 AuthMechs LOGIN
 SystemCertificates no
 CertificateFile ~/.maildir/certificates/root-certificates.pem

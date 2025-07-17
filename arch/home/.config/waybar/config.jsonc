@@ -140,12 +140,12 @@
     "tooltip-format": "        󰍽: btm\n   Memory: {total} GiB\n   In use: {used} GiB ({percentage}%)\nAvailable: {avail} GiB\n     Swap: {swapTotal} GiB\n   In use: {swapUsed} GiB ({swapPercentage}%)\nAvailable: {swapAvail} GiB"
   },
   "network": {
-    "format-disabled": "Disabled",
+    "format-disabled": "󰖪",
     "format-wifi": "{bandwidthDownBits:>}󰶡{bandwidthUpBits:>}󰶣",
     "tooltip-format-wifi": "{essid}/{ipaddr}",
     "format-ethernet": "󰈀{bandwidthDownBits:>}󰶡{bandwidthUpBits:>}󰶣",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
-    "format-disconnected": "Disconnected",
+    "format-disconnected": "󱚵",
     "on-click": "kitty -T waybar_nmtui -e nmtui",
     "interval": 2
   },

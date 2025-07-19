@@ -34,6 +34,14 @@ alias lr='eza -lR'
 
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
+# pnpm
+export PNPM_HOME="/home/lucius/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 # Function: smite
 # Description: This function allows users to interactively delete command history entries using fzf.
 #

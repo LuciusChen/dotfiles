@@ -61,6 +61,7 @@ const prependRules = [
   "DOMAIN-SUFFIX,mastodon.social,BosLife",
   "DOMAIN-SUFFIX,ycombinator.com,BosLife",
   "DOMAIN-SUFFIX,deepl.com,BosLife",
+  "DOMAIN-SUFFIX,andinfinity.eu,BosLife",
 ];
 
 function main(config) {

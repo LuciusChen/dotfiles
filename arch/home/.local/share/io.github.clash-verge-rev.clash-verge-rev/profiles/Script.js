@@ -1,4 +1,5 @@
 // Define main function (script entry)
+// https://github.com/clash-verge-rev/clash-verge-rev/issues/1437#issuecomment-2395050752
 
 // 国内 DNS 服务器
 const domesticNameservers = [

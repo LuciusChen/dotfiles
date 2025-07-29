@@ -62,6 +62,7 @@ const prependRules = [
   "DOMAIN-SUFFIX,ycombinator.com,BosLife",
   "DOMAIN-SUFFIX,deepl.com,BosLife",
   "DOMAIN-SUFFIX,andinfinity.eu,BosLife",
+  "DOMAIN-SUFFIX,openrouter.ai,BosLife",
 ];
 
 function main(config) {

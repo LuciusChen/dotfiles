@@ -1,0 +1,57 @@
+{;; !  | means mandatory -   modifier(s) alone when pressend change behavior
+    ;; #  | means optional  -   modifiers are optional (but atleast one necessary)
+
+    ;; :!Ca is keycode :a and prefix a with !C
+
+    ;; C  | left_command
+    ;; T  | left_control
+    ;; O  | left_option
+    ;; S  | left_shift
+    ;; F  | fn
+    ;; Q  | right_command
+    ;; W  | right_control
+    ;; E  | right_option
+    ;; R  | right_shift
+
+    ;; ## | optional any
+    ;; !! | command + control + optional + shift (hyper)
+
+    ;; Install via brew: `brew install yqrashawn/goku/goku`
+
+    ;; karabiner docs: ;; https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition
+    ;; <other options> includs ~to_if_alone~, ~to_if_held_down~,~to_after_key_up~, ~to_delayed_action~ and ~parameters~.
+
+    ;; (custom variables) & modifiers -> Advanced
+    ;; https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org#custom-variable
+
+    ;; Examples: https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org
+    ;; https://gist.github.com/kaushikgopal/ff7a92bbc887e59699c804b59074a126
+    ;; https://github.com/kchen0x/k-goku/blob/master/karabiner.edn
+
+ :profiles {:Default {:default true
+                      :sim     50     ;; simultaneous_threshold_milliseconds (def: 50), keys need to be pressed within this threshold to be considered simultaneous
+                      :delay   500    ;; to_delayed_action_delay_milliseconds (def: 500), basically it means time after which the key press is count delayed
+                      :alone   500    ;; to_if_alone_timeout_milliseconds (def: 1000), hold for 995s and single tap registered; hold for 1005s and seen as modifier
+                      :held    1000   ;; to_if_held_down_threshold_milliseconds (def: 500), key is fired twice when 500 ms is elapsed (otherwise seen as a hold command)
+}} ;; profiles
+
+ ;; Define different kinds of keyboards
+ :devices {:kb-corne
+           [{:vendor_id 65262,
+             :product_id 24679}]} ;; devices
+ :layers {:semicolon-mode {:key :semicolon}}
+ :main [{:des "semicolon-mode"
+         :rules [:semicolon-mode
+                 [:##h :left_arrow]
+                 [:##j :down_arrow]
+                 [:##k :up_arrow]
+                 [:##l :right_arrow]
+                 [:##n :page_up]
+                 [:##m :page_down]
+                 [:##left_shift :right_shift]]}
+        {:des "CAPSLOCK is CTRL if pressed in combination, otherwise ESC"
+         :rules  [[:##caps_lock :left_control nil {:alone :escape}]]}
+        {:des "Change tab to cmd+alt+ctrl if pressed with other keys"
+         :rules [[:##tab :!COleft_control nil {:alone :tab}]]}
+        {:des "Map Left Shift to F13 when pressed alone, otherwise keep it as Left Shift"
+         :rules [[:##left_shift :left_shift nil {:alone :f13}]]}]}

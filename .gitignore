@@ -42,3 +42,6 @@ luac.out
 Spoons
 conf.moon
 .DS_Store
+
+.clj-kondo
+.lsp

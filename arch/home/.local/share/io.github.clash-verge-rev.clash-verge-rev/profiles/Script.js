@@ -64,7 +64,15 @@ const prependRules = [
   "DOMAIN-SUFFIX,andinfinity.eu,BosLife",
   "DOMAIN-SUFFIX,openrouter.ai,BosLife",
   "DOMAIN-SUFFIX,mozilla.org,BosLife",
+  "DOMAIN-SUFFIX,db.tt,BosLife",
+  "DOMAIN-SUFFIX,dropbox-dns.com,BosLife",
   "DOMAIN-SUFFIX,dropbox.com,BosLife",
+  "DOMAIN-SUFFIX,dropbox.tech,BosLife",
+  "DOMAIN-SUFFIX,dropbox.zendesk.com,BosLife",
+  "DOMAIN-SUFFIX,dropboxapi.com,BosLife",
+  "DOMAIN-SUFFIX,dropboxbusiness.com,BosLife",
+  "DOMAIN-SUFFIX,dev.to,BosLife",
+  "DOMAIN-SUFFIX,jetbrains.com,BosLife",
 ];
 
 function main(config) {

@@ -28,6 +28,7 @@
  ;; https://gist.github.com/kaushikgopal/ff7a92bbc887e59699c804b59074a126
  ;; https://github.com/kchen0x/k-goku/blob/master/karabiner.edn
  ;; https://gist.github.com/johnlindquist/0342df1ccba4c968cebfc012e7269db0
+ ;; https://gist.github.com/gsinclair/f4ab34da53034374eb6164698a0a8ace
 
  :profiles {:Default {:default true
                       :sim     50     ;; simultaneous_threshold_milliseconds (def: 50), keys need to be pressed within this threshold to be considered simultaneous

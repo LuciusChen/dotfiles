@@ -23,10 +23,16 @@ fi
 # 直接指定路径会导致虚拟环境的解释器依旧是指定路径的解释器
 alias python=python3.12
 alias pip=pip3
-# java
-export JAVA_HOME=$(/usr/libexec/java_home)
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-22.0.1/Contents/Home
+# Java
+# export JAVA_HOME=$(/usr/libexec/java_home)
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH
+# Jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+# Tomcat
+export TOMCAT_HOME=/opt/homebrew/opt/tomcat@9/libexec
+export PATH=$TOMCAT_HOME/bin:$PATH
 # grep
 PATH="/opt/homebrew/Cellar/grep/3.11/libexec:$PATH"
 # eza
@@ -65,7 +71,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 # emacs eat
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
   source "$EAT_SHELL_INTEGRATION_DIR/zsh"
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 # Function: smite
 # Description: This function allows users to interactively delete command history entries using fzf.
@@ -107,3 +112,4 @@ function smite() {
             fc -p $HISTFILE $HISTSIZE $SAVEHIST
         done
 }
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

@@ -32,7 +32,12 @@ alias ll='eza -lh'
 #alias la='eza -lah'
 alias lr='eza -lR'
 
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+# Jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+# Tomcat
+export TOMCAT_HOME=/usr/share/tomcat9
+export PATH=$TOMCAT_HOME/bin:$PATH
 
 # pnpm
 export PNPM_HOME="/home/lucius/.local/share/pnpm"
@@ -82,3 +87,4 @@ function smite() {
             fc -p $HISTFILE $HISTSIZE $SAVEHIST
         done
 }
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

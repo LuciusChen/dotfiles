@@ -27,9 +27,6 @@ alias pip=pip3
 # export JAVA_HOME=$(/usr/libexec/java_home)
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_301.jdk/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH
-# Jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
 # Tomcat
 export TOMCAT_HOME=/opt/homebrew/opt/tomcat@9/libexec
 export PATH=$TOMCAT_HOME/bin:$PATH

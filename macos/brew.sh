@@ -9,6 +9,6 @@ brew install luarocks pngpaste
 brew install pipx
 brew install vscode-langservers-extracted
 brew install isort black google-java-format prettier stylua
-brew install redis eza
+brew install redis eza tomcat@9 ice
 brew install mu isync msmtp
 brew install --cask lunar inkscape medis

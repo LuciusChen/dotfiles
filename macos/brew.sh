@@ -1,6 +1,6 @@
 brew tap d12frosted/emacs-plus
 brew install emacs-plus@30 --with-savchenkovaleriy-big-sur-icon --with-xwidgets
-brew install starship eza mactex pngpaste latexindent curl ispell
+brew install starship eza texlive pngpaste latexindent curl ispell ghostscript
 brew install ffmpeg cmake fzf gnupg
 brew install hugo zsh-autosuggestions zsh-syntax-highlighting jdtls lua maven mpv fastfetch btop node pnpm pandoc pass pass-otp zbar pinentry-mac ripgrep fd tomcat@8 tokei
 brew install hammerspoon kitty iina

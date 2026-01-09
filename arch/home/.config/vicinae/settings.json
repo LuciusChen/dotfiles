@@ -9,14 +9,18 @@
 // Learn more about configuration at https://docs.vicinae.com/config
 
 {
-   "$schema": "https://vicinae.com/schemas/config.json",
-   "font": {
-      "normal": {
-         "family": "PragmataPro Mono",
-         "size": 16
-      }
-   },
-   "launcher_window": {
-      "opacity": 0.8
-   }
+  "$schema": "https://vicinae.com/schemas/config.json",
+  "font": {
+    "normal": {
+      "family": "PragmataPro Mono",
+      "size": 16
+    }
+  },
+  "launcher_window": {
+    "opacity": 0.8,
+    "size": {
+      "width": 1540,
+      "height": 960
+    }
+  }
 }

@@ -69,9 +69,13 @@ fi
 # Get node tags for selector/urltest
 NODE_TAGS=$(echo "$NODES" | jq '[.[].tag]')
 
+# Get Japan node tags for OpenRouter routing
+JAPAN_TAGS=$(echo "$NODES" | jq '[.[] | select(.tag | test("日本")) | .tag]')
+log "Found $(echo "$JAPAN_TAGS" | jq 'length') Japan nodes"
+
 # Build final config with our template settings
 log "Building final config..."
-jq -n --argjson nodes "$NODES" --argjson tags "$NODE_TAGS" '
+jq -n --argjson nodes "$NODES" --argjson tags "$NODE_TAGS" --argjson japan_tags "$JAPAN_TAGS" '
 {
   "log": {
     "level": "info",
@@ -120,6 +124,14 @@ jq -n --argjson nodes "$NODES" --argjson tags "$NODE_TAGS" '
         "tolerance": 50
       },
       {
+        "type": "urltest",
+        "tag": "🇯🇵 日本自动",
+        "outbounds": $japan_tags,
+        "url": "https://www.gstatic.com/generate_204",
+        "interval": "5m",
+        "tolerance": 50
+      },
+      {
         "type": "selector",
         "tag": "🚀 Proxy",
         "outbounds": (["♻️ Auto"] + $tags + ["DIRECT"]),
@@ -155,7 +167,8 @@ jq -n --argjson nodes "$NODES" --argjson tags "$NODE_TAGS" '
       { "rule_set": "geosite-youtube", "action": "route", "outbound": "🚀 Proxy" },
       { "rule_set": "geosite-google", "action": "route", "outbound": "🚀 Proxy" },
       { "rule_set": "geosite-telegram", "action": "route", "outbound": "🚀 Proxy" },
-      { "domain_suffix": ["openrouter.ai", "anthropic.com", "claude.ai", "perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "🚀 Proxy" },
+      { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "🇯🇵 日本自动" },
+      { "domain_suffix": ["anthropic.com", "claude.ai", "perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "🚀 Proxy" },
       { "rule_set": "geosite-openai", "action": "route", "outbound": "🚀 Proxy" },
       { "rule_set": "geosite-github", "action": "route", "outbound": "🚀 Proxy" },
       { "rule_set": "geosite-geolocation-!cn", "action": "route", "outbound": "🚀 Proxy" },

@@ -1,0 +1,307 @@
+#+TITLE: sing-box-update.sh 脚本文档
+#+AUTHOR: Lucius
+#+OPTIONS: toc:2
+
+* 概述
+
+这个脚本用于从订阅链接下载代理节点，并生成完整的 sing-box 配置文件。
+
+#+begin_src bash
+sudo sing-box-update "https://example.com/subscribe"
+#+end_src
+
+* 脚本结构解析
+
+** 第一部分：基础设置 (1-13行)
+
+#+begin_src bash
+#!/bin/bash
+set -e
+#+end_src
+
+- =#!/bin/bash= - shebang，指定用 bash 解释器执行
+- =set -e= - 遇到错误立即退出，不继续执行后续命令
+
+#+begin_src bash
+CONFIG_DIR="/etc/sing-box"
+CONFIG_FILE="${CONFIG_DIR}/config.json"
+BACKUP_DIR="${CONFIG_DIR}/backup"
+LOG_FILE="/var/log/sing-box-update.log"
+#+end_src
+
+定义路径变量。=${VAR}= 是变量展开的安全写法，避免歧义。
+
+** 第二部分：日志函数 (15-18行)
+
+#+begin_src bash
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+}
+#+end_src
+
+| 语法             | 含义                             |
+|------------------+----------------------------------|
+| =log()=          | 定义一个函数                     |
+| =$1=             | 函数的第一个参数                 |
+| =$(date ...)=    | 命令替换，执行 date 并插入结果   |
+| =tee -a=         | 同时输出到屏幕和追加到文件       |
+
+** 第三部分：参数检查 (20-27行)
+
+#+begin_src bash
+if [[ -z "$1" ]]; then
+    echo "Usage: $0 <subscription_url>"
+    exit 1
+fi
+SUBSCRIBE_URL="$1"
+#+end_src
+
+- =[[ -z "$1" ]]= - 检查第一个参数是否为空
+- =$0= - 脚本自身的名称
+- =exit 1= - 以错误码 1 退出
+
+** 第四部分：备份现有配置 (34-38行)
+
+#+begin_src bash
+if [[ -f "$CONFIG_FILE" ]]; then
+    cp "$CONFIG_FILE" "${BACKUP_DIR}/config.json.$(date +%Y%m%d_%H%M%S)"
+fi
+#+end_src
+
+- =[[ -f "$CONFIG_FILE" ]]= - 检查文件是否存在
+- 备份文件名带时间戳，如 =config.json.20260126_174133=
+
+** 第五部分：下载订阅 (40-55行)
+
+#+begin_src bash
+TEMP_FILE=$(mktemp)
+
+if ! curl -sL --connect-timeout 30 --max-time 60 -o "$TEMP_FILE" "$SUBSCRIBE_URL"; then
+    log "ERROR: Failed to download subscription"
+    rm -f "$TEMP_FILE"
+    exit 1
+fi
+
+if ! jq empty "$TEMP_FILE" 2>/dev/null; then
+    log "ERROR: Invalid JSON received"
+    rm -f "$TEMP_FILE"
+    exit 1
+fi
+#+end_src
+
+| 命令/参数            | 含义                       |
+|----------------------+----------------------------|
+| =mktemp=             | 创建临时文件，返回路径     |
+| =curl -s=            | 静默模式                   |
+| =curl -L=            | 跟随重定向                 |
+| =--connect-timeout=  | 连接超时秒数               |
+| =--max-time=         | 总超时秒数                 |
+| =-o=                 | 输出到文件                 |
+| =if ! command=       | 如果命令失败则执行 then    |
+| =jq empty=           | 验证 JSON 格式是否正确     |
+| =2>/dev/null=        | 丢弃错误输出               |
+
+** 第六部分：提取代理节点 (57-74行)
+
+#+begin_src bash
+NODES=$(jq '[.outbounds[] | select(.type == "trojan" or .type == "vmess" ...)]' "$TEMP_FILE")
+NODE_COUNT=$(echo "$NODES" | jq 'length')
+NODE_TAGS=$(echo "$NODES" | jq '[.[].tag]')
+JAPAN_TAGS=$(echo "$NODES" | jq '[.[] | select(.tag | test("日本")) | .tag]')
+#+end_src
+
+*** jq 语法解析
+
+| 表达式              | 含义                               |
+|---------------------+------------------------------------|
+| =.outbounds[]=      | 遍历 outbounds 数组的每个元素      |
+| =select(条件)=      | 过滤，只保留满足条件的元素         |
+| =.type == "trojan"= | 检查 type 字段是否等于 "trojan"    |
+| =[...]=             | 将结果收集成数组                   |
+| =.[].tag=           | 取每个元素的 tag 字段              |
+| =test("日本")=      | 正则匹配，检查是否包含"日本"       |
+| =length=            | 返回数组长度                       |
+
+*** 示例
+
+#+begin_src bash
+# 输入
+{"outbounds": [{"type": "trojan", "tag": "香港 01"}, {"type": "direct", "tag": "DIRECT"}]}
+
+# .outbounds[] | select(.type == "trojan") 结果
+{"type": "trojan", "tag": "香港 01"}
+#+end_src
+
+** 第七部分：生成配置 (78-196行)
+
+#+begin_src bash
+jq -n --argjson nodes "$NODES" --argjson tags "$NODE_TAGS" --argjson japan_tags "$JAPAN_TAGS" '
+{
+  ...配置模板...
+}'  > "$CONFIG_FILE"
+#+end_src
+
+*** jq 参数
+
+| 参数                   | 含义                                         |
+|------------------------+----------------------------------------------|
+| =-n=                   | 不读取输入，从零开始构建 JSON                |
+| =--argjson name value= | 将 shell 变量作为 JSON 传入 jq，用 =$name= 引用 |
+
+*** 配置模板中的 jq 表达式
+
+#+begin_src jq
+# 数组拼接
+"outbounds": ($nodes + [...])
+
+# 多数组拼接
+"outbounds": (["♻️ Auto"] + $tags + ["DIRECT"])
+#+end_src
+
+** 第八部分：验证和重启 (200-214行)
+
+#+begin_src bash
+if ! sing-box check -c "$CONFIG_FILE" 2>/dev/null; then
+    log "WARNING: Config validation failed, but continuing..."
+fi
+
+if systemctl is-active --quiet sing-box; then
+    systemctl restart sing-box
+else
+    systemctl start sing-box
+fi
+#+end_src
+
+- =sing-box check -c= - 验证配置文件语法
+- =systemctl is-active --quiet= - 检查服务是否运行中
+
+** 第九部分：清理旧备份 (217行)
+
+#+begin_src bash
+ls -t "${BACKUP_DIR}"/config.json.* 2>/dev/null | tail -n +6 | xargs -r rm -f
+#+end_src
+
+| 命令            | 作用                               |
+|-----------------+------------------------------------|
+| =ls -t=         | 按时间排序（最新在前）             |
+| =tail -n +6=    | 从第 6 行开始输出（跳过前 5 个）   |
+| =xargs -r rm -f= | 删除这些文件，=-r= 无输入时不执行 |
+
+结果：保留最新 5 个备份，删除更旧的。
+
+* sing-box 配置结构
+
+** DNS 配置
+
+#+begin_src json
+"dns": {
+  "servers": [
+    { "tag": "dns_proxy", "server": "8.8.8.8" },
+    { "tag": "dns_direct", "server": "223.5.5.5" }
+  ],
+  "rules": [
+    { "rule_set": ["geosite-cn"], "server": "dns_direct" }
+  ]
+}
+#+end_src
+
+- =dns_proxy= - 代理 DNS (Google)
+- =dns_direct= - 直连 DNS (阿里)，国内域名使用
+
+** Inbounds (入站)
+
+#+begin_src json
+"inbounds": [
+  { "type": "tun", ... },
+  { "type": "mixed", "listen_port": 7890, ... }
+]
+#+end_src
+
+| 类型    | 用途                                       |
+|---------+--------------------------------------------|
+| =tun=   | 创建虚拟网卡，接管系统所有流量             |
+| =mixed= | 提供 HTTP 和 SOCKS5 代理端口，供应用手动配置 |
+
+** Outbounds (出站)
+
+#+begin_src json
+"outbounds": [
+  { "type": "trojan", "tag": "香港 01", ... },
+  { "type": "urltest", "tag": "♻️ Auto", "outbounds": [...] },
+  { "type": "urltest", "tag": "🇯🇵 日本自动", "outbounds": [...] },
+  { "type": "selector", "tag": "🚀 Proxy", "outbounds": [...] },
+  { "type": "direct", "tag": "DIRECT" },
+  { "type": "block", "tag": "REJECT" }
+]
+#+end_src
+
+| 类型       | 说明                           |
+|------------+--------------------------------|
+| =urltest=  | 自动测速，选最快的节点         |
+| =selector= | 手动选择，可通过 Clash API 切换 |
+| =direct=   | 直连，不走代理                 |
+| =block=    | 拦截，丢弃请求                 |
+
+** Route Rules (路由规则)
+
+规则按顺序匹配，先匹配先生效：
+
+#+begin_src json
+"rules": [
+  { "protocol": "dns", "action": "hijack-dns" },
+  { "ip_is_private": true, "outbound": "DIRECT" },
+  { "rule_set": "geosite-category-ads-all", "action": "reject" },
+  { "rule_set": "geosite-cn", "outbound": "DIRECT" },
+  { "rule_set": "geoip-cn", "outbound": "DIRECT" },
+  { "domain_suffix": ["openrouter.ai"], "outbound": "🇯🇵 日本自动" },
+  { "rule_set": "geosite-geolocation-!cn", "outbound": "🚀 Proxy" },
+  { "process_name": ["qbittorrent"], "outbound": "DIRECT" }
+],
+"final": "🚀 Proxy"
+#+end_src
+
+*** 常用匹配条件
+
+| 条件            | 说明             |
+|-----------------+------------------|
+| =domain_suffix= | 域名后缀匹配     |
+| =domain=        | 完整域名匹配     |
+| =rule_set=      | 使用预定义规则集 |
+| =ip_is_private= | 私有 IP 地址     |
+| =process_name=  | 进程名匹配       |
+| =protocol=      | 协议类型         |
+
+* 如何扩展
+
+** 添加新的地区节点组
+
+#+begin_src bash
+# 1. 提取节点
+US_TAGS=$(echo "$NODES" | jq '[.[] | select(.tag | test("美国")) | .tag]')
+
+# 2. 在 jq 命令中添加参数
+jq -n --argjson us_tags "$US_TAGS" ...
+
+# 3. 在 outbounds 中添加
+{
+  "type": "urltest",
+  "tag": "🇺🇸 美国自动",
+  "outbounds": $us_tags
+}
+
+# 4. 在 rules 中使用
+{ "domain_suffix": ["netflix.com"], "outbound": "🇺🇸 美国自动" }
+#+end_src
+
+** 添加新的路由规则
+
+#+begin_src json
+// 基于域名
+{ "domain_suffix": ["example.com"], "outbound": "🚀 Proxy" }
+
+// 基于进程
+{ "process_name": ["firefox", "chrome"], "outbound": "🚀 Proxy" }
+
+// 基于规则集
+{ "rule_set": "geosite-netflix", "outbound": "🇺🇸 美国自动" }
+#+end_src

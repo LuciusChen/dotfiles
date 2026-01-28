@@ -38,7 +38,7 @@
   "outbounds": [
     {
       "type": "urltest",
-      "tag": "♻️ Auto",
+      "tag": "Auto",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "5m",
@@ -46,7 +46,7 @@
     },
     {
       "type": "urltest",
-      "tag": "🇯🇵 日本自动",
+      "tag": "Auto-JP",
       "outbounds": [],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "5m",
@@ -54,9 +54,9 @@
     },
     {
       "type": "selector",
-      "tag": "🚀 Proxy",
-      "outbounds": ["♻️ Auto", "DIRECT"],
-      "default": "♻️ Auto"
+      "tag": "Proxy",
+      "outbounds": ["Auto", "DIRECT"],
+      "default": "Auto"
     },
     { "type": "direct", "tag": "DIRECT" },
     { "type": "block", "tag": "REJECT" }
@@ -82,19 +82,19 @@
       { "rule_set": "geosite-category-ads-all", "action": "reject" },
       { "rule_set": "geosite-private", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-bilibili", "action": "route", "outbound": "DIRECT" },
-      { "rule_set": "geosite-youtube", "action": "route", "outbound": "🚀 Proxy" },
-      { "rule_set": "geosite-google", "action": "route", "outbound": "🚀 Proxy" },
-      { "rule_set": "geosite-telegram", "action": "route", "outbound": "🚀 Proxy" },
-      { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "🇯🇵 日本自动" },
-      { "domain_suffix": ["anthropic.com", "claude.ai", "perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "🚀 Proxy" },
-      { "rule_set": "geosite-openai", "action": "route", "outbound": "🚀 Proxy" },
-      { "rule_set": "geosite-github", "action": "route", "outbound": "🚀 Proxy" },
-      { "rule_set": "geosite-geolocation-!cn", "action": "route", "outbound": "🚀 Proxy" },
+      { "rule_set": "geosite-youtube", "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-google", "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-telegram", "action": "route", "outbound": "Proxy" },
+      { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" },
+      { "domain_suffix": ["anthropic.com", "claude.ai", "perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-openai", "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-github", "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-geolocation-!cn", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-cn", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geoip-cn", "action": "route", "outbound": "DIRECT" },
       { "process_name": ["qbittorrent", "aria2c", "transmission", "Motrix"], "action": "route", "outbound": "DIRECT" }
     ],
-    "final": "🚀 Proxy",
+    "final": "Proxy",
     "auto_detect_interface": true,
     "find_process": true
   },

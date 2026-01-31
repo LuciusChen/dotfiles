@@ -1,34 +1,32 @@
 {;; !  | means mandatory -   modifier(s) alone when pressend change behavior
- ;; #  | means optional  -   modifiers are optional (but atleast one necessary)
+    ;; #  | means optional  -   modifiers are optional (but atleast one necessary)
 
- ;; :!Ca is keycode :a and prefix a with !C
+    ;; :!Ca is keycode :a and prefix a with !C
 
- ;; C  | left_command
- ;; T  | left_control
- ;; O  | left_option
- ;; S  | left_shift
- ;; F  | fn
- ;; Q  | right_command
- ;; W  | right_control
- ;; E  | right_option
- ;; R  | right_shift
+    ;; C  | left_command
+    ;; T  | left_control
+    ;; O  | left_option
+    ;; S  | left_shift
+    ;; F  | fn
+    ;; Q  | right_command
+    ;; W  | right_control
+    ;; E  | right_option
+    ;; R  | right_shift
 
- ;; ## | optional any
- ;; !! | command + control + optional + shift (hyper)
+    ;; ## | optional any
+    ;; !! | command + control + optional + shift (hyper)
 
- ;; Install via brew: `brew install yqrashawn/goku/goku`
+    ;; Install via brew: `brew install yqrashawn/goku/goku`
 
- ;; karabiner docs: ;; https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition
- ;; <other options> includs ~to_if_alone~, ~to_if_held_down~,~to_after_key_up~, ~to_delayed_action~ and ~parameters~.
+    ;; karabiner docs: ;; https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition
+    ;; <other options> includs ~to_if_alone~, ~to_if_held_down~,~to_after_key_up~, ~to_delayed_action~ and ~parameters~.
 
- ;; (custom variables) & modifiers -> Advanced
- ;; https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org#custom-variable
+    ;; (custom variables) & modifiers -> Advanced
+    ;; https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org#custom-variable
 
- ;; Examples: https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org
- ;; https://gist.github.com/kaushikgopal/ff7a92bbc887e59699c804b59074a126
- ;; https://github.com/kchen0x/k-goku/blob/master/karabiner.edn
- ;; https://gist.github.com/johnlindquist/0342df1ccba4c968cebfc012e7269db0
- ;; https://gist.github.com/gsinclair/f4ab34da53034374eb6164698a0a8ace
+    ;; Examples: https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org
+    ;; https://gist.github.com/kaushikgopal/ff7a92bbc887e59699c804b59074a126
+    ;; https://github.com/kchen0x/k-goku/blob/master/karabiner.edn
 
  :profiles {:Default {:default true
                       :sim     50     ;; simultaneous_threshold_milliseconds (def: 50), keys need to be pressed within this threshold to be considered simultaneous
@@ -41,6 +39,7 @@
  :devices {:kb-corne
            [{:vendor_id 65262,
              :product_id 24679}]} ;; devices
+ :applications {:emacs ["^org\\.gnu\\.Emacs$"]}
  :layers {:semicolon-mode {:key :semicolon}}
  :main [{:des "semicolon-mode"
          :rules [:semicolon-mode
@@ -55,5 +54,5 @@
          :rules  [[:##caps_lock :left_control nil {:alone :escape}]]}
         {:des "Change tab to cmd+alt+ctrl if pressed with other keys"
          :rules [[:##tab :!COleft_control nil {:alone :tab}]]}
-        {:des "Map Left Shift to F13 when pressed alone, otherwise keep it as Left Shift"
-         :rules [[:##left_shift :left_shift nil {:alone :f13}]]}]}
+        {:des "Map Left Shift to F13 when pressed alone (Emacs only)"
+         :rules [[:##left_shift :left_shift :emacs {:alone :f13}]]}]}

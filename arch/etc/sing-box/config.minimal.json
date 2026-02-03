@@ -1,0 +1,110 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      { "tag": "dns_proxy", "type": "udp", "server": "8.8.8.8" },
+      { "tag": "dns_direct", "type": "udp", "server": "223.5.5.5" }
+    ],
+    "final": "dns_proxy"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "tun0",
+      "address": ["172.19.0.1/30"],
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true,
+      "sniff_override_destination": true
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "sniff": true,
+      "sniff_override_destination": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "trojan",
+      "tag": "HK-01",
+      "server": "h00kgaa1.star11.xyz",
+      "server_port": 60010,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "HK-02",
+      "server": "h00kgbb2.star11.xyz",
+      "server_port": 60011,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "HK-03",
+      "server": "h00kgaa3.star11.xyz",
+      "server_port": 60012,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "SG-01",
+      "server": "sin00p1.star11.xyz",
+      "server_port": 60030,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "JP-01",
+      "server": "ja00paa1.star11.xyz",
+      "server_port": 60050,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "JP-02",
+      "server": "ja00paa2.star11.xyz",
+      "server_port": 60051,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "trojan",
+      "tag": "US-01",
+      "server": "u00sbb1.star11.xyz",
+      "server_port": 60060,
+      "password": "966a44c2-7e43-40ab-a6e7-ac3321843f83",
+      "tls": { "enabled": true, "server_name": "g.alicdn.com", "insecure": true }
+    },
+    {
+      "type": "urltest",
+      "tag": "Auto",
+      "outbounds": ["HK-01", "HK-02", "HK-03", "SG-01", "JP-01", "JP-02", "US-01"],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "5m",
+      "tolerance": 50
+    },
+    { "type": "direct", "tag": "DIRECT" },
+    { "type": "block", "tag": "REJECT" }
+  ],
+  "route": {
+    "default_domain_resolver": "dns_direct",
+    "rules": [
+      { "protocol": "dns", "action": "hijack-dns" },
+      { "ip_is_private": true, "action": "route", "outbound": "DIRECT" }
+    ],
+    "final": "Auto",
+    "auto_detect_interface": true
+  }
+}

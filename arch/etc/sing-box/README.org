@@ -14,13 +14,17 @@
 * 快速使用
 
 #+begin_src bash
-sudo sing-box-update "https://example.com/subscribe"
+# 首次使用（自动下载缺失的 rule set）
+sudo ./sing-box-update.sh "https://example.com/subscribe"
+
+# 强制更新 rule set
+sudo ./sing-box-update.sh --force-ruleset "https://example.com/subscribe"
 #+end_src
 
 脚本会：
-1. 下载订阅并提取代理节点
-2. 读取模板文件
-3. 将节点注入模板生成最终配置
+1. 检查并下载缺失的 rule set 到 =/var/lib/sing-box/ruleset/=
+2. 下载订阅并提取代理节点
+3. 读取模板文件，将节点注入生成最终配置
 4. 验证配置并重启 sing-box
 
 * 文件说明
@@ -44,18 +48,18 @@ sudo sing-box-update "https://example.com/subscribe"
 "outbounds": [
   {
     "type": "urltest",
-    "tag": "♻️ Auto",
+    "tag": "Auto",
     "outbounds": []  // 脚本填充所有节点
   },
   {
     "type": "urltest",
-    "tag": "🇯🇵 日本自动",
+    "tag": "Auto-JP",
     "outbounds": []  // 脚本填充日本节点
   },
   {
     "type": "selector",
-    "tag": "🚀 Proxy",
-    "outbounds": ["♻️ Auto", "DIRECT"]  // 脚本填充为 ["♻️ Auto"] + 所有节点 + ["DIRECT"]
+    "tag": "Proxy",
+    "outbounds": ["Auto", "DIRECT"]  // 脚本填充为 ["Auto"] + 所有节点 + ["DIRECT"]
   },
   { "type": "direct", "tag": "DIRECT" },
   { "type": "block", "tag": "REJECT" }
@@ -64,32 +68,15 @@ sudo sing-box-update "https://example.com/subscribe"
 
 ** sing-box-update.sh
 
-订阅更新脚本，核心逻辑：
+订阅更新脚本，主要功能：
+- 下载并管理 rule set 文件（多镜像源备选）
+- 从订阅提取代理节点并去除 emoji
+- 将节点注入模板生成最终配置
 
-#+begin_src bash
-# 从订阅提取代理节点
-NODES=$(jq -c '[.outbounds[] | select(.type == "trojan" or .type == "vmess" ...)]' "$TEMP_FILE")
-
-# 提取节点标签
-ALL_TAGS=$(echo "$NODES" | jq -c '[.[].tag]')
-JAPAN_TAGS=$(echo "$NODES" | jq -c '[.[] | select(.tag | test("日本")) | .tag]')
-
-# 将节点注入模板
-jq --argjson nodes "$NODES" \
-   --argjson all_tags "$ALL_TAGS" \
-   --argjson japan_tags "$JAPAN_TAGS" '
-.outbounds = (
-  $nodes +
-  (.outbounds | map(
-    if .tag == "♻️ Auto" then .outbounds = $all_tags
-    elif .tag == "🇯🇵 日本自动" then .outbounds = $japan_tags
-    elif .tag == "🚀 Proxy" then .outbounds = (["♻️ Auto"] + $all_tags + ["DIRECT"])
-    else .
-    end
-  ))
-)
-' "$TEMPLATE_FILE" > "$CONFIG_FILE"
-#+end_src
+参数：
+- =--update-ruleset= 更新 rule set 文件
+- =--force-ruleset= 强制重新下载所有 rule set
+- =-h, --help= 显示帮助
 
 * 如何修改配置
 
@@ -101,13 +88,13 @@ jq --argjson nodes "$NODES" \
 
 #+begin_src json
 // 域名后缀匹配
-{ "domain_suffix": ["example.com"], "action": "route", "outbound": "🚀 Proxy" }
+{ "domain_suffix": ["example.com"], "action": "route", "outbound": "Proxy" }
 
 // 使用规则集
-{ "rule_set": "geosite-google", "action": "route", "outbound": "🚀 Proxy" }
+{ "rule_set": "geosite-google", "action": "route", "outbound": "Proxy" }
 
 // 指定日本节点
-{ "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "🇯🇵 日本自动" }
+{ "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" }
 
 // 直连
 { "rule_set": "geosite-cn", "action": "route", "outbound": "DIRECT" }
@@ -132,22 +119,32 @@ jq --argjson nodes "$NODES" \
 
 ** 添加规则集
 
-在 =route.rule_set= 数组中添加：
+规则集使用本地文件（存放在 =/var/lib/sing-box/ruleset/=）。
+
+1. 在 =route.rule_set= 数组中添加：
 
 #+begin_src json
 {
   "tag": "geosite-netflix",
-  "type": "remote",
+  "type": "local",
   "format": "binary",
-  "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-netflix.srs",
-  "download_detour": "DIRECT"
+  "path": "/var/lib/sing-box/ruleset/geosite-netflix.srs"
 }
 #+end_src
 
-然后在 =route.rules= 中使用：
+2. 在 =sing-box-update.sh= 的 =GEOSITE_RULES= 数组中添加：
+
+#+begin_src bash
+GEOSITE_RULES=(
+    ...
+    "geosite-netflix"
+)
+#+end_src
+
+3. 在 =route.rules= 中使用：
 
 #+begin_src json
-{ "rule_set": "geosite-netflix", "action": "route", "outbound": "🚀 Proxy" }
+{ "rule_set": "geosite-netflix", "action": "route", "outbound": "Proxy" }
 #+end_src
 
 ** 添加新的地区节点组
@@ -157,7 +154,7 @@ jq --argjson nodes "$NODES" \
 #+begin_src json
 {
   "type": "urltest",
-  "tag": "🇺🇸 美国自动",
+  "tag": "Auto-US",
   "outbounds": [],
   "url": "https://www.gstatic.com/generate_204",
   "interval": "5m",
@@ -165,21 +162,7 @@ jq --argjson nodes "$NODES" \
 }
 #+end_src
 
-2. 修改 =sing-box-update.sh= 添加提取逻辑：
-
-#+begin_src bash
-US_TAGS=$(echo "$NODES" | jq -c '[.[] | select(.tag | test("美国")) | .tag]')
-#+end_src
-
-3. 在 jq 命令中添加处理：
-
-#+begin_src bash
-jq --argjson us_tags "$US_TAGS" '
-  ...
-  elif .tag == "🇺🇸 美国自动" then .outbounds = $us_tags
-  ...
-'
-#+end_src
+2. 修改 =sing-box-update.sh= 中的 jq 命令，添加美国节点提取和填充逻辑（参考现有的日本节点处理）。
 
 * 故障排除
 
@@ -209,13 +192,19 @@ sudo cp /etc/sing-box/backup/config.json.XXXXXXXX /etc/sing-box/config.json
 sudo systemctl restart sing-box
 #+end_src
 
-** 规则集下载失败
+** 规则集问题
 
-如果某个规则集无法下载（网络问题），sing-box 会启动失败。解决方案：
+规则集文件存放在 =/var/lib/sing-box/ruleset/=，由脚本预先下载。
 
-1. 检查日志找出是哪个规则集
-2. 临时从模板中移除该规则集
-3. 或者更换规则集的下载源
+#+begin_src bash
+# 查看已下载的规则集
+ls -la /var/lib/sing-box/ruleset/
+
+# 强制重新下载所有规则集
+sudo ./sing-box-update.sh --force-ruleset "https://..."
+#+end_src
+
+如果下载失败，脚本会尝试多个镜像源（ghproxy、jsdelivr、GitHub 直连）。
 
 * sing-box 配置结构参考
 

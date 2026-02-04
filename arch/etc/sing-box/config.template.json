@@ -91,7 +91,7 @@
       { "rule_set": "geosite-private", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-bilibili", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-youtube", "action": "route", "outbound": "Proxy" },
-      { "domain_suffix": ["notebooklm.google", "notebooklm.google.com"], "action": "route", "outbound": "Auto-SG" },
+      { "domain_suffix": ["notebooklm.google", "notebooklm.google.com", "gemini.google.com", "bard.google.com", "aistudio.google.com", "generativelanguage.googleapis.com", "deepmind.google"], "action": "route", "outbound": "Auto-SG" },
       { "rule_set": "geosite-google", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-telegram", "action": "route", "outbound": "Proxy" },
       { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" },

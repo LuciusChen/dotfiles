@@ -13,7 +13,7 @@ dotfiles/
 │
 └── arch/                 # Arch Linux 配置
     ├── home/.config/     # Hyprland, Waybar, Rofi, Fcitx5, Kitty 等
-    └── etc/              # 系统级配置 (keyd, sing-box, ly 等)
+    └── etc/              # 系统级配置 (keyd, sing-box, sysctl.d, ly 等)
 ```
 
 ## 部署

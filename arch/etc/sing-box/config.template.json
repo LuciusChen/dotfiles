@@ -9,6 +9,7 @@
       { "tag": "dns_direct", "type": "udp", "server": "223.5.5.5" }
     ],
     "rules": [
+      { "domain_suffix": ["tailscale.com", "tailscale.io"], "action": "route", "server": "dns_direct" },
       { "rule_set": ["geosite-cn", "geosite-private"], "action": "route", "server": "dns_direct" },
       { "rule_set": ["geosite-geolocation-!cn"], "action": "route", "server": "dns_proxy" }
     ],
@@ -87,6 +88,9 @@
     "rules": [
       { "protocol": "dns", "action": "hijack-dns" },
       { "ip_is_private": true, "action": "route", "outbound": "DIRECT" },
+      { "process_name": ["tailscaled"], "action": "route", "outbound": "DIRECT" },
+      { "ip_cidr": ["100.64.0.0/10"], "action": "route", "outbound": "DIRECT" },
+      { "domain_suffix": ["tailscale.com", "tailscale.io"], "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-category-ads-all", "action": "reject" },
       { "rule_set": "geosite-private", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-bilibili", "action": "route", "outbound": "DIRECT" },

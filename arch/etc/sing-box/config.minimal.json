@@ -102,7 +102,10 @@
     "default_domain_resolver": "dns_direct",
     "rules": [
       { "protocol": "dns", "action": "hijack-dns" },
-      { "ip_is_private": true, "action": "route", "outbound": "DIRECT" }
+      { "ip_is_private": true, "action": "route", "outbound": "DIRECT" },
+      { "process_name": ["tailscaled"], "action": "route", "outbound": "DIRECT" },
+      { "ip_cidr": ["100.64.0.0/10"], "action": "route", "outbound": "DIRECT" },
+      { "domain_suffix": ["tailscale.com", "tailscale.io"], "action": "route", "outbound": "DIRECT" }
     ],
     "final": "Auto",
     "auto_detect_interface": true

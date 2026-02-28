@@ -100,7 +100,7 @@
       { "rule_set": "geosite-telegram", "action": "route", "outbound": "Proxy" },
       { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" },
       { "domain_suffix": ["anthropic.com", "claude.ai", "perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "Proxy" },
-      { "rule_set": "geosite-openai", "action": "route", "outbound": "Proxy" },
+      { "rule_set": "geosite-openai", "action": "route", "outbound": "Auto-JP" },
       { "rule_set": "geosite-github", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-geolocation-!cn", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-cn", "action": "route", "outbound": "DIRECT" },

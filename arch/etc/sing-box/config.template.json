@@ -5,7 +5,7 @@
   },
   "dns": {
     "servers": [
-      { "tag": "dns_proxy", "type": "udp", "server": "8.8.8.8", "detour": "Auto" },
+      { "tag": "dns_proxy", "type": "udp", "server": "8.8.8.8", "detour": "Proxy" },
       { "tag": "dns_direct", "type": "udp", "server": "223.5.5.5" }
     ],
     "rules": [

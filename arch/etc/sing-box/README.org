@@ -19,13 +19,17 @@ sudo ./sing-box-update.sh "https://example.com/subscribe"
 
 # 强制更新 rule set
 sudo ./sing-box-update.sh --force-ruleset "https://example.com/subscribe"
+
+# 修复系统 DNS 环境后再更新
+sudo ./sing-box-update.sh --repair-env "https://example.com/subscribe"
 #+end_src
 
 脚本会：
 1. 检查并下载缺失的 rule set 到 =/var/lib/sing-box/ruleset/=
 2. 下载订阅并提取代理节点
 3. 读取模板文件，将节点注入生成最终配置
-4. 验证配置并重启 sing-box
+4. 可选修复 =systemd-resolved= / =NetworkManager= 的 DNS 环境
+5. 验证配置并重启 sing-box
 
 * 文件说明
 
@@ -76,7 +80,21 @@ sudo ./sing-box-update.sh --force-ruleset "https://example.com/subscribe"
 参数：
 - =--update-ruleset= 更新 rule set 文件
 - =--force-ruleset= 强制重新下载所有 rule set
+- =--repair-env= 修复 =systemd-resolved= / =NetworkManager= / =/etc/resolv.conf= 组合
 - =-h, --help= 显示帮助
+
+** repair-resolver-env.sh
+
+一次性修复 Arch 上 sing-box TUN 依赖的 DNS 环境：
+
+- 写入 =/etc/NetworkManager/conf.d/10-dns.conf=，启用 =dns=systemd-resolved=
+- 启用并重启 =systemd-resolved=
+- 将 =/etc/resolv.conf= 链接到 =/run/systemd/resolve/stub-resolv.conf=
+- 输出修复后的 =resolvectl status=
+
+#+begin_src bash
+sudo ./repair-resolver-env.sh
+#+end_src
 
 * 如何修改配置
 
@@ -165,6 +183,19 @@ GEOSITE_RULES=(
 2. 修改 =sing-box-update.sh= 中的 jq 命令，添加美国节点提取和填充逻辑（参考现有的日本节点处理）。
 
 * 故障排除
+
+如果出现以下现象：
+
+- =ping 1.1.1.1= 正常，但域名解析失败
+- =resolvectl status= 中出现 =resolv.conf mode: foreign=
+- 启动 sing-box 后 =tun0= 成为默认 DNS，且解析异常
+
+优先修复系统 DNS 环境，再重新生成配置：
+
+#+begin_src bash
+sudo ./repair-resolver-env.sh
+sudo ./sing-box-update.sh "https://example.com/subscribe"
+#+end_src
 
 ** 查看日志
 

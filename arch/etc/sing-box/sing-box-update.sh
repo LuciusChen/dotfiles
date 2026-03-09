@@ -6,7 +6,6 @@ set -e
 # 配置路径
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 TEMPLATE_FILE="${SCRIPT_DIR}/config.template.json"
-REPAIR_SCRIPT="${SCRIPT_DIR}/repair-resolver-env.sh"
 CONFIG_DIR="/etc/sing-box"
 CONFIG_FILE="${CONFIG_DIR}/config.json"
 BACKUP_DIR="${CONFIG_DIR}/backup"
@@ -134,7 +133,6 @@ remove_emoji() {
 SUBSCRIBE_URL=""
 UPDATE_RULESET=false
 FORCE_RULESET=false
-REPAIR_ENV=false
 
 show_usage() {
     echo "Usage: $0 [options] <subscription_url>"
@@ -142,14 +140,12 @@ show_usage() {
     echo "Options:"
     echo "  --update-ruleset    Download/update rule set files"
     echo "  --force-ruleset     Force re-download all rule sets"
-    echo "  --repair-env        Repair systemd-resolved/NetworkManager DNS environment before restarting sing-box"
     echo "  -h, --help          Show this help"
     echo ""
     echo "Examples:"
     echo "  $0 \"https://example.com/subscribe\"           # Update subscription only"
     echo "  $0 --update-ruleset \"https://example.com/subscribe\"  # Update both"
     echo "  $0 --force-ruleset \"https://example.com/subscribe\"   # Force update rule sets"
-    echo "  $0 --repair-env \"https://example.com/subscribe\"      # Repair DNS environment and update config"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -161,10 +157,6 @@ while [[ $# -gt 0 ]]; do
         --force-ruleset)
             UPDATE_RULESET=true
             FORCE_RULESET=true
-            shift
-            ;;
-        --repair-env)
-            REPAIR_ENV=true
             shift
             ;;
         -h|--help)
@@ -182,47 +174,6 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-
-warn_resolver_environment() {
-    local warnings=0
-    local resolv_target=""
-
-    if [[ -L /etc/resolv.conf ]]; then
-        resolv_target="$(readlink /etc/resolv.conf)"
-    fi
-
-    case "$resolv_target" in
-        /run/systemd/resolve/stub-resolv.conf|../run/systemd/resolve/stub-resolv.conf)
-            ;;
-        *)
-            log "WARNING: /etc/resolv.conf is not the systemd-resolved stub symlink"
-            warnings=$((warnings + 1))
-            ;;
-    esac
-
-    if command -v resolvectl &>/dev/null && command -v systemctl &>/dev/null; then
-        if systemctl is-active --quiet systemd-resolved; then
-            if resolvectl status 2>/dev/null | grep -q 'resolv\.conf mode: foreign'; then
-                log "WARNING: systemd-resolved reports 'resolv.conf mode: foreign'"
-                warnings=$((warnings + 1))
-            fi
-        else
-            log "WARNING: systemd-resolved is not active"
-            warnings=$((warnings + 1))
-        fi
-    fi
-
-    if command -v nmcli &>/dev/null; then
-        if ! grep -Rqs '^[[:space:]]*dns=systemd-resolved[[:space:]]*$' /etc/NetworkManager /usr/lib/NetworkManager/conf.d 2>/dev/null; then
-            log "WARNING: NetworkManager is not configured with dns=systemd-resolved"
-            warnings=$((warnings + 1))
-        fi
-    fi
-
-    if [[ $warnings -gt 0 ]]; then
-        log "WARNING: DNS environment looks inconsistent. Run: sudo ${REPAIR_SCRIPT}"
-    fi
-}
 
 if [[ -z "$SUBSCRIBE_URL" ]]; then
     echo "Error: subscription_url is required"
@@ -387,15 +338,6 @@ else
     log "WARNING: sing-box not found, skipping validation"
 fi
 
-if [[ "$REPAIR_ENV" == "true" ]]; then
-    log "Repairing resolver environment..."
-    if [[ ! -x "$REPAIR_SCRIPT" ]]; then
-        log "ERROR: Repair script not found or not executable: $REPAIR_SCRIPT"
-        exit 1
-    fi
-    "$REPAIR_SCRIPT"
-fi
-
 # 重启 sing-box
 log "Restarting sing-box..."
 if command -v systemctl &>/dev/null; then
@@ -409,8 +351,6 @@ if command -v systemctl &>/dev/null; then
 else
     log "WARNING: systemctl not found, please restart sing-box manually"
 fi
-
-warn_resolver_environment
 
 # 清理旧备份（保留最近 5 个）
 ls -t "${BACKUP_DIR}"/config.json.* 2>/dev/null | tail -n +6 | xargs -r rm -f

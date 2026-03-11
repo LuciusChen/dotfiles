@@ -10,7 +10,7 @@ conf = {
         x = "com.tencent.qq",
         e = "com.jetbrains.intellij",
         d = "com.jetbrains.datagrip",
-        c = "com.github.wez.wezterm",
+        c = "net.kovidgoyal.kitty",
         r = "org.gnu.Emacs",
         f = "com.apple.finder",
         v = "com.microsoft.VSCode",
@@ -27,7 +27,7 @@ conf = {
         k = "com.nssurge.surge-mac",
         o = "com.apple.ScreenContinuity",
         l = "com.figma.Desktop",
-        p = "com.adobe.Photoshop",
+        p = "md.obsidian",
     },
     frozen = {
         "ru.keepcoder.Telegram",
@@ -90,7 +90,7 @@ conf = {
         "im.rime.inputmethod.Squirrel",
     },
     inputMethod = {
-        "com.github.wez.wezterm",
+        "net.kovidgoyal.kitty",
         "com.jetbrains.intellij",
         "com.jetbrains.datagrip",
         "org.gnu.Emacs",

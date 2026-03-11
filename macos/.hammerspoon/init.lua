@@ -32,12 +32,12 @@ end
 
 for k, v in pairs(conf.layoutMap) do
     conf.bind(conf.hyperPlus, k, function()
-        k = tonumber(k)
+        local index = tonumber(k)
         return layout[v](
             layout,
             (function()
-                if type(k) == "number" then
-                    return k
+                if type(index) == "number" then
+                    return index
                 end
             end)()
         )
@@ -105,13 +105,10 @@ end
 wifiWatcher = hs.wifi.watcher.new(setOutputMuted)
 wifiWatcher:start()
 
--- TextClipboardHistory
+-- Clipboard
 hs.loadSpoon("SpoonInstall")
-spoon.SpoonInstall:andUse("TextClipboardHistory", {
-    config = { show_in_menubar = false },
-    hotkeys = { toggle_clipboard = { conf.hyper, "3" } },
-    start = true,
-})
+local clipboard = require("clipboard")
+clipboard:init({ hotkey = { conf.hyper, "3" } })
 spoon.SpoonInstall:andUse("Emojis")
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", { config = { control = { spotify = true }, start = true } })
 spoon.Emojis:bindHotkeys({ toggle = { conf.hyper, "2" } })

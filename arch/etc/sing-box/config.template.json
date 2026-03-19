@@ -62,6 +62,14 @@
       "tolerance": 50
     },
     {
+      "type": "urltest",
+      "tag": "Auto-US",
+      "outbounds": [],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "5m",
+      "tolerance": 50
+    },
+    {
       "type": "selector",
       "tag": "Proxy",
       "outbounds": ["Auto", "DIRECT"],
@@ -99,7 +107,7 @@
       { "rule_set": "geosite-google", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-telegram", "action": "route", "outbound": "Proxy" },
       { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" },
-      { "domain_suffix": ["anthropic.com", "claude.ai"], "action": "route", "outbound": "Auto-SG" },
+      { "domain_suffix": ["anthropic.com", "claude.ai", "claudeusercontent.com"], "action": "route", "outbound": "Auto-US" },
       { "domain_suffix": ["perplexity.ai", "groq.com", "mistral.ai", "cohere.ai", "huggingface.co"], "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-openai", "action": "route", "outbound": "Auto-JP" },
       { "rule_set": "geosite-github", "action": "route", "outbound": "Proxy" },

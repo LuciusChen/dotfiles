@@ -96,6 +96,9 @@ sudo ./sing-box-update.sh --force-ruleset "https://example.com/subscribe"
 // 指定日本节点
 { "domain_suffix": ["openrouter.ai"], "action": "route", "outbound": "Auto-JP" }
 
+// Claude 相关域名走美国节点
+{ "domain_suffix": ["anthropic.com", "claude.ai", "claudeusercontent.com"], "action": "route", "outbound": "Auto-US" }
+
 // 直连
 { "rule_set": "geosite-cn", "action": "route", "outbound": "DIRECT" }
 

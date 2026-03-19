@@ -289,6 +289,10 @@ jq -s '
     ($nodes | map(select(.tag | test("新加坡|SG|Singapore"; "i")) | .tag)) as $sg_tags |
     (if ($sg_tags | length) == 0 then $all_tags else $sg_tags end) as $sg_tags_final |
 
+    # 提取美国节点标签
+    ($nodes | map(select(.tag | test("美国|美國|\\bUS\\b|\\bUSA\\b|United States|America"; "i")) | .tag)) as $us_tags |
+    (if ($us_tags | length) == 0 then $all_tags else $us_tags end) as $us_tags_final |
+
     # 生成最终配置
     $tpl | .outbounds = (
         $nodes +
@@ -299,6 +303,8 @@ jq -s '
                 .outbounds = $japan_tags_final
             elif .tag == "Auto-SG" then
                 .outbounds = $sg_tags_final
+            elif .tag == "Auto-US" then
+                .outbounds = $us_tags_final
             elif .tag == "Proxy" then
                 .outbounds = (["Auto"] + $all_tags + ["DIRECT"])
             else
@@ -317,7 +323,8 @@ fi
 # 统计地区节点
 JAPAN_COUNT=$(jq '[.outbounds[] | select(.type == "trojan" or .type == "vmess" or .type == "vless" or .type == "shadowsocks" or .type == "hysteria" or .type == "hysteria2" or .type == "tuic") | select(.tag | test("日本|JP|Japan"; "i"))] | length' "$TEMP_OUT")
 SG_COUNT=$(jq '[.outbounds[] | select(.type == "trojan" or .type == "vmess" or .type == "vless" or .type == "shadowsocks" or .type == "hysteria" or .type == "hysteria2" or .type == "tuic") | select(.tag | test("新加坡|SG|Singapore"; "i"))] | length' "$TEMP_OUT")
-log "Found ${JAPAN_COUNT} Japan nodes, ${SG_COUNT} Singapore nodes"
+US_COUNT=$(jq '[.outbounds[] | select(.type == "trojan" or .type == "vmess" or .type == "vless" or .type == "shadowsocks" or .type == "hysteria" or .type == "hysteria2" or .type == "tuic") | select(.tag | test("美国|美國|\\bUS\\b|\\bUSA\\b|United States|America"; "i"))] | length' "$TEMP_OUT")
+log "Found ${JAPAN_COUNT} Japan nodes, ${SG_COUNT} Singapore nodes, ${US_COUNT} US nodes"
 
 # 写入最终配置
 cp "$TEMP_OUT" "$CONFIG_FILE"

@@ -61,8 +61,7 @@ sudo ./sing-box-update.sh --force-ruleset "https://example.com/subscribe"
     "tag": "Proxy",
     "outbounds": ["Auto", "DIRECT"]  // 脚本填充为 ["Auto"] + 所有节点 + ["DIRECT"]
   },
-  { "type": "direct", "tag": "DIRECT" },
-  { "type": "block", "tag": "REJECT" }
+  { "type": "direct", "tag": "DIRECT" }
 ]
 #+end_src
 

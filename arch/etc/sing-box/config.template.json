@@ -23,17 +23,13 @@
       "interface_name": "tun0",
       "address": ["172.19.0.1/30"],
       "auto_route": true,
-      "strict_route": true,
-      "sniff": true,
-      "sniff_override_destination": true
+      "strict_route": true
     },
     {
       "type": "mixed",
       "tag": "mixed-in",
       "listen": "127.0.0.1",
-      "listen_port": 7890,
-      "sniff": true,
-      "sniff_override_destination": true
+      "listen_port": 7890
     }
   ],
   "outbounds": [
@@ -75,8 +71,7 @@
       "outbounds": ["Auto", "DIRECT"],
       "default": "Auto"
     },
-    { "type": "direct", "tag": "DIRECT" },
-    { "type": "block", "tag": "REJECT" }
+    { "type": "direct", "tag": "DIRECT" }
   ],
   "route": {
     "default_domain_resolver": "dns_direct",
@@ -94,6 +89,7 @@
       { "tag": "geosite-bilibili", "type": "local", "format": "binary", "path": "/var/lib/sing-box/ruleset/geosite-bilibili.srs" }
     ],
     "rules": [
+      { "inbound": ["tun-in", "mixed-in"], "action": "sniff" },
       { "protocol": "dns", "action": "hijack-dns" },
       { "ip_is_private": true, "action": "route", "outbound": "DIRECT" },
       { "process_name": ["tailscaled"], "action": "route", "outbound": "DIRECT" },

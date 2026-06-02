@@ -15,7 +15,7 @@ conf = {
         f = "com.apple.finder",
         v = "com.microsoft.VSCode",
         t = "com.calibre-ebook.ebook-viewer",
-        g = "company.thebrowser.Browser",
+        g = "company.thebrowser.dia",
         b = "info.sioyek.sioyek",
         y = "com.spotify.client",
         h = "com.tencent.WeWorkMac",
@@ -88,14 +88,6 @@ conf = {
         "org.hammerspoon.Hammerspoon",
         "com.apple.notificationcenterui",
         "im.rime.inputmethod.Squirrel",
-    },
-    inputMethod = {
-        "net.kovidgoyal.kitty",
-        "com.jetbrains.intellij",
-        "com.jetbrains.datagrip",
-        "org.gnu.Emacs",
-        "org.hammerspoon.Hammerspoon",
-        "com.eusoft.eudic",
     },
 }
 return conf

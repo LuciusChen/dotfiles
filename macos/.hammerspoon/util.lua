@@ -1,5 +1,10 @@
 local mouse = require("mouse")
 
+local menuHideBundleIDs = {
+    ["company.thebrowser.Browser"] = true,
+    ["company.thebrowser.dia"] = true,
+}
+
 util = {
     includes = function(self, tbl, item)
         for _, value in pairs(tbl) do
@@ -9,14 +14,27 @@ util = {
         end
         return false
     end,
+    hideApp = function(self, app)
+        if not app then
+            return
+        end
+
+        local bundleID = app:bundleID()
+        if bundleID and menuHideBundleIDs[bundleID] then
+            local name = app:name()
+            if name then
+                pcall(function()
+                    app:selectMenuItem("Hide " .. name)
+                end)
+            end
+        end
+
+        return app:hide()
+    end,
     toggle = function(self, id, maximize)
         local app = hs.application.frontmostApplication()
-        if app:bundleID() == id then
-            local arc = hs.application.find("arc")
-            if arc:isFrontmost() then
-                app:selectMenuItem("Hide " .. arc:name())
-            end
-            return app:hide()
+        if app and app:bundleID() == id then
+            return self:hideApp(app)
         else
             hs.application.launchOrFocusByBundleID(id)
             if maximize then

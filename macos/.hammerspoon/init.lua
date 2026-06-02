@@ -77,20 +77,6 @@ local createWindowChooser = function()
 end
 createWindowChooser()
 
-inputMethodSwitcher = function(appName, eventType, appObject)
-    if eventType == hs.application.watcher.activated then
-        local appID = hs.application.frontmostApplication():bundleID()
-        if util:includes(conf.inputMethod, appID) then
-            hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
-        else
-            hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
-        end
-    end
-end
-
-appWatcher = hs.application.watcher.new(inputMethodSwitcher)
-appWatcher:start()
-
 -- wifi
 setOutputMuted = function()
     local outputDeviceName = "MacBook Pro Speakers"

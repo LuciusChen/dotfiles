@@ -47,6 +47,9 @@
                  [:##j :down_arrow]
                  [:##k :up_arrow]
                  [:##l :right_arrow]
+                 [:##y :home]
+                 [:##u :end]
+                 [:##i :delete]
                  [:##n :page_up]
                  [:##m :page_down]
                  [:##left_shift :right_shift]]}

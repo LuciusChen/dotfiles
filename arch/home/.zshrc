@@ -36,7 +36,7 @@ alias lr='eza -lR'
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 # Tomcat
-export TOMCAT_HOME=/usr/share/tomcat9
+export TOMCAT_HOME=~/tomcat9
 export PATH=$TOMCAT_HOME/bin:$PATH
 
 # pnpm
@@ -88,3 +88,10 @@ function smite() {
         done
 }
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+export PATH="$HOME/.local/bin:$PATH"
+
+# Moshi / mobile SSH truecolor fallback
+if [[ -n "$SSH_TTY" && -z "$COLORTERM" ]]; then
+  export TERM=xterm-direct
+  export COLORTERM=truecolor
+fi

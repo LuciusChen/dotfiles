@@ -168,6 +168,21 @@ GEOSITE_RULES=(
 
 * 故障排除
 
+** 开机后需要手动重启
+
+如果开机日志出现 =network: missing default interface= 或 =no route to internet=，
+说明 sing-box 早于 NetworkManager 完成联网。安装仓库中的 systemd drop-in：
+
+#+begin_src bash
+sudo install -Dm644 \
+  ../systemd/system/sing-box.service.d/network-online.conf \
+  /etc/systemd/system/sing-box.service.d/network-online.conf
+sudo systemctl daemon-reload
+#+end_src
+
+该 drop-in 会主动拉起并等待 =network-online.target=。修改在下次开机时生效，
+不需要立即重启当前正在运行的 sing-box。
+
 ** 查看日志
 
 #+begin_src bash

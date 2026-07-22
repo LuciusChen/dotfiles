@@ -29,6 +29,9 @@ cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
 # Arch
 cp -a ~/dotfiles/arch/home/.config/. ~/.config/
 install -m 0644 ~/dotfiles/arch/home/.zshrc ~/.zshrc
+mkdir -p ~/.local/share/applications
+install -m 0644 ~/dotfiles/arch/home/.local/share/applications/firefox.desktop ~/.local/share/applications/firefox.desktop
+update-desktop-database ~/.local/share/applications
 mkdir -p ~/.local/state/noctalia
 install -m 0644 ~/dotfiles/arch/home/.local/state/noctalia/settings.toml ~/.local/state/noctalia/settings.toml
 # arch/etc 下的文件按具体路径用 sudo install 部署，不要整目录覆盖 /etc。

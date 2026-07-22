@@ -72,10 +72,10 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
         show_password_hint = true
 
     [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1"]
-    box_height = 140.0
-    box_width = 480.0
-    cx = 1024.0
-    cy = 300.0
+    box_height = 144.0
+    box_width = 592.0
+    cx = 959.0
+    cy = 271.0
     output = "eDP-1"
     rotation = 0.0
     type = "clock"
@@ -91,8 +91,8 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
     [lockscreen_widgets.widget."lockscreen-clock-date@eDP-1"]
     box_height = 48.0
     box_width = 420.0
-    cx = 1024.0
-    cy = 405.0
+    cx = 959.0
+    cy = 375.0
     output = "eDP-1"
     rotation = 0.0
     type = "clock"
@@ -108,8 +108,8 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 70.0
     box_width = 400.0
-    cx = 1024.0
-    cy = 1161.0
+    cx = 959.0
+    cy = 634.0
     output = "eDP-1"
     rotation = 0.0
     type = "login_box"
@@ -130,7 +130,7 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
 lang = "en"
 
 [theme]
-builtin = "Nord"
+builtin = "Gruvbox"
 mode = "dark"
 source = "builtin"
 
@@ -139,3 +139,7 @@ path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"
 
 [wallpaper.last]
 path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"
+
+[widget.clock]
+anchor = true
+format = "{:%a · %m/%d · %H:%M}"

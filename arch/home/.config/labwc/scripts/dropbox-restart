@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pkill -x dropbox 2>/dev/null || true
+exec "$HOME/.dropbox-dist/dropboxd"

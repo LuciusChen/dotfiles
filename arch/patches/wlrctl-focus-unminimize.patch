@@ -1,0 +1,11 @@
+diff --git a/toplevel.c b/toplevel.c
+--- a/toplevel.c
++++ b/toplevel.c
+@@ -295,6 +295,7 @@ zwlr_foreign_toplevel_handle_v1_handle_done(void *user_data,
+ 		zwlr_foreign_toplevel_handle_v1_set_maximized(toplevel);
+ 		break;
+ 	case TOPLEVEL_ACTION_ACTIVATE:
++		zwlr_foreign_toplevel_handle_v1_unset_minimized(toplevel);
+ 		zwlr_foreign_toplevel_handle_v1_activate(toplevel, data->cmd->state->seat);
+ 		data->cmd->complete = true;
+ 		stop_toplevel(data->cmd->state);

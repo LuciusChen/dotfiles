@@ -1,0 +1,42 @@
+[shell]
+lang = "zh-Hans"
+telemetry_enabled = false
+setup_wizard_enabled = true
+polkit_agent = true
+clipboard_enabled = true
+
+[notification]
+enable_daemon = true
+position = "top_right"
+
+[lockscreen]
+enabled = true
+fingerprint = true
+allow_empty_password = false
+blurred_desktop = false
+
+[idle]
+pre_action_fade_seconds = 2.0
+
+[idle.behavior.lock]
+enabled = true
+timeout = 600
+command = "noctalia:screen-lock"
+
+[idle.behavior.screen-off]
+enabled = true
+timeout = 660
+command = "wlopm --off '*'"
+resume_command = "wlopm --on '*'"
+
+[shell.greeter_sync]
+auto_sync = true
+
+[theme.templates]
+enable_builtin_templates = false
+builtin_ids = []
+
+[theme.templates.user.labwc]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/labwc.conf"
+output_path = "$XDG_CONFIG_HOME/labwc/noctalia.conf"
+post_hook = "bash /usr/share/noctalia/assets/templates/labwc/apply.sh && labwc --reconfigure"

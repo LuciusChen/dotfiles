@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labwc_config>
+  <core>
+    <decoration>server</decoration>
+    <gap>8</gap>
+    <adaptiveSync>no</adaptiveSync>
+    <allowTearing>no</allowTearing>
+    <autoEnableOutputs>yes</autoEnableOutputs>
+    <xwaylandPersistence>yes</xwaylandPersistence>
+  </core>
+
+  <placement>
+    <policy>cascade</policy>
+    <cascadeOffset x="40" y="32" />
+  </placement>
+
+  <theme>
+    <name>noctalia</name>
+    <!-- Labwc only rounds SSD top corners and cannot clip client content at
+         the bottom corners, so keep all four corners visually consistent. -->
+    <cornerRadius>0</cornerRadius>
+    <keepBorder>yes</keepBorder>
+    <maximizedDecoration>titlebar</maximizedDecoration>
+    <dropShadows>yes</dropShadows>
+    <dropShadowsOnTiled>yes</dropShadowsOnTiled>
+    <titlebar>
+      <layout>icon:iconify,max,close</layout>
+      <showTitle>yes</showTitle>
+    </titlebar>
+    <font place="ActiveWindow" name="sans" size="10" weight="bold" />
+    <font place="InactiveWindow" name="sans" size="10" />
+    <font place="MenuHeader" name="sans" size="10" weight="bold" />
+    <font place="MenuItem" name="sans" size="10" />
+    <font place="OnScreenDisplay" name="sans" size="10" />
+  </theme>
+
+  <windowSwitcher preview="no" outlines="yes" unshade="yes">
+    <osd show="yes" style="thumbnail" output="all" thumbnailLabelFormat="%T" />
+  </windowSwitcher>
+
+  <focus>
+    <followMouse>yes</followMouse>
+    <followMouseRequiresMovement>yes</followMouseRequiresMovement>
+    <raiseOnFocus>no</raiseOnFocus>
+  </focus>
+
+  <snapping>
+    <range inner="10" outer="10" />
+    <cornerRange>50</cornerRange>
+    <overlay enabled="yes">
+      <delay inner="350" outer="350" />
+    </overlay>
+    <topMaximize>yes</topMaximize>
+  </snapping>
+
+  <desktops number="5" popupTime="500" prefix="Workspace" />
+
+  <keyboard>
+    <default />
+
+    <!-- Let Fcitx5 receive its configured Alt+Space trigger. -->
+    <keybind key="A-Space"><action name="None" /></keybind>
+
+    <!-- Applications and Noctalia surfaces -->
+    <!-- Reusable app toggle: focused -> hide; existing -> focus and warp the
+         cursor to its center; missing -> launch. Keep these on key release so
+         keyboard repeat cannot focus and then immediately hide an app. -->
+    <keybind key="W-c" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle kitty kitty" /></keybind>
+    <keybind key="W-g" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle firefox firefox" /></keybind>
+    <keybind key="W-w" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle wechat ~/.config/labwc/scripts/wechat-launch" /></keybind>
+    <keybind key="W-r" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle emacs emacs" /></keybind>
+
+    <!-- Private callback used by app-toggle after wlrctl has activated and
+         unminimized the target. The four-modifier chord avoids user conflicts. -->
+    <keybind key="W-C-A-S-p"><action name="WarpCursor" to="window" x="center" y="center" /></keybind>
+    <keybind key="W-d"><action name="Execute" command="datagrip" /></keybind>
+    <keybind key="W-b"><action name="Execute" command="~/.config/labwc/scripts/dropbox-restart" /></keybind>
+    <keybind key="W-m"><action name="Execute" command="vicinae toggle" /></keybind>
+    <keybind key="W-space"><action name="Execute" command="noctalia msg panel-toggle launcher" /></keybind>
+    <keybind key="W-h"><action name="Execute" command="noctalia msg panel-toggle clipboard" /></keybind>
+    <keybind key="W-s"><action name="Execute" command="noctalia msg panel-toggle control-center" /></keybind>
+    <keybind key="W-comma"><action name="Execute" command="noctalia msg settings-toggle" /></keybind>
+    <keybind key="W-l"><action name="Execute" command="noctalia msg screen-lock" /></keybind>
+
+    <!-- Stacking window management -->
+    <keybind key="W-q"><action name="Close" /></keybind>
+    <keybind key="W-v"><action name="ToggleMaximize" /></keybind>
+    <keybind key="W-f"><action name="ToggleFullscreen" /></keybind>
+    <keybind key="W-a"><action name="ToggleAlwaysOnTop" /></keybind>
+    <keybind key="W-Left"><action name="ToggleSnapToEdge" direction="left" /></keybind>
+    <keybind key="W-Right"><action name="ToggleSnapToEdge" direction="right" /></keybind>
+    <keybind key="W-Up"><action name="ToggleMaximize" /></keybind>
+    <keybind key="W-Down"><action name="Iconify" /></keybind>
+    <keybind key="W-S-Left"><action name="MoveToOutput" direction="left" wrap="yes" /></keybind>
+    <keybind key="W-S-Right"><action name="MoveToOutput" direction="right" wrap="yes" /></keybind>
+    <keybind key="W-S-Up"><action name="MoveToOutput" direction="up" wrap="yes" /></keybind>
+    <keybind key="W-S-Down"><action name="MoveToOutput" direction="down" wrap="yes" /></keybind>
+
+    <!-- Screenshots and input method -->
+    <keybind key="W-Print"><action name="Execute" command="~/.config/labwc/scripts/screenshot-region" /></keybind>
+    <keybind key="W-S-Print"><action name="Execute" command="grim" /></keybind>
+    <keybind key="W-C-space"><action name="Execute" command="fcitx5 -d -r" /></keybind>
+
+    <!-- Workspaces -->
+    <keybind key="W-1"><action name="GoToDesktop" to="1" /></keybind>
+    <keybind key="W-2"><action name="GoToDesktop" to="2" /></keybind>
+    <keybind key="W-3"><action name="GoToDesktop" to="3" /></keybind>
+    <keybind key="W-4"><action name="GoToDesktop" to="4" /></keybind>
+    <keybind key="W-5"><action name="GoToDesktop" to="5" /></keybind>
+    <keybind key="W-S-1"><action name="SendToDesktop" to="1" /></keybind>
+    <keybind key="W-S-2"><action name="SendToDesktop" to="2" /></keybind>
+    <keybind key="W-S-3"><action name="SendToDesktop" to="3" /></keybind>
+    <keybind key="W-S-4"><action name="SendToDesktop" to="4" /></keybind>
+    <keybind key="W-S-5"><action name="SendToDesktop" to="5" /></keybind>
+
+    <!-- Noctalia OSD and media controls -->
+    <keybind key="XF86AudioRaiseVolume"><action name="Execute" command="noctalia msg volume-up" /></keybind>
+    <keybind key="XF86AudioLowerVolume"><action name="Execute" command="noctalia msg volume-down" /></keybind>
+    <keybind key="XF86AudioMute"><action name="Execute" command="noctalia msg volume-mute" /></keybind>
+    <keybind key="XF86AudioMicMute"><action name="Execute" command="wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" /></keybind>
+    <keybind key="XF86MonBrightnessUp"><action name="Execute" command="noctalia msg brightness-up" /></keybind>
+    <keybind key="XF86MonBrightnessDown"><action name="Execute" command="noctalia msg brightness-down" /></keybind>
+    <keybind key="XF86AudioNext"><action name="Execute" command="noctalia msg media next" /></keybind>
+    <keybind key="XF86AudioPause"><action name="Execute" command="noctalia msg media toggle" /></keybind>
+    <keybind key="XF86AudioPlay"><action name="Execute" command="noctalia msg media toggle" /></keybind>
+    <keybind key="XF86AudioPrev"><action name="Execute" command="noctalia msg media previous" /></keybind>
+  </keyboard>
+
+  <mouse>
+    <default />
+  </mouse>
+
+  <libinput>
+    <device category="touchpad">
+      <tap>yes</tap>
+      <naturalScroll>yes</naturalScroll>
+      <disableWhileTyping>yes</disableWhileTyping>
+    </device>
+  </libinput>
+</labwc_config>

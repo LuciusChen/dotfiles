@@ -1,0 +1,40 @@
+# Match Noctalia's translucent surface bar. Focus is shown with a restrained
+# accent outline instead of changing the whole titlebar color.
+border.width: 1
+window.active.border.color: #8fbcbb73
+window.inactive.border.color: #4e586e33
+window.active.indicator.toggled-keybind.color: #bf616a
+
+window.titlebar.padding.width: 2
+window.titlebar.padding.height: 1
+window.active.title.bg.color: #2e3440c7
+window.inactive.title.bg.color: #2e3440c7
+window.*.title.bg: Solid
+
+window.active.label.text.color: #eceff4
+window.inactive.label.text.color: #d8dee9
+window.label.text.justify: center
+
+window.button.width: 21
+window.button.height: 21
+window.button.spacing: 3
+# Base glyphs come from labwc-adwaita, but Labwc draws the hover surface so it
+# follows Noctalia instead of using the fixed Adwaita hover artwork.
+window.button.hover.bg.color: #eceff41f
+window.button.hover.bg.corner-radius: 11
+window.active.button.unpressed.image.color: #eceff4
+window.inactive.button.unpressed.image.color: #d8dee9
+
+menu.border.color: #4e586e
+menu.items.bg.color: #3b4252
+menu.items.text.color: #eceff4
+menu.items.active.bg.color: #2e6b69
+menu.items.active.text.color: #dfecec
+menu.separator.color: #4e586e
+menu.title.bg.color: #444c5e
+menu.title.text.color: #eceff4
+
+osd.bg.color: #3b4252
+osd.border.color: #4e586e
+osd.label.text.color: #eceff4
+osd.window-switcher.preview.border.color: #8fbcbb

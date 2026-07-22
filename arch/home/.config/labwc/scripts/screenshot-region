@@ -1,0 +1,4 @@
+#!/bin/sh
+
+geometry=$(slurp) || exit 0
+grim -g "$geometry" - | wl-copy

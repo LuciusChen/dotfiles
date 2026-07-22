@@ -1,0 +1,56 @@
+#!/bin/sh
+set -eu
+
+if [ "$#" -lt 2 ]; then
+  echo "usage: $0 app-id command [argument ...]" >&2
+  exit 2
+fi
+
+requested_app_id=$1
+shift
+
+wlrctl_bin="$HOME/.local/libexec/labwc/wlrctl"
+if [ ! -x "$wlrctl_bin" ]; then
+  notify-send "App toggle unavailable" "Run dotfiles/arch/scripts/build-wlrctl-focus-helper first."
+  exit 127
+fi
+
+if ! "$wlrctl_bin" window list >/dev/null; then
+  notify-send "App toggle unavailable" "Could not connect to Labwc's window-management protocol."
+  exit 1
+fi
+
+# Some applications use a versioned Wayland app_id (for example,
+# "emacs-32-0-50") even though their launcher name is simply "emacs".
+# Prefer an exact match, then accept the first app_id beginning with
+# "<launcher>-" so upgrades do not silently turn a toggle into a new launch.
+if [ -n "$("$wlrctl_bin" window list "app_id:${requested_app_id}")" ]; then
+  resolved_app_id=$requested_app_id
+else
+  resolved_app_id=$(
+    "$wlrctl_bin" window list | awk -F ': ' -v requested="$requested_app_id" '
+      index($1, requested "-") == 1 { print $1; exit }
+    '
+  )
+fi
+
+if [ -n "$resolved_app_id" ]; then
+  match="app_id:${resolved_app_id}"
+else
+  match="app_id:${requested_app_id}"
+fi
+
+# Hide the currently focused instance, focus an existing instance (including
+# a minimized one), or launch the app when no matching window exists.
+if [ -n "$("$wlrctl_bin" window list "${match}" state:active)" ]; then
+  exec "$wlrctl_bin" window minimize state:active
+fi
+
+if [ -n "$("$wlrctl_bin" window list "${match}")" ]; then
+  "$wlrctl_bin" window focus "${match}"
+  # Labwc owns absolute window geometry, so ask it to warp the cursor to the
+  # newly active window through a private, otherwise unused key binding.
+  exec "$wlrctl_bin" keyboard type p modifiers SHIFT,CTRL,ALT,SUPER
+fi
+
+"$@" >/dev/null 2>&1 &

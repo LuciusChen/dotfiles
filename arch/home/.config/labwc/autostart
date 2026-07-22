@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Integrate portals and other graphical user services with this session.
+systemctl --user --no-block start labwc-session.target
+
+# Apply the matching laptop/docked display profile.
+kanshi >/dev/null 2>&1 &
+
+# Noctalia owns the bar, launcher, notifications, clipboard, lock and idle UI.
+noctalia --daemon
+
+# Session applications preserved from the Hyprland setup.
+fcitx5 -d -r
+clash-verge >/dev/null 2>&1 &
+~/.dropbox-dist/dropboxd >/dev/null 2>&1 &
+vicinae server >/dev/null 2>&1 &
+
+# Keep the existing GTK appearance.
+gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-green-standard+default"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"

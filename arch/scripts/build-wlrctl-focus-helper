@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+arch_dir=$(cd -- "${script_dir}/.." && pwd)
+patch_file="${arch_dir}/patches/wlrctl-focus-unminimize.patch"
+build_root=$(mktemp -d /tmp/wlrctl-focus.XXXXXX)
+
+cleanup() {
+  rm -rf -- "${build_root}"
+}
+trap cleanup EXIT
+
+git clone --depth 1 https://git.sr.ht/~brocellous/wlrctl "${build_root}/source"
+git -C "${build_root}/source" apply "${patch_file}"
+
+CC=/usr/bin/gcc meson setup \
+  "${build_root}/build" \
+  "${build_root}/source" \
+  -Dman-pages=disabled \
+  -Dzsh-completions=false
+meson compile -C "${build_root}/build"
+
+install -Dm0755 \
+  "${build_root}/build/wlrctl" \
+  "${HOME}/.local/libexec/labwc/wlrctl"
+
+echo "Installed patched wlrctl helper to ${HOME}/.local/libexec/labwc/wlrctl"

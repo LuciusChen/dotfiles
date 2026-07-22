@@ -1,0 +1,13 @@
+profile undocked {
+  output eDP-1 enable mode 3072x1920@120Hz scale 1.6 position 0,0
+}
+
+profile docked-dp1 {
+  output DP-1 enable mode 3840x2160@60Hz scale 1.5 position 0,0
+  output eDP-1 enable mode 3072x1920@120Hz scale 1.6 position 0,1440
+}
+
+profile docked-dp3 {
+  output DP-3 enable mode 3840x2160@60Hz scale 1.5 position 0,0
+  output eDP-1 enable mode 3072x1920@120Hz scale 1.6 position 0,1440
+}

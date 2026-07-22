@@ -6,9 +6,8 @@ the Adwaita-dark variant of `davidphilipbarr/labwc-adwaita`:
 https://github.com/davidphilipbarr/labwc-adwaita
 
 They are used only for the window control glyphs. Their built-in background
-circles are disabled and the upstream hover SVGs are kept in the
-`upstream-hover` subdirectory, so Labwc can render a circular hover surface
-using Noctalia's current colors. Noctalia continues to generate the titlebar,
-border, menu, and OSD colors.
+circles are disabled and the fixed upstream hover SVGs are not installed, so
+Labwc can render a circular hover surface using Noctalia's current colors.
+Noctalia continues to generate the titlebar, border, menu, and OSD colors.
 
 Upstream license: MIT, Copyright (c) 2025 David Barr.

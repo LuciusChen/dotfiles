@@ -12,9 +12,9 @@ dotfiles/
 │   └── .gnupg/           # GPG agent
 │
 └── arch/                 # Arch Linux 配置
-    ├── home/.config/     # Labwc, Noctalia, Kanshi, Hyprland（回退）等
+    ├── home/.config/     # Labwc, Noctalia, Kanshi 等
     ├── home/.local/      # Noctalia GUI 持久化设置等用户状态
-    └── etc/              # 系统级配置 (keyd, sing-box, sysctl.d, ly 等)
+    └── etc/              # 系统级配置 (greetd, keyd, sing-box, sysctl.d 等)
 ```
 
 ## 部署
@@ -44,7 +44,7 @@ install -m 0644 ~/dotfiles/arch/home/.local/state/noctalia/settings.toml ~/.loca
 
 ## Labwc 应用切换器
 
-`Win+C/G/W/R` 使用 `wlrctl` 实现“启动、聚焦、隐藏”三态切换。
+`Win+C/G/W/R` 使用 `wlrctl` 实现“启动、聚焦、隐藏”三态切换；聚焦已有窗口时，鼠标会跟随到窗口中心。
 由于上游 `wlrctl focus` 不会解除最小化，需要构建用户级 helper：
 
 ```bash

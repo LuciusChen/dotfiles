@@ -78,7 +78,6 @@
     <keybind key="W-C-A-S-p"><action name="WarpCursor" to="window" x="center" y="center" /></keybind>
     <keybind key="W-d"><action name="Execute" command="datagrip" /></keybind>
     <keybind key="W-b"><action name="Execute" command="~/.config/labwc/scripts/dropbox-restart" /></keybind>
-    <keybind key="W-m"><action name="Execute" command="vicinae toggle" /></keybind>
     <keybind key="W-space"><action name="Execute" command="noctalia msg panel-toggle launcher" /></keybind>
     <keybind key="W-h"><action name="Execute" command="noctalia msg panel-toggle clipboard" /></keybind>
     <keybind key="W-s"><action name="Execute" command="noctalia msg panel-toggle control-center" /></keybind>

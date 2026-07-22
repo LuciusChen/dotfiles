@@ -13,7 +13,6 @@ noctalia --daemon
 fcitx5 -d -r
 clash-verge >/dev/null 2>&1 &
 ~/.dropbox-dist/dropboxd >/dev/null 2>&1 &
-vicinae server >/dev/null 2>&1 &
 
 # Keep the existing GTK appearance.
 gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-green-standard+default"

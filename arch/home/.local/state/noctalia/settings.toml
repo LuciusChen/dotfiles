@@ -7,14 +7,48 @@ warning_threshold = 20
 address = "Nanjing, China"
 
 [lockscreen_widgets]
-enabled = false
+enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@eDP-1" ]
+widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lockscreen-login-box@DP-3", "lockscreen-clock-time@eDP-1", "lockscreen-clock-date@eDP-1", "lockscreen-login-box@eDP-1" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
     major_interval = 4
     visible = true
+
+    [lockscreen_widgets.widget."lockscreen-clock-time@DP-3"]
+    box_height = 160.0
+    box_width = 560.0
+    cx = 1280.0
+    cy = 330.0
+    output = "DP-3"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-time@DP-3".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%H:%M}"
+        shadow = true
+
+    [lockscreen_widgets.widget."lockscreen-clock-date@DP-3"]
+    box_height = 54.0
+    box_width = 460.0
+    cx = 1280.0
+    cy = 445.0
+    output = "DP-3"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-date@DP-3".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%A, %B %d}"
+        shadow = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
     box_height = 70.0
@@ -27,15 +61,49 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@eDP-1" ]
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
         background_color = "surface_variant"
-        background_opacity = 0.88
-        background_radius = 12.0
+        background_opacity = 0.84
+        background_radius = 16.0
         center_password_text = false
-        input_opacity = 1.0
-        input_radius = 6.0
+        input_opacity = 0.92
+        input_radius = 10.0
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
         show_password_hint = true
+
+    [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1"]
+    box_height = 140.0
+    box_width = 480.0
+    cx = 1024.0
+    cy = 300.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%H:%M}"
+        shadow = true
+
+    [lockscreen_widgets.widget."lockscreen-clock-date@eDP-1"]
+    box_height = 48.0
+    box_width = 420.0
+    cx = 1024.0
+    cy = 405.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-date@eDP-1".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%A, %B %d}"
+        shadow = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 70.0
@@ -48,11 +116,11 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@eDP-1" ]
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
         background_color = "surface_variant"
-        background_opacity = 0.88
-        background_radius = 12.0
+        background_opacity = 0.84
+        background_radius = 16.0
         center_password_text = false
-        input_opacity = 1.0
-        input_radius = 6.0
+        input_opacity = 0.92
+        input_radius = 10.0
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true

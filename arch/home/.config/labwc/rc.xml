@@ -10,8 +10,9 @@
   </core>
 
   <placement>
-    <policy>cascade</policy>
-    <cascadeOffset x="40" y="32" />
+    <!-- Open new windows on the output containing the pointer and keep the
+         whole window inside that output's usable area. -->
+    <policy>cursor</policy>
   </placement>
 
   <theme>
@@ -31,7 +32,7 @@
     <font place="InactiveWindow" name="sans" size="10" />
     <font place="MenuHeader" name="sans" size="10" weight="bold" />
     <font place="MenuItem" name="sans" size="10" />
-    <font place="OnScreenDisplay" name="sans" size="10" />
+    <font place="OnScreenDisplay" name="sans" size="11" weight="bold" />
   </theme>
 
   <windowSwitcher preview="no" outlines="yes" unshade="yes">
@@ -53,7 +54,9 @@
     <topMaximize>yes</topMaximize>
   </snapping>
 
-  <desktops number="5" popupTime="500" prefix="Workspace" />
+  <!-- No central workspace OSD; Noctalia's bar already provides the themed
+       workspace transition feedback. -->
+  <desktops number="2" popupTime="0" />
 
   <keyboard>
     <default />
@@ -79,8 +82,9 @@
     <keybind key="W-space"><action name="Execute" command="noctalia msg panel-toggle launcher" /></keybind>
     <keybind key="W-h"><action name="Execute" command="noctalia msg panel-toggle clipboard" /></keybind>
     <keybind key="W-s"><action name="Execute" command="noctalia msg panel-toggle control-center" /></keybind>
+    <keybind key="W-n"><action name="Execute" command="noctalia msg panel-toggle control-center notifications" /></keybind>
     <keybind key="W-comma"><action name="Execute" command="noctalia msg settings-toggle" /></keybind>
-    <keybind key="W-l"><action name="Execute" command="noctalia msg screen-lock" /></keybind>
+    <keybind key="W-l"><action name="Execute" command="noctalia msg session lock" /></keybind>
 
     <!-- Stacking window management -->
     <keybind key="W-q"><action name="Close" /></keybind>
@@ -104,14 +108,8 @@
     <!-- Workspaces -->
     <keybind key="W-1"><action name="GoToDesktop" to="1" /></keybind>
     <keybind key="W-2"><action name="GoToDesktop" to="2" /></keybind>
-    <keybind key="W-3"><action name="GoToDesktop" to="3" /></keybind>
-    <keybind key="W-4"><action name="GoToDesktop" to="4" /></keybind>
-    <keybind key="W-5"><action name="GoToDesktop" to="5" /></keybind>
     <keybind key="W-S-1"><action name="SendToDesktop" to="1" /></keybind>
     <keybind key="W-S-2"><action name="SendToDesktop" to="2" /></keybind>
-    <keybind key="W-S-3"><action name="SendToDesktop" to="3" /></keybind>
-    <keybind key="W-S-4"><action name="SendToDesktop" to="4" /></keybind>
-    <keybind key="W-S-5"><action name="SendToDesktop" to="5" /></keybind>
 
     <!-- Noctalia OSD and media controls -->
     <keybind key="XF86AudioRaiseVolume"><action name="Execute" command="noctalia msg volume-up" /></keybind>

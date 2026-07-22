@@ -9,11 +9,22 @@ clipboard_enabled = true
 enable_daemon = true
 position = "top_right"
 
+[brightness]
+enable_ddcutil = true
+
+[brightness.monitor.eDP-1]
+backend = "backlight"
+
+[brightness.monitor.DP-3]
+backend = "ddcutil"
+
 [lockscreen]
 enabled = true
 fingerprint = true
 allow_empty_password = false
 blurred_desktop = false
+blur_intensity = 0.25
+tint_intensity = 0.30
 
 [idle]
 pre_action_fade_seconds = 2.0

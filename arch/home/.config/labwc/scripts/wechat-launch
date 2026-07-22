@@ -1,14 +1,20 @@
 #!/bin/sh
 set -eu
 
-# WeChat Universal is an X11/Qt application.  Launching its binary directly
-# skips the HiDPI and input-method environment supplied by its wrapper.
-# Keep the existing unsandboxed profile/data paths while restoring those
-# compatibility settings.
-export QT_QPA_PLATFORM=xcb
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_IM_MODULE=fcitx
-export GTK_IM_MODULE=fcitx
+# Use the packaged wrapper so WeChat receives its X11, Fcitx and bwrap
+# compatibility setup. Keep the existing profile and received-file locations
+# so switching launchers does not create a fresh account.
 export XMODIFIERS=@im=fcitx
+# The desktop session intentionally uses QT_SCALE_FACTOR=0.75, but WeChat mixes
+# native Qt controls with embedded web views and clips text when that global
+# multiplier is applied.  Give WeChat a neutral multiplier and let its packaged
+# automatic screen-scale handling use one consistent geometry.
+export QT_SCALE_FACTOR=1
+export QT_SCALE_FACTOR_ROUNDING_POLICY=Round
+unset QT_SCREEN_SCALE_FACTORS QT_FONT_DPI
 
-exec /opt/wechat-universal/wechat "$@"
+exec /usr/bin/wechat-universal \
+  --ime fcitx \
+  --data "$HOME/Documents" \
+  --bind "$HOME/.xwechat" \
+  "$@"

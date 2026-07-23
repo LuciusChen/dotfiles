@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=QQ
+Exec=linuxqq --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %U
+Terminal=false
+Type=Application
+Icon=qq
+StartupWMClass=QQ
+Categories=Network;
+Comment=QQ

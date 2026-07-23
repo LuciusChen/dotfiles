@@ -30,6 +30,7 @@ cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
 cp -a ~/dotfiles/arch/home/.config/. ~/.config/
 install -m 0644 ~/dotfiles/arch/home/.zshrc ~/.zshrc
 mkdir -p ~/.local/share/applications
+cp -a ~/dotfiles/arch/home/.local/share/applications/. ~/.local/share/applications/
 update-desktop-database ~/.local/share/applications
 mkdir -p ~/.local/state/noctalia
 install -m 0644 ~/dotfiles/arch/home/.local/state/noctalia/settings.toml ~/.local/state/noctalia/settings.toml

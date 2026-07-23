@@ -4,7 +4,7 @@ telemetry_enabled = false
 setup_wizard_enabled = true
 polkit_agent = true
 clipboard_enabled = true
-app_icon_colorize = false
+app_icon_colorize = true
 app_icon_color = "on_surface"
 
 [notification]

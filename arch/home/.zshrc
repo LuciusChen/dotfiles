@@ -90,8 +90,7 @@ function smite() {
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 export PATH="$HOME/.local/bin:$PATH"
 
-# Moshi / mobile SSH truecolor fallback
+# Moshi / mobile SSH truecolor hint; preserve the client-provided TERM.
 if [[ -n "$SSH_TTY" && -z "$COLORTERM" ]]; then
-  export TERM=xterm-direct
   export COLORTERM=truecolor
 fi

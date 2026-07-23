@@ -29,6 +29,7 @@ cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
 # Arch
 cp -a ~/dotfiles/arch/home/.config/. ~/.config/
 install -m 0644 ~/dotfiles/arch/home/.zshrc ~/.zshrc
+~/dotfiles/arch/scripts/install-papirus-icon-theme
 mkdir -p ~/.local/share/applications
 cp -a ~/dotfiles/arch/home/.local/share/applications/. ~/.local/share/applications/
 update-desktop-database ~/.local/share/applications

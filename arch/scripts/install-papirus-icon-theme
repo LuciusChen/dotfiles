@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+repo_url="https://github.com/LuciusChen/papirus-icon-theme.git"
+repo_dir="${PAPIRUS_REPO_DIR:-$HOME/papirus-icon-theme}"
+install_prefix="$HOME/.local"
+
+if [ -d "$repo_dir/.git" ]; then
+  current_origin=$(git -C "$repo_dir" remote get-url origin)
+  if [ "$current_origin" != "$repo_url" ]; then
+    echo "Unexpected origin for $repo_dir: $current_origin" >&2
+    exit 1
+  fi
+  git -C "$repo_dir" pull --ff-only
+else
+  git clone "$repo_url" "$repo_dir"
+fi
+
+make -C "$repo_dir" PREFIX="$install_prefix" uninstall
+make -C "$repo_dir" PREFIX="$install_prefix" install
+
+if command -v gsettings >/dev/null 2>&1; then
+  gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
+fi

@@ -29,7 +29,7 @@ local function render()
           text = weekday,
           fontSize = 7,
           fontWeight = "bold",
-          color = "on_error",
+          color = "on_surface",
           textAlign = "center",
           baseline = "text",
         }),

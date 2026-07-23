@@ -72,11 +72,12 @@
     <keybind key="W-g" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle firefox firefox" /></keybind>
     <keybind key="W-w" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle wechat ~/.config/labwc/scripts/wechat-launch" /></keybind>
     <keybind key="W-r" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle emacs emacs" /></keybind>
+    <keybind key="W-x" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle QQ gtk-launch qq" /></keybind>
+    <keybind key="W-d" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle discord gtk-launch discord" /></keybind>
 
     <!-- Private callback used by app-toggle after wlrctl has activated and
          unminimized the target. The four-modifier chord avoids user conflicts. -->
     <keybind key="W-C-A-S-p"><action name="WarpCursor" to="window" x="center" y="center" /></keybind>
-    <keybind key="W-d"><action name="Execute" command="datagrip" /></keybind>
     <keybind key="W-b"><action name="Execute" command="~/.config/labwc/scripts/dropbox-restart" /></keybind>
     <keybind key="W-space"><action name="Execute" command="noctalia msg panel-toggle launcher" /></keybind>
     <keybind key="W-h"><action name="Execute" command="noctalia msg panel-toggle clipboard" /></keybind>

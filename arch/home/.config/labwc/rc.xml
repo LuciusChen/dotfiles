@@ -125,6 +125,13 @@
 
   <mouse>
     <default />
+    <!-- No application launcher on desktop right click. Noctalia owns app
+         launching, matching the macOS-style desktop interaction model. -->
+    <context name="Root">
+      <mousebind button="Right" action="Press">
+        <action name="None" />
+      </mousebind>
+    </context>
   </mouse>
 
   <libinput>

@@ -15,4 +15,5 @@ fcitx5 -d -r
 
 # Keep the existing GTK appearance.
 gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-green-standard+default"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"

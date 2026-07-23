@@ -4,6 +4,8 @@ telemetry_enabled = false
 setup_wizard_enabled = true
 polkit_agent = true
 clipboard_enabled = true
+app_icon_colorize = false
+app_icon_color = "on_surface"
 
 [notification]
 enable_daemon = true
@@ -43,6 +45,9 @@ resume_command = "wlopm --on '*'"
 [shell.greeter_sync]
 auto_sync = true
 
+[shell.panel]
+open_near_click_control_center = true
+
 [theme.templates]
 enable_builtin_templates = false
 builtin_ids = []
@@ -51,3 +56,36 @@ builtin_ids = []
 input_path = "$XDG_CONFIG_HOME/noctalia/templates/labwc.conf"
 output_path = "$XDG_CONFIG_HOME/labwc/noctalia.conf"
 post_hook = "bash /usr/share/noctalia/assets/templates/labwc/apply.sh && labwc --reconfigure"
+
+[bar.main]
+thickness = 34
+scale = 1.12
+start = [
+    "control-center",
+    "launcher",
+    "wallpaper",
+    "workspaces",
+    "network-speed"
+]
+center = [
+    "center-clock"
+]
+end = [
+    "tray",
+    "notifications",
+    "clipboard",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "session"
+]
+
+[widget.network-speed]
+type = "lucius/network-speed:network-speed"
+
+[widget.center-clock]
+type = "lucius/center-clock:center-clock"
+
+[plugins]
+enabled = ["lucius/network-speed", "lucius/center-clock"]

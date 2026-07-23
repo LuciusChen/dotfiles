@@ -1,0 +1,12 @@
+id = "lucius/center-clock"
+name = "Center Clock"
+version = "1.0.0"
+plugin_api = 8
+author = "lucius"
+license = "MIT"
+icon = "clock"
+description = "A compact center clock with an emphasized time and stacked weekday/date."
+
+[[widget]]
+id = "center-clock"
+entry = "widget.luau"

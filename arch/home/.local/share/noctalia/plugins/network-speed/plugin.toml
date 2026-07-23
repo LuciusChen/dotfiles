@@ -1,0 +1,12 @@
+id = "lucius/network-speed"
+name = "Network Speed"
+version = "1.0.0"
+plugin_api = 8
+author = "lucius"
+license = "MIT"
+icon = "network"
+description = "A single bar button combining network state with download and upload speeds."
+
+[[widget]]
+id = "network-speed"
+entry = "widget.luau"

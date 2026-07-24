@@ -1,5 +1,6 @@
 [shell]
 lang = "zh-Hans"
+font_family = "PragmataPro"
 telemetry_enabled = false
 setup_wizard_enabled = true
 polkit_agent = true

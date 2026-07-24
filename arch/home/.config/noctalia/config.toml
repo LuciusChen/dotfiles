@@ -31,6 +31,9 @@ tint_intensity = 0.30
 [idle]
 pre_action_fade_seconds = 2.0
 
+[system.monitor]
+network_poll_seconds = 1.0
+
 [idle.behavior.lock]
 enabled = true
 timeout = 600
@@ -65,7 +68,7 @@ start = [
     "launcher",
     "wallpaper",
     "workspaces",
-    "network-speed"
+    "group:network-info"
 ]
 center = [
     "center-clock"
@@ -81,11 +84,32 @@ end = [
     "session"
 ]
 
-[widget.network-speed]
-type = "lucius/network-speed:network-speed"
+[[bar.main.capsule_group]]
+id = "network-info"
+members = ["network", "network-download", "network-upload"]
+fill = "surface_variant"
+padding = 6.0
+enabled = true
+
+[widget.network]
+show_label = false
+
+[widget.network-download]
+type = "sysmon"
+stat = "net_rx"
+glyph = "arrow-down"
+display = "text"
+network_speed_compact = true
+
+[widget.network-upload]
+type = "sysmon"
+stat = "net_tx"
+glyph = "arrow-up"
+display = "text"
+network_speed_compact = true
 
 [widget.center-clock]
 type = "lucius/center-clock:center-clock"
 
 [plugins]
-enabled = ["lucius/network-speed", "lucius/center-clock"]
+enabled = ["lucius/center-clock"]

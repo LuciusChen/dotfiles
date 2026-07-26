@@ -35,6 +35,8 @@ cp -a ~/dotfiles/arch/home/.local/share/applications/. ~/.local/share/applicatio
 update-desktop-database ~/.local/share/applications
 mkdir -p ~/.local/state/noctalia
 install -m 0644 ~/dotfiles/arch/home/.local/state/noctalia/settings.toml ~/.local/state/noctalia/settings.toml
+umask 077
+pass show noctalia/storage-key > ~/.local/state/noctalia/storage.key
 # arch/etc 下的文件按具体路径用 sudo install 部署，不要整目录覆盖 /etc。
 ```
 

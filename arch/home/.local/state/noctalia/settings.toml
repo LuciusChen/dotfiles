@@ -126,8 +126,8 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
         show_login_button = true
         show_password_hint = true
 
-[shell]
-lang = "en"
+[shell.panel]
+transparency_mode = "soft"
 
 [theme]
 builtin = "Gruvbox"
@@ -135,11 +135,14 @@ mode = "dark"
 source = "builtin"
 
 [wallpaper.default]
-path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"
+path = "/home/lucius/Pictures/Wallpapers/DSC00874.jpg"
 
 [wallpaper.last]
-path = "/usr/share/noctalia/assets/noctalia-wallpaper.png"
+path = "/home/lucius/Pictures/Wallpapers/DSC00874.jpg"
+
+[wallpaper.monitors.eDP-1]
+path = "/home/lucius/Pictures/Wallpapers/DSC00874.jpg"
 
 [widget.clock]
 anchor = true
-format = "{:%a · %m/%d · %H:%M}"
+format = "{:%a · %m/%d · %H:%M:%S}"

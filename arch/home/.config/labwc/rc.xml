@@ -101,8 +101,8 @@
     <keybind key="W-S-Down"><action name="MoveToOutput" direction="down" wrap="yes" /></keybind>
 
     <!-- Screenshots and input method -->
-    <keybind key="W-Print"><action name="Execute" command="~/.config/labwc/scripts/screenshot-region" /></keybind>
-    <keybind key="W-S-Print"><action name="Execute" command="grim" /></keybind>
+    <keybind key="W-Print"><action name="Execute" command="noctalia msg screenshot-region" /></keybind>
+    <keybind key="W-S-Print"><action name="Execute" command="noctalia msg screenshot-fullscreen pick" /></keybind>
     <keybind key="W-C-space"><action name="Execute" command="fcitx5 -d -r" /></keybind>
 
     <!-- Workspaces -->

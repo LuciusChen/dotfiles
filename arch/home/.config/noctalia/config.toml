@@ -8,6 +8,17 @@ clipboard_enabled = true
 app_icon_colorize = true
 app_icon_color = "on_surface"
 
+[storage]
+key_source = "file"
+key_file = "/home/lucius/.local/state/noctalia/storage.key"
+
+[shell.screenshot]
+save_to_file = false
+copy_to_clipboard = true
+freeze_screen = true
+confirm_region = false
+show_cursor = false
+
 [notification]
 enable_daemon = true
 position = "top_right"

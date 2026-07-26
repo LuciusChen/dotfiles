@@ -171,7 +171,10 @@ GEOSITE_RULES=(
 ** 开机后需要手动重启
 
 如果开机日志出现 =network: missing default interface= 或 =no route to internet=，
-说明 sing-box 早于 NetworkManager 完成联网。安装仓库中的 systemd drop-in：
+说明 sing-box 早于 NetworkManager 完成联网。安装仓库中的 systemd drop-in。
+本机使用 NetworkManager，因此该 drop-in 直接等待
+=NetworkManager-wait-online.service=，避免同时等待
+=systemd-networkd-wait-online.service= 的两分钟超时：
 
 #+begin_src bash
 sudo install -Dm644 \
@@ -180,8 +183,19 @@ sudo install -Dm644 \
 sudo systemctl daemon-reload
 #+end_src
 
-该 drop-in 会主动拉起并等待 =network-online.target=。修改在下次开机时生效，
-不需要立即重启当前正在运行的 sing-box。
+该 drop-in 会主动拉起并等待 NetworkManager 的 online 检查。修改在下次开机时
+生效，不需要立即重启当前正在运行的 sing-box。
+
+不要同时启用 NetworkManager 和 systemd-networkd。若本机使用
+NetworkManager，请仅禁用 networkd 的下次开机启动；不要在 SSH 会话中使用
+=--now=，以免中断当前连接：
+
+#+begin_src bash
+sudo systemctl disable \
+  systemd-networkd.service \
+  systemd-networkd.socket \
+  systemd-networkd-wait-online.service
+#+end_src
 
 ** 查看日志
 

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( EUID != 0 )); then
+    echo "Run this script with sudo." >&2
+    exit 1
+fi
+
+if ! systemctl is-enabled --quiet NetworkManager.service; then
+    echo "NetworkManager is not enabled; refusing to disable systemd-networkd." >&2
+    exit 1
+fi
+
+script_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+arch_dir="$(CDPATH= cd -- "${script_dir}/.." && pwd)"
+
+install -Dm644 \
+    "${arch_dir}/etc/pam.d/greetd" \
+    /etc/pam.d/greetd
+install -Dm644 \
+    "${arch_dir}/etc/systemd/system/sing-box.service.d/network-online.conf" \
+    /etc/systemd/system/sing-box.service.d/network-online.conf
+install -Dm644 \
+    "${arch_dir}/usr/local/share/wayland-sessions/labwc.desktop" \
+    /usr/local/share/wayland-sessions/labwc.desktop
+
+# Do not use --now here: this script is commonly run over SSH.  NetworkManager
+# already manages the host, and networkd must disappear only after the reboot.
+systemctl disable \
+    systemd-networkd.service \
+    systemd-networkd.socket \
+    systemd-networkd-wait-online.service
+systemctl daemon-reload
+
+echo "Boot fixes installed. Reboot when convenient to test them."

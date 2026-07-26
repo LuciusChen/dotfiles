@@ -2,7 +2,9 @@
 
 auth       required     pam_securetty.so
 auth       requisite    pam_nologin.so
-auth       include      system-local-login
+# The graphical greeter already collects a password.  Bypass the local-login
+# fingerprint pre-check so a successful password is not followed by fprintd.
+auth       include      system-login
 account    include      system-local-login
 session    include      system-local-login
 session    required     pam_systemd.so

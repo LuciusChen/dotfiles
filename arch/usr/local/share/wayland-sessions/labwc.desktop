@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=labwc
+Comment=A quiet Labwc session with output captured by journald
+Exec=systemd-cat --identifier=labwc --level-prefix=false -- labwc
+TryExec=labwc
+Icon=labwc
+Type=Application
+DesktopNames=labwc;wlroots

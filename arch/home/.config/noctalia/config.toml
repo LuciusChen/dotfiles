@@ -1,5 +1,5 @@
 [shell]
-lang = "zh-Hans"
+lang = "en"
 font_family = "PragmataPro"
 telemetry_enabled = false
 setup_wizard_enabled = true
@@ -13,8 +13,10 @@ key_source = "file"
 key_file = "/home/lucius/.local/state/noctalia/storage.key"
 
 [shell.screenshot]
-save_to_file = false
+save_to_file = true
 copy_to_clipboard = true
+directory = "/home/lucius/Pictures/Screenshots"
+filename_pattern = "screenshot_%Y-%m-%d_%H-%M-%S"
 freeze_screen = true
 confirm_region = false
 show_cursor = false

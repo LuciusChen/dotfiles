@@ -1,0 +1,42 @@
+#!/bin/sh
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+source_file="${script_dir}/../firefox/user.js"
+firefox_dir="${FIREFOX_DIR:-$HOME/.mozilla/firefox}"
+profiles_ini="${firefox_dir}/profiles.ini"
+
+if [ ! -f "$profiles_ini" ]; then
+  echo "Firefox profiles file not found: $profiles_ini" >&2
+  exit 1
+fi
+
+profile_path=$(
+  awk -F= '
+    /^\[Install/ { in_install = 1; next }
+    /^\[/ { in_install = 0 }
+    in_install && $1 == "Default" {
+      sub(/\r$/, "", $2)
+      print $2
+      exit
+    }
+  ' "$profiles_ini"
+)
+
+if [ -z "$profile_path" ]; then
+  echo "Default Firefox profile not found in $profiles_ini" >&2
+  exit 1
+fi
+
+case "$profile_path" in
+  /*) profile_dir=$profile_path ;;
+  *) profile_dir="${firefox_dir}/${profile_path}" ;;
+esac
+
+if [ ! -d "$profile_dir" ]; then
+  echo "Default Firefox profile directory not found: $profile_dir" >&2
+  exit 1
+fi
+
+install -m 0644 "$source_file" "$profile_dir/user.js"
+echo "Installed Firefox user.js to $profile_dir"

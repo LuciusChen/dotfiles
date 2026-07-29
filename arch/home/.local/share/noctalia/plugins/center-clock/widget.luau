@@ -2,10 +2,10 @@
 
 local function render()
   local time = os.date("%H:%M:%S")
-  local weekday = os.date("%a")
+  local weekday = string.upper(os.date("%a"))
   local date = os.date("%d")
 
-  barWidget.render(ui.row({ gap = 6, align = "center" }, {
+  barWidget.render(ui.row({ gap = 5, align = "center" }, {
     ui.column({
       width = 20,
       height = 19,

@@ -63,6 +63,8 @@ resume_command = "wlopm --on '*'"
 auto_sync = true
 
 [shell.panel]
+transparency_mode = "soft"
+control_center_placement = "floating"
 open_near_click_control_center = true
 
 [theme.templates]

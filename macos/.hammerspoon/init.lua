@@ -102,7 +102,7 @@ spoon.Emojis:bindHotkeys({ toggle = { conf.hyper, "2" } })
 -- Keyboard
 local corne = 24679
 executeCommand = function(eventType, profile)
-    hs.alert.show("Keyboard " .. (eventType == "added" and "detected" or "removed") .. ".")
+    hs.notify.show("Keyboard", "", eventType == "added" and "detected" or "removed")
     local profileArg = eventType == "added" and profile or ""
     hs.execute(
         "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile " .. profileArg

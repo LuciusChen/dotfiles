@@ -14,7 +14,7 @@ dotfiles/
 └── arch/                 # Arch Linux 配置
     ├── home/.config/     # Labwc, Noctalia, Kanshi 等
     ├── home/.local/      # Noctalia GUI 持久化设置等用户状态
-    └── etc/              # 系统级配置 (greetd, keyd, sing-box, sysctl.d 等)
+    └── etc/              # 系统级配置 (greetd, kanata, sing-box, sysctl.d 等)
 ```
 
 ## 部署

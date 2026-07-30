@@ -1,0 +1,48 @@
+;; System-wide keyboard remapping configuration.
+;;
+;; Keys outside the mappings below pass through unchanged. Processing them is
+;; still required so that another key immediately resolves tap-hold actions.
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+;; defsrc is required even when all layers use the key-oriented deflayermap
+;; syntax.
+(defsrc)
+
+(defalias
+  ;; Tap Caps Lock for Escape; hold it for Left Control.
+  caps-ctrl (tap-hold-press 200 200 esc lctl)
+
+  ;; Tap semicolon normally; hold it for the navigation layer.
+  semi-nav (tap-hold-press 200 200 ; (layer-while-held nav))
+)
+
+(deflayermap (base)
+  caps @caps-ctrl
+  esc  caps
+  ;    @semi-nav
+)
+
+(deflayermap (nav)
+  h left
+  j down
+  k up
+  l right
+
+  y home
+  u end
+  i del
+  n pgup
+  m pgdn
+
+  8 f8
+  9 f9
+)
+
+;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress
+;; that synthetic chord and expose a held Right Meta modifier instead.
+(defchordsv2
+  (lmet lsft f23) rmet 100 all-released ()
+)

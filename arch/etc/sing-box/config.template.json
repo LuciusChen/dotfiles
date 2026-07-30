@@ -1,6 +1,6 @@
 {
   "log": {
-    "level": "info",
+    "level": "warn",
     "timestamp": true
   },
   "dns": {
@@ -97,6 +97,7 @@
       { "ip_cidr": ["100.64.0.0/10"], "action": "route", "outbound": "DIRECT" },
       { "domain_suffix": ["tailscale.com", "tailscale.io"], "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-category-ads-all", "action": "reject" },
+      { "process_name": ["qbittorrent", "aria2c", "transmission", "Motrix"], "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-private", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-bilibili", "action": "route", "outbound": "DIRECT" },
       { "rule_set": "geosite-youtube", "action": "route", "outbound": "Proxy" },
@@ -110,8 +111,7 @@
       { "rule_set": "geosite-github", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-geolocation-!cn", "action": "route", "outbound": "Proxy" },
       { "rule_set": "geosite-cn", "action": "route", "outbound": "DIRECT" },
-      { "rule_set": "geoip-cn", "action": "route", "outbound": "DIRECT" },
-      { "process_name": ["qbittorrent", "aria2c", "transmission", "Motrix"], "action": "route", "outbound": "DIRECT" }
+      { "rule_set": "geoip-cn", "action": "route", "outbound": "DIRECT" }
     ],
     "final": "Proxy",
     "auto_detect_interface": true,

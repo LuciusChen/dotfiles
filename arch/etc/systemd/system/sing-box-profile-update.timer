@@ -1,0 +1,12 @@
+[Unit]
+Description=Periodically update the sing-box profile
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=6h
+RandomizedDelaySec=10min
+Persistent=true
+Unit=sing-box-profile-update.service
+
+[Install]
+WantedBy=timers.target

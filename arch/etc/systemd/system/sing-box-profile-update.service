@@ -1,0 +1,14 @@
+[Unit]
+Description=Update sing-box profile from Cloudflare Worker
+Wants=network-online.target
+After=network-online.target
+ConditionFileNotEmpty=/etc/sing-box/profile-url
+
+[Service]
+Type=oneshot
+ExecStart=/etc/sing-box/sing-box-update.sh
+TimeoutStartSec=3min
+UMask=0077
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

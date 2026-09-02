@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# sudo inherits SSH_CONNECTION from the shell (or Codex) that invokes it.
+# pam_exec runs this helper with sudo as its direct parent; seteuid lets the
+# helper read the environment of the set-user-ID sudo process.
+grep -aqz '^SSH_CONNECTION=' "/proc/$PPID/environ"

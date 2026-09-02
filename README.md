@@ -31,6 +31,7 @@ cp -a ~/dotfiles/arch/home/.config/. ~/.config/
 install -m 0644 ~/dotfiles/arch/home/.zshrc ~/.zshrc
 ~/dotfiles/arch/scripts/install-firefox-userjs
 ~/dotfiles/arch/scripts/install-papirus-icon-theme
+sudo ~/dotfiles/arch/scripts/install-sudo-pam-policy
 mkdir -p ~/.local/share/applications
 cp -a ~/dotfiles/arch/home/.local/share/applications/. ~/.local/share/applications/
 update-desktop-database ~/.local/share/applications

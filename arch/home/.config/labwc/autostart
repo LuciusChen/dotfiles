@@ -9,6 +9,9 @@ kanshi >/dev/null 2>&1 &
 # Noctalia owns the bar, launcher, notifications, clipboard, lock and idle UI.
 noctalia --daemon
 
+# Auto-mount removable drives and surface mount events through Noctalia.
+udiskie --automount --notify --smart-tray &
+
 # Session applications preserved from the Hyprland setup.
 fcitx5 -d -r
 ~/.dropbox-dist/dropboxd >/dev/null 2>&1 &

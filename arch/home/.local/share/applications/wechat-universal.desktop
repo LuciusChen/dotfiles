@@ -1,0 +1,21 @@
+[Desktop Entry]
+Name=WeChat
+Name[zh_CN]=微信
+Exec=sh -c "exec ~/.config/labwc/scripts/wechat-launch"
+TryExec=/usr/bin/wechat-universal
+Icon=wechat-universal
+Categories=Network;InstantMessaging;Chat;
+Terminal=false
+Type=Application
+Keywords=wechat;weixin;
+Keywords[zh_CN]=微信;wechat;weixin;
+StartupWMClass=wechat
+X-GNOME-SingleWindow=true
+SingleMainWindow=true
+Actions=quit;
+
+[Desktop Action quit]
+Name=Quit WeChat
+Name[zh_CN]=退出微信
+Exec=/usr/lib/wechat-universal/stop.sh
+Icon=application-exit

@@ -1,20 +1,44 @@
 #!/bin/sh
 set -eu
 
-# Use the packaged wrapper so WeChat receives its X11, Fcitx and bwrap
-# compatibility setup. Keep the existing profile and received-file locations
-# so switching launchers does not create a fresh account.
-export XMODIFIERS=@im=fcitx
-# The desktop session intentionally uses QT_SCALE_FACTOR=0.75, but WeChat mixes
-# native Qt controls with embedded web views and clips text when that global
-# multiplier is applied.  Give WeChat a neutral multiplier and let its packaged
-# automatic screen-scale handling use one consistent geometry.
-export QT_SCALE_FACTOR=1
-export QT_SCALE_FACTOR_ROUNDING_POLICY=Round
-unset QT_SCREEN_SCALE_FACTORS QT_FONT_DPI
+# WeChat 4.1.13.9 bundles a Wayland backend and a text-input-v3 IM plugin.
+# Keep the packaged sandbox and existing profile/received-file locations.
+wayland_socket=${WAYLAND_DISPLAY:?WeChat requires a Wayland session}
+case "$wayland_socket" in
+  /*) ;;
+  *) wayland_socket=${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}/$wayland_socket ;;
+esac
+if [ ! -S "$wayland_socket" ]; then
+  echo "WeChat: Wayland socket is unavailable: $wayland_socket" >&2
+  exit 1
+fi
 
-exec /usr/bin/wechat-universal \
-  --ime fcitx \
+# The packaged wrapper binds this directory unconditionally. Runtime paths
+# disappear at logout/reboot, and an absent audio server must not block chat.
+# pipewire-pulse.socket supplies pulse/native when audio is available.
+mkdir -p -m 700 "${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}/pulse"
+
+# WeChat 4.1.13.9 still clips its login controls on native Wayland when it
+# inherits the desktop's QT_SCALE_FACTOR=0.75: the window shrinks while its
+# contents retain their size. Keep a neutral multiplier; inherit other font
+# and rounding settings from the desktop.
+export QT_SCALE_FACTOR=1
+
+# Seed the wrapper's bwrap arguments before sourcing it. bwrap applies these
+# environment settings inside the sandbox after the wrapper's xcb defaults,
+# and exposes the Wayland socket that the packaged wrapper does not bind.
+# start.sh is the applet name expected by common.sh; --ime none keeps the
+# wrapper from selecting the legacy Fcitx module.
+exec /bin/bash -c '
+  BWRAP_ARGS=(
+    --ro-bind "$1" "$1"
+    --setenv QT_QPA_PLATFORM wayland
+    --setenv QT_IM_MODULE text-input-unstable-v3
+  )
+  shift
+  source /usr/lib/wechat-universal/common.sh
+' start.sh "$wayland_socket" \
+  --ime none \
   --data "$HOME/Documents" \
   --bind "$HOME/.xwechat" \
   "$@"

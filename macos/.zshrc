@@ -10,8 +10,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 #zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# eza
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 # fzf-tab
-autoload -U compinit; compinit
+# Avoid compinit dump rebuilds: dedupe fpath; Emacs shells skip .zprofile (different fpath), so use a separate dump
+typeset -U fpath
+autoload -U compinit; compinit -d ${ZDOTDIR:-$HOME}/.zcompdump${INSIDE_EMACS:+-emacs}
 source ~/fzf-tab/fzf-tab.plugin.zsh
 # vterm
 if [[ "$INSIDE_EMACS" = 'vterm' ]] \
@@ -21,7 +27,7 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 fi
 # python
 # 直接指定路径会导致虚拟环境的解释器依旧是指定路径的解释器
-alias python=python3.12
+alias python=python3.14
 alias pip=pip3
 # Java
 # export JAVA_HOME=$(/usr/libexec/java_home)
@@ -32,12 +38,6 @@ export TOMCAT_HOME=/opt/homebrew/opt/tomcat@9/libexec
 export PATH=$TOMCAT_HOME/bin:$PATH
 # grep
 PATH="/opt/homebrew/Cellar/grep/3.11/libexec:$PATH"
-# eza
-if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-    autoload -Uz compinit
-    compinit
-fi
 
 alias ls='eza'
 alias la='eza -a'
@@ -49,8 +49,9 @@ alias bupg='brew upgrade'
 alias bclean='brew cleanup --prune=all'
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Newest installed node, matching nvm's default alias "node"; change this if the default gets pinned to a version
+path=($NVM_DIR/versions/node/*/bin(NnOn[1]) $path)
+nvm() { unfunction nvm; . "$NVM_DIR/nvm.sh"; . "$NVM_DIR/bash_completion"; nvm "$@" }
 
 # pnpm
 export PNPM_HOME="/Users/luciuschen/Library/pnpm"

@@ -1,0 +1,15 @@
+adwaita-dark
+battop
+emacs-pgtk
+fcitx5-theme-wechat
+kanata-bin
+linuxqq
+mintlocale
+mu
+otf-symbola
+ttf-aporetic
+ttf-apple-emoji
+ttf-lxgw-wenkai-screen
+ttf-ms-win11-auto
+ttf-ms-win11-auto-zh_cn
+wechat-universal-bwrap

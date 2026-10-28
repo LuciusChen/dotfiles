@@ -9,7 +9,7 @@ kanshi >/dev/null 2>&1 &
 # Noctalia owns the bar, launcher, notifications, clipboard, lock and idle UI.
 noctalia --daemon
 
-# Per-app Super+letter keys and their overlay; starts tracking windows early.
+# App switching for kanata's Tab+letter; starts tracking windows early.
 ~/.local/bin/keydock daemon >/dev/null 2>&1 &
 
 # Auto-mount removable drives and surface mount events through Noctalia.

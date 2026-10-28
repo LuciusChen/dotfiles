@@ -1,6 +1,5 @@
 #%PAM-1.0
 
-auth      sufficient pam_fprintd.so
 auth      include   system-login
 account   include   system-login
 password  include   system-login

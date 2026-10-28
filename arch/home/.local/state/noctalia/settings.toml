@@ -1,7 +1,18 @@
-config_version = 2
+config_version = 15
 
 [battery]
 warning_threshold = 20
+
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
 
 [location]
 address = "Nanjing, China"
@@ -9,29 +20,19 @@ address = "Nanjing, China"
 [lockscreen_widgets]
 enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lockscreen-login-box@DP-3", "lockscreen-clock-time@eDP-1", "lockscreen-clock-date@eDP-1", "lockscreen-login-box@eDP-1" ]
+widget_order = [
+    "lockscreen-clock-time@DP-3",
+    "lockscreen-clock-date@DP-3",
+    "lockscreen-login-box@DP-3",
+    "lockscreen-clock-time@eDP-1",
+    "lockscreen-clock-date@eDP-1",
+    "lockscreen-login-box@eDP-1"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
     major_interval = 4
     visible = true
-
-    [lockscreen_widgets.widget."lockscreen-clock-time@DP-3"]
-    box_height = 160.0
-    box_width = 560.0
-    cx = 1280.0
-    cy = 330.0
-    output = "DP-3"
-    rotation = 0.0
-    type = "clock"
-
-        [lockscreen_widgets.widget."lockscreen-clock-time@DP-3".settings]
-        background = false
-        center_text = true
-        clock_style = "digital"
-        color = "on_surface"
-        format = "{:%H:%M}"
-        shadow = true
 
     [lockscreen_widgets.widget."lockscreen-clock-date@DP-3"]
     box_height = 54.0
@@ -39,6 +40,8 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
     cx = 1280.0
     cy = 445.0
     output = "DP-3"
+    placement_height = 0.0
+    placement_width = 0.0
     rotation = 0.0
     type = "clock"
 
@@ -50,50 +53,14 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
         format = "{:%A, %B %d}"
         shadow = true
 
-    [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
-    box_height = 70.0
-    box_width = 400.0
-    cx = 1280.0
-    cy = 1321.0
-    output = "DP-3"
-    rotation = 0.0
-    type = "login_box"
-
-        [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
-        background_color = "surface_variant"
-        background_opacity = 0.84
-        background_radius = 16.0
-        center_password_text = false
-        input_opacity = 0.92
-        input_radius = 10.0
-        show_caps_lock = true
-        show_keyboard_layout = true
-        show_login_button = true
-        show_password_hint = true
-
-    [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1"]
-    box_height = 144.0
-    box_width = 592.0
-    cx = 959.0
-    cy = 271.0
-    output = "eDP-1"
-    rotation = 0.0
-    type = "clock"
-
-        [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1".settings]
-        background = false
-        center_text = true
-        clock_style = "digital"
-        color = "on_surface"
-        format = "{:%H:%M}"
-        shadow = true
-
     [lockscreen_widgets.widget."lockscreen-clock-date@eDP-1"]
     box_height = 48.0
     box_width = 420.0
     cx = 959.0
     cy = 375.0
     output = "eDP-1"
+    placement_height = 1198.0
+    placement_width = 1918.0
     rotation = 0.0
     type = "clock"
 
@@ -105,29 +72,103 @@ widget_order = [ "lockscreen-clock-time@DP-3", "lockscreen-clock-date@DP-3", "lo
         format = "{:%A, %B %d}"
         shadow = true
 
+    [lockscreen_widgets.widget."lockscreen-clock-time@DP-3"]
+    box_height = 160.0
+    box_width = 560.0
+    cx = 1280.0
+    cy = 330.0
+    output = "DP-3"
+    placement_height = 0.0
+    placement_width = 0.0
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-time@DP-3".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%H:%M}"
+        shadow = true
+
+    [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1"]
+    box_height = 144.0
+    box_width = 592.0
+    cx = 959.0
+    cy = 271.0
+    output = "eDP-1"
+    placement_height = 1198.0
+    placement_width = 1918.0
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget."lockscreen-clock-time@eDP-1".settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%H:%M}"
+        shadow = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
+    box_height = 196.0
+    box_width = 720.0
+    cx = 1280.0
+    cy = 1321.0
+    output = "DP-3"
+    placement_height = 0.0
+    placement_width = 0.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.83999999999999997
+        background_radius = 16.0
+        center_password_text = false
+        input_opacity = 0.92000000000000004
+        input_radius = 10.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
-    box_height = 70.0
-    box_width = 400.0
+    box_height = 196.0
+    box_width = 720.0
     cx = 959.0
     cy = 634.0
     output = "eDP-1"
+    placement_height = 1198.0
+    placement_width = 1918.0
     rotation = 0.0
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
         background_color = "surface_variant"
-        background_opacity = 0.84
+        background_opacity = 0.83999999999999997
         background_radius = 16.0
         center_password_text = false
-        input_opacity = 0.92
+        input_opacity = 0.92000000000000004
         input_radius = 10.0
+        layout = "regular"
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
-[shell.panel]
-transparency_mode = "soft"
+[shell]
+lang = "en"
+
+    [shell.panel]
+    transparency_mode = "soft"
 
 [theme]
 builtin = "Gruvbox"

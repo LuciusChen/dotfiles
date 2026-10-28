@@ -107,7 +107,7 @@ end = [
 [[bar.main.capsule_group]]
 id = "network-info"
 members = ["network", "network-download", "network-upload"]
-fill = "surface_variant"
+fill = "surface_container"
 padding = 6.0
 enabled = true
 
@@ -118,14 +118,16 @@ show_label = false
 type = "sysmon"
 stat = "net_rx"
 glyph = "arrow-down"
-display = "text"
+visualization = "none"
+show_value = true
 network_speed_compact = true
 
 [widget.network-upload]
 type = "sysmon"
 stat = "net_tx"
 glyph = "arrow-up"
-display = "text"
+visualization = "none"
+show_value = true
 network_speed_compact = true
 
 [widget.center-clock]

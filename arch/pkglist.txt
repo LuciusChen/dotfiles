@@ -58,7 +58,6 @@ libappindicator
 libindicator
 linux
 linux-firmware
-mako
 maven
 mold
 mpv

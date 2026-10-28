@@ -34,10 +34,13 @@ chmod 700 ~/.gnupg
 update-desktop-database ~/.local/share/applications
 ~/dotfiles/arch/scripts/install-firefox-userjs
 ~/dotfiles/arch/scripts/install-papirus-icon-theme
-sudo ~/dotfiles/arch/scripts/install-sudo-pam-policy
 umask 077
 pass show noctalia/storage-key > ~/.local/state/noctalia/storage.key
-# arch/etc 下的文件按具体路径用 sudo install 部署，不要整目录覆盖 /etc。
+
+# 系统文件逐个安装，保留仓库里的权限，不整目录覆盖 /etc。
+cd ~/dotfiles/arch && git ls-files etc usr | grep -v README | while read -r f; do
+  sudo install -Dm"$(stat -c %a "$f")" "$f" "/$f"
+done
 ```
 
 ## Arch 重装
@@ -70,7 +73,8 @@ pass show noctalia/storage-key > ~/.local/state/noctalia/storage.key
    ```
 
 3. 从私有仓库恢复 GPG 私钥，再按“部署”复制配置。`pass` 依赖这把私钥。
-4. 启用系统服务：
+4. sing-box 的私有订阅地址 `/etc/sing-box/profile-url` 不在仓库里，需要单独恢复（见 `arch/etc/sing-box/README.org`）。
+5. 启用系统服务：
 
    ```bash
    sudo systemctl enable greetd kanata NetworkManager bluetooth power-profiles-daemon \
@@ -78,18 +82,18 @@ pass show noctalia/storage-key > ~/.local/state/noctalia/storage.key
      fstrim.timer sing-box-profile-update.timer
    ```
 
-5. 内核参数：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0`。系统用 zram-generator 做内存交换，所以关闭 zswap。
-6. 充电阈值：启用 upower 的 75–80% 充电阈值。
+6. 内核参数：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0`。系统用 zram-generator 做内存交换，所以关闭 zswap。
+7. 充电阈值：启用 upower 的 75–80% 充电阈值。
 
    ```bash
    busctl call org.freedesktop.UPower /org/freedesktop/UPower/devices/battery_BAT0 \
      org.freedesktop.UPower.Device EnableChargeThreshold b true
    ```
 
-7. Dropbox 用官方程序装到 `~/.dropbox-dist`，登录并等待同步完成。
-8. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 里除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`。再在 `installation.yaml` 中设置 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"`，重新部署并同步。Rime 同步只会自动导回用户词库，`*.custom.yaml` 必须手动复制。
-9. 构建 keydock 并安装到 `~/.local/bin/keydock`（见其 README）。
-10. 用 `fprintd-enroll` 重新录入指纹。
+8. Dropbox 用官方程序装到 `~/.dropbox-dist`，登录并等待同步完成。
+9. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 里除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`。再在 `installation.yaml` 中设置 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"`，重新部署并同步。Rime 同步只会自动导回用户词库，`*.custom.yaml` 必须手动复制。
+10. 构建 keydock 并安装到 `~/.local/bin/keydock`（见其 README）。
+11. 用 `fprintd-enroll` 重新录入指纹。
 
 ## 主要工具
 

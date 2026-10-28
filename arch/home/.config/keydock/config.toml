@@ -1,6 +1,7 @@
-# keydock: Super+<key> focuses, hides or launches the app.
+# keydock: Tab+<key> (via kanata) focuses, hides or launches the app.
 # app_id is what `keydock status` shows; "emacs" also matches "emacs-32-0-50".
 
+key_label = "Tab"
 opacity = 0.85
 
 [[app]]

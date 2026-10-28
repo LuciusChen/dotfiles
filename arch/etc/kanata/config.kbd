@@ -4,6 +4,8 @@
 ;; still required so that another key immediately resolves tap-hold actions.
 (defcfg
   process-unmapped-keys yes
+  danger-enable-cmd yes
+  log-layer-changes no
   concurrent-tap-hold yes
 )
 
@@ -17,12 +19,22 @@
 
   ;; Tap semicolon normally; hold it for the navigation layer.
   semi-nav (tap-hold-press 200 200 ; (layer-while-held nav))
+
+  ;; Tap Tab normally; hold it for the keydock layer.
+  tab-apps (tap-hold-press 200 200 tab (layer-while-held apps))
+)
+
+;; Ask the keydock daemon, as the desktop user, to toggle an app.
+(deftemplate kd (letter)
+  (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+       /home/lucius/.local/bin/keydock key $letter)
 )
 
 (deflayermap (base)
   caps @caps-ctrl
   esc  caps
   ;    @semi-nav
+  tab  @tab-apps
 )
 
 (deflayermap (nav)
@@ -39,6 +51,37 @@
 
   8 f8
   9 f9
+)
+
+(deflayermap (apps)
+  a (t! kd a)
+  b (t! kd b)
+  c (t! kd c)
+  d (t! kd d)
+  e (t! kd e)
+  f (t! kd f)
+  g (t! kd g)
+  h (t! kd h)
+  i (t! kd i)
+  j (t! kd j)
+  k (t! kd k)
+  l (t! kd l)
+  m (t! kd m)
+  n (t! kd n)
+  o (t! kd o)
+  p (t! kd p)
+  q (t! kd q)
+  r (t! kd r)
+  s (t! kd s)
+  t (t! kd t)
+  u (t! kd u)
+  v (t! kd v)
+  w (t! kd w)
+  x (t! kd x)
+  y (t! kd y)
+  z (t! kd z)
+  / (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+         /home/lucius/.local/bin/keydock overlay)
 )
 
 ;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress

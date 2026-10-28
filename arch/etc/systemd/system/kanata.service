@@ -5,7 +5,7 @@ After=systemd-udev-trigger.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/kanata --cfg /etc/kanata/config.kbd --no-wait
+ExecStart=/usr/bin/kanata_cmd_allowed --cfg /etc/kanata/config.kbd --no-wait
 Restart=on-failure
 RestartSec=1
 

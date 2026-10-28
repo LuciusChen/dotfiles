@@ -52,10 +52,10 @@ pass show noctalia/storage-key > ~/.local/state/noctalia/storage.key
 | WezTerm | Kitty |
 | Starship | Starship |
 
-## Labwc 应用切换器
+## 应用切换（keydock）
 
-按住 `Tab` 加字母交给 keydock（源码在 `~/Projects/keydock`）：kanata 用 `kanata_cmd_allowed` 运行，直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，多窗口时一起调出并停在最近使用的窗口，聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出浮层，按数字把已打开的应用绑定上去。`Tab+/` 打开浮层查看所有绑定。绑定写在 `~/.config/keydock/config.toml`，浮层配色由 Noctalia 模板 `keydock.toml` 生成。
-keydock 需要单独构建并安装到 `~/.local/bin/keydock`（见其 README）。
+按住 `Tab` 加字母交给 keydock（源码在 `~/Projects/keydock`）：kanata 直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，多窗口时一起调出并停在最近使用的窗口，聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出浮层，按数字把已打开的应用绑定上去。`Tab+/` 打开浮层查看所有绑定。绑定写在 `~/.config/keydock/config.toml`，浮层配色由 Noctalia 模板 `keydock.toml` 生成。
+keydock 需要单独构建并安装到 `~/.local/bin/keydock`（见其 README）。kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed`，配置中开启了 `danger-enable-cmd`。
 微信菜单入口和 `Tab+W` 共用 `wechat-launch`：使用 `wechat-universal-bwrap` 4.1.13.9 的原生 Wayland 后端及 `text-input-unstable-v3` 输入法插件，保留打包器的沙箱和原有数据路径（`~/.xwechat`、`~/Documents/home`、`~/Documents/xwechat_files`）。
 启动脚本通过 bwrap 参数设置微信进程的环境，覆盖打包器的 `xcb` 默认值；直接运行系统的 `wechat-universal` 仍使用打包器默认设置。
 微信音频使用 `pipewire-pulse`，部署时启用其用户级 socket。启动脚本会创建打包器要求的 `$XDG_RUNTIME_DIR/pulse` 目录，避免重启后音频服务尚未就绪时，沙箱因目录不存在而拒绝启动微信。

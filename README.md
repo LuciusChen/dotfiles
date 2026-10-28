@@ -78,7 +78,7 @@ done
 
    ```bash
    sudo systemctl enable greetd kanata NetworkManager bluetooth power-profiles-daemon \
-     systemd-resolved systemd-timesyncd sshd tailscaled sing-box haveged accounts-daemon \
+     systemd-resolved systemd-timesyncd sshd tailscaled sing-box accounts-daemon \
      fstrim.timer sing-box-profile-update.timer
    ```
 

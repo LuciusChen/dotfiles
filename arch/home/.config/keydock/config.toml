@@ -1,0 +1,32 @@
+# keydock: Super+<key> focuses, hides or launches the app.
+# app_id is what `keydock status` shows; "emacs" also matches "emacs-32-0-50".
+
+[[app]]
+key = "c"
+app_id = "kitty"
+exec = "kitty"
+
+[[app]]
+key = "g"
+app_id = "firefox"
+exec = "firefox"
+
+[[app]]
+key = "w"
+app_id = "wechat"
+exec = "~/.config/labwc/scripts/wechat-launch"
+
+[[app]]
+key = "r"
+app_id = "emacs"
+exec = "emacs"
+
+[[app]]
+key = "x"
+app_id = "QQ"
+exec = "gtk-launch qq"
+
+[[app]]
+key = "d"
+app_id = "discord"
+exec = "gtk-launch discord"

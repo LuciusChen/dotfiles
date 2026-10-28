@@ -76,6 +76,10 @@ input_path = "$XDG_CONFIG_HOME/noctalia/templates/labwc.conf"
 output_path = "$XDG_CONFIG_HOME/labwc/noctalia.conf"
 post_hook = "bash /usr/share/noctalia/assets/templates/labwc/apply.sh && labwc --reconfigure"
 
+[theme.templates.user.keydock]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/keydock.toml"
+output_path = "$XDG_CONFIG_HOME/keydock/colors.toml"
+
 [bar.main]
 thickness = 34
 scale = 1.12

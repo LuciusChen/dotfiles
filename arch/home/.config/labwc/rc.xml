@@ -64,19 +64,31 @@
     <!-- Let Fcitx5 receive its configured Alt+Space trigger. -->
     <keybind key="A-Space"><action name="None" /></keybind>
 
-    <!-- Applications and Noctalia surfaces -->
-    <!-- Reusable app toggle: focused -> hide; existing -> focus and warp the
-         cursor to its center; missing -> launch. Keep these on key release so
-         keyboard repeat cannot focus and then immediately hide an app. -->
-    <keybind key="W-c" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle kitty kitty" /></keybind>
-    <keybind key="W-g" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle firefox firefox" /></keybind>
-    <keybind key="W-w" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle wechat ~/.config/labwc/scripts/wechat-launch" /></keybind>
-    <keybind key="W-r" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle emacs emacs" /></keybind>
-    <keybind key="W-x" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle QQ gtk-launch qq" /></keybind>
-    <keybind key="W-d" onRelease="yes"><action name="Execute" command="~/.config/labwc/scripts/app-toggle discord gtk-launch discord" /></keybind>
+    <!-- Applications: keydock (~/Projects/keydock) owns every free Super+letter.
+         Pinned letters focus, hide or launch their app (see
+         ~/.config/keydock/config.toml); an unpinned letter opens an overlay to
+         pin an open app. Release-triggered so key repeat cannot toggle twice. -->
+    <keybind key="W-c" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key c" /></keybind>
+    <keybind key="W-d" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key d" /></keybind>
+    <keybind key="W-e" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key e" /></keybind>
+    <keybind key="W-g" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key g" /></keybind>
+    <keybind key="W-i" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key i" /></keybind>
+    <keybind key="W-j" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key j" /></keybind>
+    <keybind key="W-k" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key k" /></keybind>
+    <keybind key="W-m" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key m" /></keybind>
+    <keybind key="W-o" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key o" /></keybind>
+    <keybind key="W-p" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key p" /></keybind>
+    <keybind key="W-r" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key r" /></keybind>
+    <keybind key="W-t" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key t" /></keybind>
+    <keybind key="W-u" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key u" /></keybind>
+    <keybind key="W-w" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key w" /></keybind>
+    <keybind key="W-x" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key x" /></keybind>
+    <keybind key="W-y" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key y" /></keybind>
+    <keybind key="W-z" onRelease="yes"><action name="Execute" command="~/.local/bin/keydock key z" /></keybind>
+    <keybind key="W-slash"><action name="Execute" command="~/.local/bin/keydock overlay" /></keybind>
 
-    <!-- Private callback used by app-toggle after wlrctl has activated and
-         unminimized the target. The four-modifier chord avoids user conflicts. -->
+    <!-- Private callback: keydock sends this chord after focusing an app so
+         the cursor follows the window. The four-modifier chord avoids conflicts. -->
     <keybind key="W-C-A-S-p"><action name="WarpCursor" to="window" x="center" y="center" /></keybind>
     <keybind key="W-b"><action name="Execute" command="~/.config/labwc/scripts/dropbox-restart" /></keybind>
     <keybind key="W-space"><action name="Execute" command="noctalia msg panel-toggle launcher" /></keybind>
@@ -91,6 +103,17 @@
     <keybind key="W-v"><action name="ToggleMaximize" /></keybind>
     <keybind key="W-f"><action name="ToggleFullscreen" /></keybind>
     <keybind key="W-a"><action name="ToggleAlwaysOnTop" /></keybind>
+
+    <!-- macOS Cmd+` style: cycle windows of the focused app only, then warp
+         the cursor so focus-follows-mouse keeps the new window focused. -->
+    <keybind key="W-grave">
+      <action name="NextWindowImmediate" identifier="current" />
+      <action name="WarpCursor" to="window" x="center" y="center" />
+    </keybind>
+    <keybind key="W-S-grave">
+      <action name="PreviousWindowImmediate" identifier="current" />
+      <action name="WarpCursor" to="window" x="center" y="center" />
+    </keybind>
     <keybind key="W-Left"><action name="ToggleSnapToEdge" direction="left" /></keybind>
     <keybind key="W-Right"><action name="ToggleSnapToEdge" direction="right" /></keybind>
     <keybind key="W-Up"><action name="ToggleMaximize" /></keybind>

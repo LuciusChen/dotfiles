@@ -1,6 +1,8 @@
 # keydock: Super+<key> focuses, hides or launches the app.
 # app_id is what `keydock status` shows; "emacs" also matches "emacs-32-0-50".
 
+opacity = 0.85
+
 [[app]]
 key = "c"
 app_id = "kitty"

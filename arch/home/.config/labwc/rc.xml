@@ -140,6 +140,7 @@
     <device category="touchpad">
       <tap>yes</tap>
       <naturalScroll>yes</naturalScroll>
+      <threeFingerDrag>yes</threeFingerDrag>
       <disableWhileTyping>yes</disableWhileTyping>
     </device>
   </libinput>

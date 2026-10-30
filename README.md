@@ -47,7 +47,7 @@ done
 
 在上面“部署”之外，重装系统时按顺序补这些步骤：
 
-1. 在 `/etc/pacman.conf` 末尾加 archlinuxcn 源，再装 keyring：
+1. 在 `/etc/pacman.conf` 里取消 `[multilib]` 两行的注释（Steam 需要 32 位库），在末尾加 archlinuxcn 源，再装 keyring：
 
    ```ini
    [archlinuxcn]

@@ -92,6 +92,7 @@ slurp
 sof-firmware
 speech-dispatcher
 starship
+steam
 tailscale
 tcpdump
 texlive-bibtexextra
@@ -132,6 +133,7 @@ unzip
 usbutils
 uv
 vim
+vulkan-intel
 wget
 wl-clipboard
 wlopm

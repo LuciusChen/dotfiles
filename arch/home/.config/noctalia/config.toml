@@ -69,7 +69,7 @@ open_near_click_control_center = true
 
 [theme.templates]
 enable_builtin_templates = true
-builtin_ids = ["gtk3", "gtk4"]
+builtin_ids = ["gtk3", "gtk4", "kitty"]
 
 [theme.templates.user.labwc]
 input_path = "$XDG_CONFIG_HOME/noctalia/templates/labwc.conf"

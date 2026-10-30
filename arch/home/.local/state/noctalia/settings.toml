@@ -172,8 +172,9 @@ lang = "en"
 
 [theme]
 builtin = "Gruvbox"
+custom_palette = "Ashen"
 mode = "dark"
-source = "builtin"
+source = "custom"
 
 [wallpaper.default]
 path = "/home/lucius/Pictures/Wallpapers/DSC00874.jpg"

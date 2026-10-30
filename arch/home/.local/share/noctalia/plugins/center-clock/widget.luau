@@ -1,5 +1,11 @@
 --!nonstrict
 
+-- The calendar icon looks like a paper calendar in any palette and mode, so its
+-- colors are fixed rather than palette roles.
+local HEADER = "#fb4934"
+local PAPER = "#e3dfcb"
+local INK = "#1a1b1b"
+
 local function render()
   local time = os.date("%H:%M:%S")
   local weekday = string.upper(os.date("%a"))
@@ -10,9 +16,9 @@ local function render()
       width = 20,
       height = 19,
       gap = 0,
-      fill = "on_surface",
+      fill = PAPER,
       radius = 3,
-      border = "outline",
+      border = "outline_variant",
       borderWidth = 1,
       align = "center",
       justify = "center",
@@ -20,7 +26,7 @@ local function render()
       ui.row({
         width = 20,
         height = 8,
-        fill = "error",
+        fill = HEADER,
         radius = 0,
         align = "center",
         justify = "center",
@@ -29,7 +35,7 @@ local function render()
           text = weekday,
           fontSize = 7,
           fontWeight = "bold",
-          color = "on_surface",
+          color = PAPER,
           textAlign = "center",
           baseline = "text",
         }),
@@ -37,7 +43,7 @@ local function render()
       ui.row({
         width = 20,
         height = 11,
-        fill = "on_surface",
+        fill = PAPER,
         radius = 0,
         align = "center",
         justify = "center",
@@ -46,7 +52,7 @@ local function render()
           text = date,
           fontSize = 11,
           fontWeight = "bold",
-          color = "surface",
+          color = INK,
           textAlign = "center",
           baseline = "textFixedHeight",
         }),

@@ -1,7 +1,7 @@
 id = "lucius/center-clock"
 name = "Center Clock"
 version = "1.0.0"
-plugin_api = 8
+plugin_api = 43
 author = "lucius"
 license = "MIT"
 icon = "clock"

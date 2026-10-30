@@ -6,6 +6,7 @@
   process-unmapped-keys yes
   danger-enable-cmd yes
   log-layer-changes no
+  ;; Lets tap-hold keys resolve together, e.g. Caps (Ctrl) held with ; for Ctrl+Left.
   concurrent-tap-hold yes
 )
 

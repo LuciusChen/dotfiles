@@ -78,6 +78,7 @@ pass
 pass-otp
 pipewire-alsa
 pipewire-libcamera
+plymouth
 pnpm
 podman
 power-profiles-daemon

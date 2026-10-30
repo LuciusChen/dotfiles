@@ -82,7 +82,7 @@ done
      fstrim.timer sing-box-profile-update.timer
    ```
 
-6. 内核参数：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0`。系统用 zram-generator 做内存交换，所以关闭 zswap。
+6. 开机画面：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0 quiet loglevel=3 rd.udev.log_level=3 splash`，`/boot/loader/loader.conf` 设 `timeout 0`（开机按住空格显示菜单）。`/etc/mkinitcpio.conf` 的 `HOOKS` 在 `systemd` 后加 `plymouth`，再 `sudo plymouth-set-default-theme bgrt && sudo mkinitcpio -P`。系统用 zram-generator 做内存交换，所以关闭 zswap；其余参数让开关机只显示 Lenovo 标志，greetd 在同一个 tty1 上接着显示登录界面（关机静默见 `arch/etc/systemd/system.conf.d/quiet-shutdown.conf`）。
 7. 充电阈值：启用 upower 的 75–80% 充电阈值。
 
    ```bash

@@ -35,10 +35,6 @@
     <font place="OnScreenDisplay" name="sans" size="11" weight="bold" />
   </theme>
 
-  <windowSwitcher preview="no" outlines="yes" unshade="yes">
-    <osd show="yes" style="thumbnail" output="all" thumbnailLabelFormat="%T" />
-  </windowSwitcher>
-
   <focus>
     <followMouse>yes</followMouse>
     <followMouseRequiresMovement>yes</followMouseRequiresMovement>
@@ -84,6 +80,11 @@
     <keybind key="W-f"><action name="ToggleFullscreen" /></keybind>
     <keybind key="W-a"><action name="ToggleAlwaysOnTop" /></keybind>
 
+    <!-- Alt+Tab opens Noctalia's window switcher; a quick tap returns to the
+         previous window, and Shift+Tab steps back while it is open. -->
+    <keybind key="A-Tab"><action name="Execute" command="noctalia msg window-switcher hold" /></keybind>
+    <keybind key="A-S-Tab"><action name="Execute" command="noctalia msg window-switcher hold" /></keybind>
+
     <!-- macOS Cmd+` style: cycle windows of the focused app only, then warp
          the cursor so focus-follows-mouse keeps the new window focused. -->
     <keybind key="W-grave">
@@ -105,7 +106,8 @@
 
     <!-- Screenshots and input method -->
     <keybind key="W-Print"><action name="Execute" command="noctalia msg screenshot-region" /></keybind>
-    <keybind key="W-S-Print"><action name="Execute" command="noctalia msg screenshot-fullscreen pick" /></keybind>
+    <keybind key="W-S-Print"><action name="Execute" command="noctalia msg screenshot-region --annotate" /></keybind>
+    <keybind key="W-C-Print"><action name="Execute" command="noctalia msg screenshot-fullscreen pick" /></keybind>
     <keybind key="W-C-space"><action name="Execute" command="fcitx5 -d -r" /></keybind>
 
     <!-- Workspaces -->

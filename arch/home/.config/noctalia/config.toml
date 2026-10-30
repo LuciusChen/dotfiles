@@ -59,6 +59,9 @@ timeout = 660
 command = "wlopm --off '*'"
 resume_command = "wlopm --on '*'"
 
+[shell.window_switcher]
+mru = true
+
 [shell.greeter_sync]
 auto_sync = true
 

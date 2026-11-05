@@ -157,7 +157,6 @@
   7 (t! kd 7)
   8 (t! kd 8)
   9 (t! kd 9)
-  / (cmd $keydock overlay)
 )
 
 ;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress

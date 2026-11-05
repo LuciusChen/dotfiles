@@ -2,6 +2,7 @@
 # app_id is what `keydock status` shows; "emacs" also matches "emacs-32-0-50".
 
 key_label = "Tab"
+font = "PragmataPro"    # same as Noctalia and kitty
 
 [[app]]
 key = "c"

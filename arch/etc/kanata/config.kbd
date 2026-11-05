@@ -21,14 +21,24 @@
   ;; Tap semicolon normally; hold it for numbers and navigation.
   semi-numnav (tap-hold-press 200 200 ; (layer-while-held numnav))
 
-  ;; Tap Tab normally; hold it for the keydock layer.
-  tab-apps (tap-hold-press 200 200 tab (layer-while-held apps))
+  ;; Tap Tab normally; hold it for the keydock layer. While it is held,
+  ;; keydock shows the pinned apps on a keyboard.
+  tab-apps (tap-hold-press 200 200 tab
+             (multi (layer-while-held apps)
+                    (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+                         /home/lucius/.local/bin/keydock peek)
+                    (on-release tap-vkey peek-off)))
 )
 
 ;; Ask the keydock daemon, as the desktop user, to toggle an app.
 (deftemplate kd (letter)
   (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
        /home/lucius/.local/bin/keydock key $letter)
+)
+
+(defvirtualkeys
+  peek-off (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+                /home/lucius/.local/bin/keydock peek off)
 )
 
 (deflayermap (base)

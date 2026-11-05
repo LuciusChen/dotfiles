@@ -26,6 +26,22 @@
                             /home/lucius/.local/bin/keydock peek numnav)
                        (on-release tap-vkey peek-off)))
 
+  ;; The same layer under Super, where its arrows move windows; only the hint
+  ;; differs.
+  semi-super-nav (tap-hold-press 200 200 ;
+                   (multi (layer-while-held numnav)
+                          (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+                               /home/lucius/.local/bin/keydock peek super-nav)
+                          (on-release tap-vkey peek-off)))
+
+  ;; Super stays a modifier; while it is held, keydock shows its bindings on a
+  ;; keyboard.
+  met-super (multi lmet
+                   (layer-while-held super)
+                   (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+                        /home/lucius/.local/bin/keydock peek super)
+                   (on-release tap-vkey peek-off))
+
   ;; Tap Tab normally; hold it for the keydock layer. While it is held,
   ;; keydock shows the pinned apps on a keyboard.
   tab-apps (tap-hold-press 200 200 tab
@@ -41,9 +57,9 @@
        /home/lucius/.local/bin/keydock key $letter)
 )
 
-;; A numnav key that also hides the keyboard, so it does not cover the screen
-;; while navigating.
-(deftemplate nn (key)
+;; A key that also hides the keyboard, so it does not cover the screen while
+;; the layer is in use.
+(deftemplate pk (key)
   (multi $key
          (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
               /home/lucius/.local/bin/keydock peek off))
@@ -59,32 +75,56 @@
   esc  caps
   ;    @semi-numnav
   tab  @tab-apps
+  lmet @met-super
+)
+
+;; The keys bound with Super in labwc's rc.xml.
+(deflayermap (super)
+  a (t! pk a)
+  b (t! pk b)
+  c (t! pk c)
+  f (t! pk f)
+  l (t! pk l)
+  n (t! pk n)
+  q (t! pk q)
+  s (t! pk s)
+  1 (t! pk 1)
+  2 (t! pk 2)
+  , (t! pk ,)
+  grv (t! pk grv)
+  spc (t! pk spc)
+  sys (t! pk sys)
+  left (t! pk left)
+  right (t! pk right)
+  up (t! pk up)
+  down (t! pk down)
+  ;    @semi-super-nav
 )
 
 ;; Matches the Corne layout: numbers under the left hand, navigation under
 ;; the right.
 (deflayermap (numnav)
-  q (t! nn 1)
-  w (t! nn 2)
-  e (t! nn 3)
-  r (t! nn 4)
-  t (t! nn 5)
-  a (t! nn 6)
-  s (t! nn 7)
-  d (t! nn 8)
-  f (t! nn 9)
-  g (t! nn 0)
+  q (t! pk 1)
+  w (t! pk 2)
+  e (t! pk 3)
+  r (t! pk 4)
+  t (t! pk 5)
+  a (t! pk 6)
+  s (t! pk 7)
+  d (t! pk 8)
+  f (t! pk 9)
+  g (t! pk 0)
 
-  h (t! nn left)
-  j (t! nn down)
-  k (t! nn up)
-  l (t! nn right)
+  h (t! pk left)
+  j (t! pk down)
+  k (t! pk up)
+  l (t! pk right)
 
-  i (t! nn del)
-  n (t! nn home)
-  m (t! nn pgdn)
-  , (t! nn pgup)
-  . (t! nn end)
+  i (t! pk del)
+  n (t! pk home)
+  m (t! pk pgdn)
+  , (t! pk pgup)
+  . (t! pk end)
 )
 
 (deflayermap (apps)
@@ -114,6 +154,15 @@
   x (t! kd x)
   y (t! kd y)
   z (t! kd z)
+  1 (t! kd 1)
+  2 (t! kd 2)
+  3 (t! kd 3)
+  4 (t! kd 4)
+  5 (t! kd 5)
+  6 (t! kd 6)
+  7 (t! kd 7)
+  8 (t! kd 8)
+  9 (t! kd 9)
   / (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
          /home/lucius/.local/bin/keydock overlay)
 )

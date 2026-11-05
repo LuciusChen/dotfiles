@@ -85,14 +85,14 @@
     <keybind key="A-Tab"><action name="Execute" command="noctalia msg window-switcher hold" /></keybind>
     <keybind key="A-S-Tab"><action name="Execute" command="noctalia msg window-switcher hold" /></keybind>
 
-    <!-- macOS Cmd+` style: cycle windows of the focused app only, then warp
+    <!-- macOS Cmd+` style: cycle windows of the focused app on any workspace, then warp
          the cursor so focus-follows-mouse keeps the new window focused. -->
     <keybind key="W-grave">
-      <action name="NextWindowImmediate" identifier="current" />
+      <action name="NextWindowImmediate" identifier="current" workspace="all" />
       <action name="WarpCursor" to="window" x="center" y="center" />
     </keybind>
     <keybind key="W-S-grave">
-      <action name="PreviousWindowImmediate" identifier="current" />
+      <action name="PreviousWindowImmediate" identifier="current" workspace="all" />
       <action name="WarpCursor" to="window" x="center" y="center" />
     </keybind>
     <keybind key="W-Left"><action name="ToggleSnapToEdge" direction="left" /></keybind>

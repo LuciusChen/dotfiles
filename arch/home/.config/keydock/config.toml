@@ -2,7 +2,6 @@
 # app_id is what `keydock status` shows; "emacs" also matches "emacs-32-0-50".
 
 key_label = "Tab"
-opacity = 0.85
 
 [[app]]
 key = "c"
@@ -33,3 +32,102 @@ exec = "gtk-launch qq"
 key = "d"
 app_id = "discord"
 exec = "gtk-launch discord"
+
+# Shown by `keydock peek numnav` while ; is held; matches the kanata layer.
+[[layer]]
+name = "numnav"
+prefix = ";"
+
+[layer.keys]
+q = "1"
+w = "2"
+e = "3"
+r = "4"
+t = "5"
+a = "6"
+s = "7"
+d = "8"
+f = "9"
+g = "0"
+h = "←"
+j = "↓"
+k = "↑"
+l = "→"
+i = "Del"
+n = "Home"
+m = "PgDn"
+"," = "PgUp"
+"." = "End"
+
+# Shown by `keydock peek super` while Super is held; matches labwc's rc.xml.
+[[layer]]
+name = "super"
+prefix = "Super"
+
+[layer.keys]
+b = "Sync"
+c = "Clip"
+s = "Panel"
+n = "Notify"
+l = "Lock"
+q = "Close"
+f = "Full"
+a = "On top"
+"1" = "Desk 1"
+"2" = "Desk 2"
+"," = "Prefs"
+"`" = "Next"
+";" = "Nav"
+Space = "Launcher"
+Print = "Shot"
+Left = "Snap L"
+Right = "Snap R"
+Up = "Max"
+Down = "Min"
+
+[layer.translations.zh]
+b = "网盘"
+c = "剪贴板"
+s = "控制"
+n = "通知"
+l = "锁屏"
+q = "关闭"
+f = "全屏"
+a = "置顶"
+"1" = "桌面1"
+"2" = "桌面2"
+"," = "设置"
+"`" = "切窗"
+";" = "方向"
+Space = "启动器"
+Print = "截图"
+Left = "贴左"
+Right = "贴右"
+Up = "最大化"
+Down = "最小化"
+
+# Shown by `keydock peek super-nav` while Super and ; are held: numnav keys with Super.
+[[layer]]
+name = "super-nav"
+prefix = "Super+;"
+
+[layer.keys]
+h = "Snap L"
+l = "Snap R"
+k = "Max"
+j = "Min"
+q = "Desk 1"
+w = "Desk 2"
+
+[layer.translations.zh]
+h = "贴左"
+l = "贴右"
+k = "最大化"
+j = "最小化"
+q = "桌面1"
+w = "桌面2"
+
+# The keyboard to draw while the Corne is connected.
+[[keyboard]]
+device = "Corne"
+layout = "corne"

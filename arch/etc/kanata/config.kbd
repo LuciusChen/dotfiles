@@ -14,60 +14,54 @@
 ;; syntax.
 (defsrc)
 
-(defalias
-  ;; Tap Caps Lock for Escape; hold it for Left Control.
-  caps-ctrl (tap-hold-press 200 200 esc lctl)
-
-  ;; Tap semicolon normally; hold it for numbers and navigation. While it is
-  ;; held, keydock shows the layer on a keyboard.
-  semi-numnav (tap-hold-press 200 200 ;
-                (multi (layer-while-held numnav)
-                       (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-                            /home/lucius/.local/bin/keydock peek numnav)
-                       (on-release tap-vkey peek-off)))
-
-  ;; The same layer under Super, where its arrows move windows; only the hint
-  ;; differs.
-  semi-super-nav (tap-hold-press 200 200 ;
-                   (multi (layer-while-held numnav)
-                          (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-                               /home/lucius/.local/bin/keydock peek super-nav)
-                          (on-release tap-vkey peek-off)))
-
-  ;; Super stays a modifier; while it is held, keydock shows its bindings on a
-  ;; keyboard.
-  met-super (multi lmet
-                   (layer-while-held super)
-                   (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-                        /home/lucius/.local/bin/keydock peek super)
-                   (on-release tap-vkey peek-off))
-
-  ;; Tap Tab normally; hold it for the keydock layer. While it is held,
-  ;; keydock shows the pinned apps on a keyboard.
-  tab-apps (tap-hold-press 200 200 tab
-             (multi (layer-while-held apps)
-                    (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-                         /home/lucius/.local/bin/keydock peek)
-                    (on-release tap-vkey peek-off)))
+;; Run keydock as the desktop user; kanata itself runs as root.
+(defvar
+  keydock (runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
+           /home/lucius/.local/bin/keydock)
 )
 
-;; Ask the keydock daemon, as the desktop user, to toggle an app.
+;; Ask keydock to toggle an app.
 (deftemplate kd (letter)
-  (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-       /home/lucius/.local/bin/keydock key $letter)
+  (cmd $keydock key $letter)
 )
 
 ;; A key that also hides the keyboard, so it does not cover the screen while
 ;; the layer is in use.
 (deftemplate pk (key)
-  (multi $key
-         (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-              /home/lucius/.local/bin/keydock peek off))
+  (multi $key (cmd $keydock peek off))
+)
+
+;; Tap for the key itself; hold for a layer, while keydock shows that hint.
+(deftemplate hold-layer (key layer hint)
+  (tap-hold-press 200 200 $key
+    (multi (layer-while-held $layer)
+           (cmd $keydock peek $hint)
+           (on-release tap-vkey peek-off)))
 )
 
 (defvirtualkeys
-  peek-off (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-                /home/lucius/.local/bin/keydock peek off)
+  peek-off (cmd $keydock peek off)
+)
+
+(defalias
+  ;; Tap Caps Lock for Escape; hold it for Left Control.
+  caps-ctrl (tap-hold-press 200 200 esc lctl)
+
+  ;; Tap semicolon normally; hold it for numbers and navigation.
+  semi-numnav (t! hold-layer ; numnav numnav)
+
+  ;; The same layer under Super, where its arrows move windows; only the hint
+  ;; differs.
+  semi-super-nav (t! hold-layer ; numnav super-nav)
+
+  ;; Tap Tab normally; hold it for the keydock layer.
+  tab-apps (t! hold-layer tab apps ())
+
+  ;; Super stays a modifier; while it is held, keydock shows its bindings.
+  met-super (multi lmet
+                   (layer-while-held super)
+                   (cmd $keydock peek super)
+                   (on-release tap-vkey peek-off))
 )
 
 (deflayermap (base)
@@ -163,8 +157,7 @@
   7 (t! kd 7)
   8 (t! kd 8)
   9 (t! kd 9)
-  / (cmd runuser -u lucius -- env XDG_RUNTIME_DIR=/run/user/1000
-         /home/lucius/.local/bin/keydock overlay)
+  / (cmd $keydock overlay)
 )
 
 ;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress

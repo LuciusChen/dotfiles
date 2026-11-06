@@ -54,6 +54,13 @@
   ;; differs.
   semi-super-nav (t! hold-layer ; numnav super-nav)
 
+  ;; Under Tab, hold Super as well, so the same layer moves windows.
+  semi-tab-nav (tap-hold-press 200 200 ;
+    (multi lmet
+           (layer-while-held numnav)
+           (cmd $keydock peek tab-nav)
+           (on-release tap-vkey peek-off)))
+
   ;; Tap Tab normally; hold it for the keydock layer.
   tab-apps (t! hold-layer tab apps ())
 
@@ -157,6 +164,7 @@
   7 (t! kd 7)
   8 (t! kd 8)
   9 (t! kd 9)
+  ;    @semi-tab-nav
 )
 
 ;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress

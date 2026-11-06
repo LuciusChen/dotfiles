@@ -50,6 +50,11 @@
     <topMaximize>yes</topMaximize>
   </snapping>
 
+  <!-- Tab+;+j (Super+Down): half the screen's width and height, centered. -->
+  <regions>
+    <region name="center" x="25%" y="25%" width="50%" height="50%" />
+  </regions>
+
   <!-- No central workspace OSD; Noctalia's bar already provides the themed
        workspace transition feedback. -->
   <desktops number="2" popupTime="0" />
@@ -98,7 +103,7 @@
     <keybind key="W-Left"><action name="ToggleSnapToEdge" direction="left" /></keybind>
     <keybind key="W-Right"><action name="ToggleSnapToEdge" direction="right" /></keybind>
     <keybind key="W-Up"><action name="ToggleMaximize" /></keybind>
-    <keybind key="W-Down"><action name="Iconify" /></keybind>
+    <keybind key="W-Down"><action name="ToggleSnapToRegion" region="center" /></keybind>
     <keybind key="W-S-Left"><action name="MoveToOutput" direction="left" wrap="yes" /></keybind>
     <keybind key="W-S-Right"><action name="MoveToOutput" direction="right" wrap="yes" /></keybind>
     <keybind key="W-S-Up"><action name="MoveToOutput" direction="up" wrap="yes" /></keybind>

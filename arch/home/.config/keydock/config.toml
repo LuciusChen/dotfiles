@@ -78,13 +78,8 @@ a = "On top"
 "2" = "Desk 2"
 "," = "Prefs"
 "`" = "Next"
-";" = "Nav"
 Space = "Launcher"
 Print = "Shot"
-Left = "Snap L"
-Right = "Snap R"
-Up = "Max"
-Down = "Min"
 
 [layer.translations.zh]
 b = "网盘"
@@ -99,24 +94,19 @@ a = "置顶"
 "2" = "桌面2"
 "," = "设置"
 "`" = "切窗"
-";" = "方向"
 Space = "启动器"
 Print = "截图"
-Left = "贴左"
-Right = "贴右"
-Up = "最大化"
-Down = "最小化"
 
-# Shown by `keydock peek super-nav` while Super and ; are held: numnav keys with Super.
+# Shown by `keydock peek tab-nav` while Tab and ; are held: numnav keys with Super.
 [[layer]]
-name = "super-nav"
-prefix = "Super+;"
+name = "tab-nav"
+prefix = "Tab+;"
 
 [layer.keys]
 h = "Snap L"
 l = "Snap R"
 k = "Max"
-j = "Min"
+j = "Center"
 q = "Desk 1"
 w = "Desk 2"
 
@@ -124,7 +114,7 @@ w = "Desk 2"
 h = "贴左"
 l = "贴右"
 k = "最大化"
-j = "最小化"
+j = "居中"
 q = "桌面1"
 w = "桌面2"
 

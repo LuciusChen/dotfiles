@@ -7,7 +7,7 @@ conf = {
     appMap = {
         w = "ru.keepcoder.Telegram",
         s = "com.tencent.xinWeChat",
-        x = "com.tencent.qq",
+        x = "com.openai.codex",
         e = "com.jetbrains.intellij",
         d = "com.jetbrains.datagrip",
         c = "net.kovidgoyal.kitty",
@@ -38,26 +38,12 @@ conf = {
         "org.gnu.Emacs",
     },
     layoutMap = {
-        h = "center",
-        i = "minimize",
-        ["space"] = "toggle",
-        k = "maximize",
-        y = "upHalf",
-        n = "downHalf",
-        g = "leftHalf",
-        j = "rightHalf",
-        t = "leftUp",
-        u = "rightUp",
-        b = "leftDown",
-        m = "rightDown",
+        ["left"] = "leftHalf",
+        ["right"] = "rightHalf",
+        ["up"] = "toggle",
+        ["down"] = "centerHalf",
         ["["] = "preScreen",
         ["]"] = "nextScreen",
-        ["="] = "larger",
-        ["-"] = "smaller",
-        ["left"] = "jumpWindowLeft",
-        ["down"] = "jumpWindowBelow",
-        ["up"] = "jumpWindowAbove",
-        ["right"] = "jumpWindowRight",
     },
     powerMap = {
         ["7"] = function()
@@ -79,9 +65,6 @@ conf = {
         end,
         [";"] = function()
             util:emptyTrash()
-        end,
-        ["up"] = function()
-            util:toogleDock()
         end,
     },
     blackList = {

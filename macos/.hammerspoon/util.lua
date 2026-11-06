@@ -85,14 +85,6 @@ util = {
         end tell
     ]])
     end,
-    toogleDock = function()
-        hs.osascript.applescript([[
-        tell application "System Events"
-            set dockHidden to dock preferences's autohide
-            set dock preferences's autohide to not dockHidden
-        end tell
-    ]])
-    end,
     highlightActiveWindow = function()
         -- Draw a border around the active window for a short period to highlight
         local rect = hs.drawing.rectangle(hs.window.focusedWindow():frame())

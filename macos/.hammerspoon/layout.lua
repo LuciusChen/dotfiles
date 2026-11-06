@@ -1,7 +1,6 @@
 local conf = require("conf")
 local util = require("util")
 local rectTable = {}
-local dir = { h = "West", j = "South", k = "North", l = "East" }
 
 layout = {
     include = function(self, tbl, item)
@@ -25,40 +24,6 @@ layout = {
     rightHalf = function(self)
         return self:win():move(hs.layout.right50)
     end,
-    upHalf = function(self)
-        return self:win():move("[0,0,100,50]")
-    end,
-    downHalf = function(self)
-        return self:win():move("[0,50,100,100]")
-    end,
-    leftUp = function(self)
-        return self:win():move("[0,0,50,50]")
-    end,
-    leftDown = function(self)
-        return self:win():move("[0,50,50,100]")
-    end,
-    rightUp = function(self)
-        return self:win():move("[50,0,100,50]")
-    end,
-    rightDown = function(self)
-        return self:win():move("[50,50,100,100]")
-    end,
-    larger = function(self)
-        local frame = self:frame(self:win())
-        local center = frame.center
-        frame.w, frame.h = frame.w / 0.9, frame.h / 0.9
-        frame.w, frame.h = math.min(frame.w, 1), math.min(frame.h, 1)
-        frame.x, frame.y = center.x - frame.w / 2, center.y - frame.h / 2
-        frame.x, frame.y = math.max(frame.x, 0), math.max(frame.y, 0)
-        return self:win():move(frame)
-    end,
-    smaller = function(self)
-        local frame = self:frame(self:win())
-        local center = frame.center
-        frame.w, frame.h = frame.w * 0.9, frame.h * 0.9
-        frame.x, frame.y = center.x - frame.w / 2, center.y - frame.h / 2
-        return self:win():move(frame)
-    end,
     toggle = function(self)
         local win = self:win()
         local id = win:id()
@@ -71,16 +36,12 @@ layout = {
             return self:maximize(win)
         end
     end,
+    centerHalf = function(self)
+        return self:win():move("[25,25,75,75]")
+    end,
     maximize = function(self, win)
         win = win or self:win()
         return win:maximize()
-    end,
-    minimize = function(self)
-        return self:win():minimize()
-    end,
-    center = function(self, win)
-        win = win or self:win()
-        return win:move("[29,10,74,90]")
     end,
     nextScreen = function(self)
         local win = self:win()
@@ -115,23 +76,6 @@ layout = {
     screen = function(self)
         local win = self:win()
         return win:moveToScreen(win:screen():next(), true, true)
-    end,
-    jumpWindow = function(self, arrow)
-        local frontmost_win = hs.window.frontmostWindow()
-        local focus_dir = "focusWindow" .. dir[arrow]
-        hs.window.filter.defaultCurrentSpace[focus_dir](hs.window.filter.defaultCurrentSpace, frontmost_win, true, true)
-    end,
-    jumpWindowLeft = function(self)
-        self:jumpWindow("h")
-    end,
-    jumpWindowAbove = function(self)
-        self:jumpWindow("j")
-    end,
-    jumpWindowBelow = function(self)
-        self:jumpWindow("k")
-    end,
-    jumpWindowRight = function(self)
-        self:jumpWindow("l")
     end,
 }
 return layout

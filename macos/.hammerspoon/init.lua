@@ -31,16 +31,8 @@ for k, v in pairs(fullMap) do
 end
 
 for k, v in pairs(conf.layoutMap) do
-    conf.bind(conf.hyperPlus, k, function()
-        local index = tonumber(k)
-        return layout[v](
-            layout,
-            (function()
-                if type(index) == "number" then
-                    return index
-                end
-            end)()
-        )
+    conf.bind(conf.hyper, k, function()
+        return layout[v](layout)
     end)
 end
 

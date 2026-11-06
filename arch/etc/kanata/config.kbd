@@ -26,9 +26,10 @@
 )
 
 ;; A key that also hides the keyboard, so it does not cover the screen while
-;; the layer is in use.
+;; the layer is in use. The command goes first: any action after an output
+;; chord such as M-left cancels the chord, so it would never be sent.
 (deftemplate pk (key)
-  (multi $key (cmd $keydock peek off))
+  (multi (cmd $keydock peek off) $key)
 )
 
 ;; Hold a layer while keydock shows that hint.
@@ -155,6 +156,9 @@
   8 (t! kd 8)
   9 (t! kd 9)
   ;    @semi-tab-nav
+  ;; Send the window to a workspace and follow it, as in labwc's rc.xml.
+  [    (t! pk M-S-1)
+  ]    (t! pk M-S-2)
 )
 
 ;; The ThinkPad Copilot key reports Left Meta + Left Shift + F23. Suppress

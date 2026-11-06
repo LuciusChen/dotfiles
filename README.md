@@ -107,7 +107,7 @@ done
 
 按住 `Tab` 加字母交给 keydock（源码在 `~/Projects/keydock`）：kanata 直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，只作用于当前 workspace 的窗口，一起调出并停在最近使用的窗口；当前 workspace 没有时跳到它最近所在的 workspace。同一应用的其他窗口用 `Super+`` 切换，可以跨 workspace，新窗口从 launcher 打开。聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出键盘图，按数字把已打开的应用绑定上去。没有绑定字母的已打开应用按最近使用排在数字键上，`Tab+1` 到 `Tab+9` 直接切换，编号会随使用变化。绑定写在 `~/.config/keydock/config.toml`，配色由 Noctalia 模板 `keydock.toml` 生成。
 
-按住 `Tab`、`;` 或 `Super` 稍等片刻，会浮出键盘图显示这一层每个键的作用，松开或按下层里的键就消失；`Tab` 加 `;` 显示窗口操作，所以用 `Tab` 打开应用后不用换手就能摆放窗口：`h`/`l` 贴左右，`k` 最大化，`j` 把窗口居中并缩到屏幕宽高各一半，再按一次恢复；最小化由 `Tab` 加字母的隐藏代替。提示文字写在同一个配置文件的 `[[layer]]` 里并跟随系统语言，所以 `Super` 层改了 `rc.xml` 后，要同步改 kanata 的 `super` 层和这里的文字。插着 Corne 时自动显示 Corne 布局。
+按住 `Tab`、`;` 或 `Super` 稍等片刻，会浮出键盘图显示这一层每个键的作用，松开或按下层里的键就消失；`Tab` 加 `;` 显示窗口操作，所以用 `Tab` 打开应用后不用换手就能摆放窗口：`h`/`l` 贴左右，`k` 最大化，`j` 把窗口居中并缩到屏幕宽高各一半，再按一次恢复；最小化由 `Tab` 加字母的隐藏代替。`Tab+[` 和 `Tab+]` 把窗口移到桌面 1 和 2 并跟过去。提示文字写在同一个配置文件的 `[[layer]]` 里并跟随系统语言，所以 `Super` 层改了 `rc.xml` 后，要同步改 kanata 的 `super` 层和这里的文字。插着 Corne 时自动显示 Corne 布局。
 kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed`，配置中开启了 `danger-enable-cmd`。
 
 ## 微信

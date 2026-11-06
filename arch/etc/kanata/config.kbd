@@ -31,12 +31,11 @@
   (multi $key (cmd $keydock peek off))
 )
 
-;; Tap for the key itself; hold for a layer, while keydock shows that hint.
-(deftemplate hold-layer (key layer hint)
-  (tap-hold-press 200 200 $key
-    (multi (layer-while-held $layer)
-           (cmd $keydock peek $hint)
-           (on-release tap-vkey peek-off)))
+;; Hold a layer while keydock shows that hint.
+(deftemplate held (layer hint)
+  (multi (layer-while-held $layer)
+         (cmd $keydock peek $hint)
+         (on-release tap-vkey peek-off))
 )
 
 (defvirtualkeys
@@ -48,23 +47,16 @@
   caps-ctrl (tap-hold-press 200 200 esc lctl)
 
   ;; Tap semicolon normally; hold it for numbers and navigation.
-  semi-numnav (t! hold-layer ; numnav numnav)
+  semi-numnav (tap-hold-press 200 200 ; (t! held numnav numnav))
 
   ;; Under Tab, hold Super as well, so the same layer moves windows.
-  semi-tab-nav (tap-hold-press 200 200 ;
-    (multi lmet
-           (layer-while-held numnav)
-           (cmd $keydock peek tab-nav)
-           (on-release tap-vkey peek-off)))
+  semi-tab-nav (tap-hold-press 200 200 ; (multi lmet (t! held numnav tab-nav)))
 
   ;; Tap Tab normally; hold it for the keydock layer.
-  tab-apps (t! hold-layer tab apps ())
+  tab-apps (tap-hold-press 200 200 tab (t! held apps ()))
 
   ;; Super stays a modifier; while it is held, keydock shows its bindings.
-  met-super (multi lmet
-                   (layer-while-held super)
-                   (cmd $keydock peek super)
-                   (on-release tap-vkey peek-off))
+  met-super (multi lmet (t! held super super))
 )
 
 (deflayermap (base)
@@ -91,10 +83,12 @@
   grv (t! pk grv)
   spc (t! pk spc)
   sys (t! pk sys)
+  ;; Unlabelled, but Super+Shift+arrow should still hide the keyboard.
   left (t! pk left)
   right (t! pk right)
   up (t! pk up)
   down (t! pk down)
+  ;; Windows are placed from Tab+; so Super+; does nothing.
   ;    XX
 )
 

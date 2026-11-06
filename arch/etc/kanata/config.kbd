@@ -50,10 +50,6 @@
   ;; Tap semicolon normally; hold it for numbers and navigation.
   semi-numnav (t! hold-layer ; numnav numnav)
 
-  ;; The same layer under Super, where its arrows move windows; only the hint
-  ;; differs.
-  semi-super-nav (t! hold-layer ; numnav super-nav)
-
   ;; Under Tab, hold Super as well, so the same layer moves windows.
   semi-tab-nav (tap-hold-press 200 200 ;
     (multi lmet
@@ -99,7 +95,7 @@
   right (t! pk right)
   up (t! pk up)
   down (t! pk down)
-  ;    @semi-super-nav
+  ;    XX
 )
 
 ;; Matches the Corne layout: numbers under the left hand, navigation under

@@ -50,7 +50,7 @@
     <topMaximize>yes</topMaximize>
   </snapping>
 
-  <!-- Super+Down: half the screen's width and height, centered. -->
+  <!-- Tab+;+j (Super+Down): half the screen's width and height, centered. -->
   <regions>
     <region name="center" x="25%" y="25%" width="50%" height="50%" />
   </regions>

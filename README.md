@@ -110,6 +110,12 @@ done
 按住 `Tab`、`;` 或 `Super` 稍等片刻，会浮出键盘图显示这一层每个键的作用，松开或按下层里的键就消失；`Tab` 加 `;` 显示窗口操作，所以用 `Tab` 打开应用后不用换手就能摆放窗口：`h`/`l` 贴左右，`k` 最大化，`j` 把窗口居中并缩到屏幕宽高各一半，再按一次恢复；最小化由 `Tab` 加字母的隐藏代替。`Tab+[` 和 `Tab+]` 把窗口移到桌面 1 和 2 并跟过去。提示文字写在同一个配置文件的 `[[layer]]` 里并跟随系统语言，所以 `Super` 层改了 `rc.xml` 后，要同步改 kanata 的 `super` 层和这里的文字。插着 Corne 时自动显示 Corne 布局。
 kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed`，配置中开启了 `danger-enable-cmd`。
 
+## 深浅色
+
+点状态栏的主题按钮或运行 `noctalia msg theme-mode-toggle` 切换整个桌面。Noctalia、labwc、kitty、keydock 和 GTK 用 Noctalia 生成的配色；Emacs、Fcitx5 和 Firefox 跟随桌面 portal 的 `color-scheme`。Firefox 要在 `about:addons` 里手动启用 “System theme — auto”，Dark Reader 要把自动化设为跟随系统配色，这两步都不在 dotfiles 里。登录界面不自动同步（避免每次切换都要密码），需要时运行 `noctalia greeter-sync`。
+
+`palettes/Ashen.json` 和 Fcitx5 的 `OriHope-Dark`、`OriHope-Light` 的颜色抄自 Emacs 的 Ashen 主题，改了主题要手动同步。唯一的例外是 kitty 的背景 `#fffaf3`，故意和 Emacs 的 `#fffaf4` 差一级，原因见 `ashen.el`。
+
 ## 微信
 
 微信菜单入口和 `Tab+W` 共用 `wechat-launch`：使用 `wechat-universal-bwrap` 4.1.13.9 的原生 Wayland 后端及 `text-input-unstable-v3` 输入法插件，保留打包器的沙箱和原有数据路径（`~/.xwechat`、`~/Documents/home`、`~/Documents/xwechat_files`）。

@@ -72,7 +72,7 @@ colorize_icons = true
 mru = true
 
 [shell.greeter_sync]
-auto_sync = true
+auto_sync = false
 
 [shell.panel]
 transparency_mode = "soft"
@@ -113,6 +113,7 @@ end = [
     "volume",
     "brightness",
     "battery",
+    "theme-mode",
     "session"
 ]
 

@@ -4,8 +4,9 @@ font_family = "PragmataPro"
 telemetry_enabled = false
 setup_wizard_enabled = true
 polkit_agent = true
+polkit_colorize_icons = true
+screen_time_colorize_icons = true
 clipboard_enabled = true
-app_icon_colorize = true
 app_icon_color = "on_surface"
 
 [storage]
@@ -22,6 +23,7 @@ confirm_region = false
 show_cursor = false
 
 [notification]
+colorize_icons = true
 enable_daemon = true
 position = "top_right"
 
@@ -59,7 +61,14 @@ timeout = 660
 command = "wlopm --off '*'"
 resume_command = "wlopm --on '*'"
 
+[audio]
+colorize_icons = true
+
+[shell.launcher]
+colorize_icons = true
+
 [shell.window_switcher]
+colorize_icons = true
 mru = true
 
 [shell.greeter_sync]
@@ -113,6 +122,12 @@ members = ["network", "network-download", "network-upload"]
 fill = "surface_container"
 padding = 6.0
 enabled = true
+
+[widget.tray]
+colorize_icons = true
+
+[widget.workspaces]
+colorize_icons = true
 
 [widget.network]
 show_label = false

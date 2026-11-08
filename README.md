@@ -1,39 +1,54 @@
 # Lucius's dotfiles
 
-按操作系统组织的个人配置文件。Emacs 配置、主题和 keydock 在各自的仓库里，见[相关仓库](#相关仓库)。
+macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具（zsh、kitty、Starship、邮件、GPG）也各有一份，内容不同。
 
-## 结构
+## 两边对照
+
+| 用途 | macOS | Arch | 共用 |
+|---|---|---|---|
+| 编辑器 | Emacs (emacs-plus) | Emacs (emacs-pgtk) | [.emacs.d](https://github.com/LuciusChen/.emacs.d)、[ashen](https://github.com/LuciusChen/ashen) 主题 |
+| 输入法 | 鼠须管 | Fcitx5 | Rime 方案，经 Dropbox 同步 |
+| 终端 | WezTerm、kitty | kitty | |
+| 窗口和快捷键 | Karabiner + Hammerspoon | labwc + kanata + [keydock](https://github.com/LuciusChen/keydock) | |
+| 桌面 | | Noctalia | |
+| 命令行 | zsh、Starship | zsh、Starship | |
+
+Emacs 在两边都跟随系统深浅色，代码在 `.emacs.d` 的 `lib/lib-ui.el`。
+
+## macOS
 
 ```
-dotfiles/
-├── macos/                # macOS 配置
-│   ├── .config/          # Karabiner, WezTerm, Kitty, Starship, btop, emacs-plus
-│   ├── .hammerspoon/     # 窗口管理、快捷键、自动化
-│   ├── .gnupg/           # GPG agent
-│   └── brew.sh           # Homebrew 包
-│
-└── arch/                 # Arch Linux 配置
-    ├── home/             # zsh、邮件 (mbsync, msmtp)、GPG
-    ├── home/.config/     # Labwc, Noctalia, Kanshi, kitty, Fcitx5, keydock 等
-    ├── home/.local/      # Fcitx5 主题、Noctalia 插件和 GUI 设置等
-    ├── etc/              # 系统级配置 (greetd, kanata, sing-box, sysctl.d 等)
-    ├── usr/local/        # labwc 会话入口、sudo 的 PAM 辅助脚本
-    ├── firefox/          # Firefox user.js
-    ├── scripts/          # 安装 Firefox user.js、Papirus 图标
-    ├── pkglist.txt       # 手动安装的官方源和 archlinuxcn 包
-    └── pkglist-aur.txt   # 手动安装的 AUR 包
+macos/
+├── .zshrc 等         # zsh、邮件 (mbsync, msmtp)、git、vim、Maven
+├── .config/          # Karabiner, WezTerm, kitty, Starship, btop, emacs-plus
+├── .hammerspoon/     # 窗口管理、快捷键、自动化
+├── .gnupg/           # GPG agent
+└── brew.sh           # Homebrew 包
 ```
-
-## 部署
-
-从备份复制配置到系统：
 
 ```bash
-# macOS
 cp -a ~/repos/dotfiles/macos/.config/. ~/.config/
 cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
+```
 
-# Arch
+## Arch
+
+```
+arch/
+├── home/             # zsh、邮件 (mbsync, msmtp)、GPG
+├── home/.config/     # labwc, Noctalia, Kanshi, kitty, Fcitx5, keydock 等
+├── home/.local/      # Fcitx5 主题、Noctalia 插件和 GUI 设置等
+├── etc/              # 系统级配置 (greetd, kanata, sing-box, sysctl.d 等)
+├── usr/local/        # labwc 会话入口、sudo 的 PAM 辅助脚本
+├── firefox/          # Firefox user.js
+├── scripts/          # 安装 Firefox user.js、Papirus 图标
+├── pkglist.txt       # 手动安装的官方源和 archlinuxcn 包
+└── pkglist-aur.txt   # 手动安装的 AUR 包
+```
+
+### 部署
+
+```bash
 cp -a ~/dotfiles/arch/home/. ~/
 chmod 700 ~/.gnupg
 update-desktop-database ~/.local/share/applications
@@ -48,9 +63,9 @@ cd ~/dotfiles/arch && git ls-files etc usr | grep -v README | while read -r f; d
 done
 ```
 
-## Arch 重装
+### 重装
 
-在上面“部署”之外，重装系统时按顺序补这些步骤：
+重装系统时，在部署之外按顺序补这些步骤：
 
 1. 在 `/etc/pacman.conf` 末尾加 archlinuxcn 源，再装 keyring：
 
@@ -87,7 +102,7 @@ done
      fstrim.timer sing-box-profile-update.timer
    ```
 
-6. 开机画面：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0 quiet loglevel=3 rd.udev.log_level=3 splash`，`/boot/loader/loader.conf` 设 `timeout 0`（开机按住空格显示菜单）。`/etc/mkinitcpio.conf` 的 `HOOKS` 在 `systemd` 后加 `plymouth`，再 `sudo plymouth-set-default-theme bgrt && sudo mkinitcpio -P`。系统用 zram-generator 做内存交换，所以关闭 zswap；其余参数让开关机只显示 Lenovo 标志，greetd 在同一个 tty1 上接着显示登录界面（关机静默见 `arch/etc/systemd/system.conf.d/quiet-shutdown.conf`）。
+6. 开机画面：systemd-boot 启动项的 `options` 加上 `zswap.enabled=0 console=tty1 vt.global_cursor_default=0 quiet loglevel=3 rd.udev.log_level=3 splash`，`loader.conf` 设 `timeout 0`（按住空格显示菜单）；`mkinitcpio.conf` 的 `HOOKS` 在 `systemd` 后加 `plymouth`，再运行 `sudo plymouth-set-default-theme bgrt && sudo mkinitcpio -P`。交换用 zram，所以关掉 zswap。
 7. 充电阈值：启用 upower 的 75–80% 充电阈值。
 
    ```bash
@@ -96,44 +111,27 @@ done
    ```
 
 8. Dropbox 用官方程序装到 `~/.dropbox-dist`，登录并等待同步完成。
-9. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 里除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`。再在 `installation.yaml` 中设置 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"`，重新部署并同步。Rime 同步只会自动导回用户词库，`*.custom.yaml` 必须手动复制。
+9. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 中除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`，`installation.yaml` 设 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"` 后同步。同步只导回词库，`*.custom.yaml` 要手动复制。
 10. 克隆 [.emacs.d](https://github.com/LuciusChen/.emacs.d) 到 `~/.emacs.d`，首次启动 Emacs 时 straight 会装好其余的包。
 11. 克隆 [keydock](https://github.com/LuciusChen/keydock) 到 `~/Projects/keydock`，构建并安装到 `~/.local/bin/keydock`（见其 README）。
 12. 用 `fprintd-enroll` 重新录入指纹。
 
-## 主要工具
+### 按键
 
-| macOS | Arch |
-|-------|------|
-| Karabiner + Hammerspoon | Labwc + Noctalia |
-| WezTerm | Kitty |
-| Starship | Starship |
-| Emacs (emacs-plus) | Emacs (emacs-pgtk) |
+- `Tab` + 字母：启动、聚焦或隐藏绑定的应用；`Tab` + 数字：切到未绑定的已打开应用（[keydock](https://github.com/LuciusChen/keydock)）。
+- `Tab+;` + `h`/`l`/`k`/`j`：贴左、贴右、最大化、居中；`Tab+[`/`]`：把窗口移到桌面 1/2。
+- `Super+`` `：切换同一应用的其他窗口，可以跨桌面。
+- 按住 `Tab`、`;` 或 `Super`：显示这一层的键位图。
 
-## 相关仓库
+应用绑定在 `~/.config/keydock/config.toml`。改了 `rc.xml` 的 `Super` 快捷键，要同步改 kanata 的 `super` 层和 keydock 的提示文字。kanata 用 `kanata-bin` 的 `kanata_cmd_allowed` 运行命令。
 
-| 仓库 | 内容 |
-|---|---|
-| [.emacs.d](https://github.com/LuciusChen/.emacs.d) | Emacs 配置，两个系统共用 |
-| [ashen](https://github.com/LuciusChen/ashen) | Emacs 主题，由 `.emacs.d` 通过 straight 安装；桌面配色也取自它 |
-| [keydock](https://github.com/LuciusChen/keydock) | Arch 上 `Tab` 加字母的应用切换和按键提示 |
+### 深浅色
 
-## 应用切换（keydock）
+状态栏的主题按钮或 `noctalia msg theme-mode-toggle` 切换整个桌面，Emacs、Fcitx5 和 Firefox 跟随系统。
 
-按住 `Tab` 加字母交给 keydock（[源码](https://github.com/LuciusChen/keydock)）：kanata 直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，只作用于当前 workspace 的窗口，一起调出并停在最近使用的窗口；当前 workspace 没有时跳到它最近所在的 workspace。同一应用的其他窗口用 `Super+`` 切换，可以跨 workspace，新窗口从 launcher 打开。聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出键盘图，按数字把已打开的应用绑定上去。没有绑定字母的已打开应用按最近使用排在数字键上，`Tab+1` 到 `Tab+9` 直接切换，编号会随使用变化。绑定写在 `~/.config/keydock/config.toml`，配色由 Noctalia 模板 `keydock.toml` 生成。
+- 手动设置：Firefox 启用 “System theme — auto”，Dark Reader 设为跟随系统；登录界面需要时运行 `noctalia greeter-sync`。
+- 配色抄自 [Ashen](https://github.com/LuciusChen/ashen)，改了要同步 `Ashen.json` 和两个 OriHope 主题。kitty 的浅色背景故意和 Emacs 差一级。
 
-按住 `Tab`、`;` 或 `Super` 稍等片刻，会浮出键盘图显示这一层每个键的作用，松开或按下层里的键就消失；`Tab` 加 `;` 显示窗口操作，所以用 `Tab` 打开应用后不用换手就能摆放窗口：`h`/`l` 贴左右，`k` 最大化，`j` 把窗口居中并缩到屏幕宽高各一半，再按一次恢复；最小化由 `Tab` 加字母的隐藏代替。`Tab+[` 和 `Tab+]` 把窗口移到桌面 1 和 2 并跟过去。提示文字写在同一个配置文件的 `[[layer]]` 里并跟随系统语言，所以 `Super` 层改了 `rc.xml` 后，要同步改 kanata 的 `super` 层和这里的文字。插着 Corne 时自动显示 Corne 布局。
-kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed`，配置中开启了 `danger-enable-cmd`。
+### 微信
 
-## 深浅色
-
-点状态栏的主题按钮或运行 `noctalia msg theme-mode-toggle` 切换整个桌面。Noctalia、labwc、kitty、keydock 和 GTK 用 Noctalia 生成的配色；Emacs、Fcitx5 和 Firefox 跟随桌面 portal 的 `color-scheme`。Firefox 要在 `about:addons` 里手动启用 “System theme — auto”，Dark Reader 要把自动化设为跟随系统配色，这两步都不在 dotfiles 里。登录界面不自动同步（避免每次切换都要密码），需要时运行 `noctalia greeter-sync`。
-
-`palettes/Ashen.json` 和 Fcitx5 的 `OriHope-Dark`、`OriHope-Light` 的颜色抄自 Emacs 的 [Ashen](https://github.com/LuciusChen/ashen) 主题，改了主题要手动同步。唯一的例外是 kitty 的背景 `#fffaf3`，故意和 Emacs 的 `#fffaf4` 差一级，原因见 [`ashen.el`](https://github.com/LuciusChen/ashen/blob/main/ashen.el)。
-
-## 微信
-
-微信菜单入口和 `Tab+W` 共用 `wechat-launch`：使用 `wechat-universal-bwrap` 4.1.13.9 的原生 Wayland 后端及 `text-input-unstable-v3` 输入法插件，保留打包器的沙箱和原有数据路径（`~/.xwechat`、`~/Documents/home`、`~/Documents/xwechat_files`）。
-启动脚本通过 bwrap 参数设置微信进程的环境，覆盖打包器的 `xcb` 默认值；直接运行系统的 `wechat-universal` 仍使用打包器默认设置。
-启动脚本会创建打包器要求的 `$XDG_RUNTIME_DIR/pulse` 目录，否则沙箱因目录不存在而拒绝启动微信。
-微信 4.1.13.9 在原生 Wayland 下继承系统的 `QT_SCALE_FACTOR=0.75` 时，窗口缩小但内部控件不同比例缩小，登录按钮会被裁切，因此启动脚本设置 `QT_SCALE_FACTOR=1`。
+`Tab+W` 和菜单入口都通过 `labwc/scripts/wechat-launch` 以原生 Wayland 启动，各项设置的原因见脚本注释。

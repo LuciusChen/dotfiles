@@ -1,20 +1,25 @@
 # Lucius's dotfiles
 
-按操作系统组织的个人配置文件。
+按操作系统组织的个人配置文件。Emacs 配置、主题和 keydock 在各自的仓库里，见[相关仓库](#相关仓库)。
 
 ## 结构
 
 ```
 dotfiles/
 ├── macos/                # macOS 配置
-│   ├── .config/          # Karabiner, WezTerm, Kitty, Starship, BTOp
+│   ├── .config/          # Karabiner, WezTerm, Kitty, Starship, btop, emacs-plus
 │   ├── .hammerspoon/     # 窗口管理、快捷键、自动化
-│   └── .gnupg/           # GPG agent
+│   ├── .gnupg/           # GPG agent
+│   └── brew.sh           # Homebrew 包
 │
 └── arch/                 # Arch Linux 配置
-    ├── home/.config/     # Labwc, Noctalia, Kanshi 等
-    ├── home/.local/      # Noctalia GUI 持久化设置等用户状态
+    ├── home/             # zsh、邮件 (mbsync, msmtp)、GPG
+    ├── home/.config/     # Labwc, Noctalia, Kanshi, kitty, Fcitx5, keydock 等
+    ├── home/.local/      # Fcitx5 主题、Noctalia 插件和 GUI 设置等
     ├── etc/              # 系统级配置 (greetd, kanata, sing-box, sysctl.d 等)
+    ├── usr/local/        # labwc 会话入口、sudo 的 PAM 辅助脚本
+    ├── firefox/          # Firefox user.js
+    ├── scripts/          # 安装 Firefox user.js、Papirus 图标
     ├── pkglist.txt       # 手动安装的官方源和 archlinuxcn 包
     └── pkglist-aur.txt   # 手动安装的 AUR 包
 ```
@@ -92,8 +97,9 @@ done
 
 8. Dropbox 用官方程序装到 `~/.dropbox-dist`，登录并等待同步完成。
 9. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 里除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`。再在 `installation.yaml` 中设置 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"`，重新部署并同步。Rime 同步只会自动导回用户词库，`*.custom.yaml` 必须手动复制。
-10. 构建 keydock 并安装到 `~/.local/bin/keydock`（见其 README）。
-11. 用 `fprintd-enroll` 重新录入指纹。
+10. 克隆 [.emacs.d](https://github.com/LuciusChen/.emacs.d) 到 `~/.emacs.d`，首次启动 Emacs 时 straight 会装好其余的包。
+11. 克隆 [keydock](https://github.com/LuciusChen/keydock) 到 `~/Projects/keydock`，构建并安装到 `~/.local/bin/keydock`（见其 README）。
+12. 用 `fprintd-enroll` 重新录入指纹。
 
 ## 主要工具
 
@@ -102,10 +108,19 @@ done
 | Karabiner + Hammerspoon | Labwc + Noctalia |
 | WezTerm | Kitty |
 | Starship | Starship |
+| Emacs (emacs-plus) | Emacs (emacs-pgtk) |
+
+## 相关仓库
+
+| 仓库 | 内容 |
+|---|---|
+| [.emacs.d](https://github.com/LuciusChen/.emacs.d) | Emacs 配置，两个系统共用 |
+| [ashen](https://github.com/LuciusChen/ashen) | Emacs 主题，由 `.emacs.d` 通过 straight 安装；桌面配色也取自它 |
+| [keydock](https://github.com/LuciusChen/keydock) | Arch 上 `Tab` 加字母的应用切换和按键提示 |
 
 ## 应用切换（keydock）
 
-按住 `Tab` 加字母交给 keydock（源码在 `~/Projects/keydock`）：kanata 直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，只作用于当前 workspace 的窗口，一起调出并停在最近使用的窗口；当前 workspace 没有时跳到它最近所在的 workspace。同一应用的其他窗口用 `Super+`` 切换，可以跨 workspace，新窗口从 launcher 打开。聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出键盘图，按数字把已打开的应用绑定上去。没有绑定字母的已打开应用按最近使用排在数字键上，`Tab+1` 到 `Tab+9` 直接切换，编号会随使用变化。绑定写在 `~/.config/keydock/config.toml`，配色由 Noctalia 模板 `keydock.toml` 生成。
+按住 `Tab` 加字母交给 keydock（[源码](https://github.com/LuciusChen/keydock)）：kanata 直接执行 `keydock key <字母>`，不经过 labwc 快捷键。已绑定的字母实现“启动、聚焦、隐藏”三态切换，只作用于当前 workspace 的窗口，一起调出并停在最近使用的窗口；当前 workspace 没有时跳到它最近所在的 workspace。同一应用的其他窗口用 `Super+`` 切换，可以跨 workspace，新窗口从 launcher 打开。聚焦时鼠标跟随到窗口中心；未绑定的字母会弹出键盘图，按数字把已打开的应用绑定上去。没有绑定字母的已打开应用按最近使用排在数字键上，`Tab+1` 到 `Tab+9` 直接切换，编号会随使用变化。绑定写在 `~/.config/keydock/config.toml`，配色由 Noctalia 模板 `keydock.toml` 生成。
 
 按住 `Tab`、`;` 或 `Super` 稍等片刻，会浮出键盘图显示这一层每个键的作用，松开或按下层里的键就消失；`Tab` 加 `;` 显示窗口操作，所以用 `Tab` 打开应用后不用换手就能摆放窗口：`h`/`l` 贴左右，`k` 最大化，`j` 把窗口居中并缩到屏幕宽高各一半，再按一次恢复；最小化由 `Tab` 加字母的隐藏代替。`Tab+[` 和 `Tab+]` 把窗口移到桌面 1 和 2 并跟过去。提示文字写在同一个配置文件的 `[[layer]]` 里并跟随系统语言，所以 `Super` 层改了 `rc.xml` 后，要同步改 kanata 的 `super` 层和这里的文字。插着 Corne 时自动显示 Corne 布局。
 kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed`，配置中开启了 `danger-enable-cmd`。
@@ -114,7 +129,7 @@ kanata 服务使用 `kanata-bin` 包里允许执行命令的 `kanata_cmd_allowed
 
 点状态栏的主题按钮或运行 `noctalia msg theme-mode-toggle` 切换整个桌面。Noctalia、labwc、kitty、keydock 和 GTK 用 Noctalia 生成的配色；Emacs、Fcitx5 和 Firefox 跟随桌面 portal 的 `color-scheme`。Firefox 要在 `about:addons` 里手动启用 “System theme — auto”，Dark Reader 要把自动化设为跟随系统配色，这两步都不在 dotfiles 里。登录界面不自动同步（避免每次切换都要密码），需要时运行 `noctalia greeter-sync`。
 
-`palettes/Ashen.json` 和 Fcitx5 的 `OriHope-Dark`、`OriHope-Light` 的颜色抄自 Emacs 的 Ashen 主题，改了主题要手动同步。唯一的例外是 kitty 的背景 `#fffaf3`，故意和 Emacs 的 `#fffaf4` 差一级，原因见 `ashen.el`。
+`palettes/Ashen.json` 和 Fcitx5 的 `OriHope-Dark`、`OriHope-Light` 的颜色抄自 Emacs 的 [Ashen](https://github.com/LuciusChen/ashen) 主题，改了主题要手动同步。唯一的例外是 kitty 的背景 `#fffaf3`，故意和 Emacs 的 `#fffaf4` 差一级，原因见 [`ashen.el`](https://github.com/LuciusChen/ashen/blob/main/ashen.el)。
 
 ## 微信
 

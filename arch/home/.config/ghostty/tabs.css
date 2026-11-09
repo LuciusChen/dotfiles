@@ -1,0 +1,25 @@
+/* Shorter tab bar: libadwaita's defaults add up to about 46px. */
+tabbar tabbox {
+  min-height: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+tabbar tab {
+  min-height: 20px;
+  padding: 1px 4px;
+}
+tabbar tab button.image-button {
+  min-width: 18px;
+  min-height: 18px;
+}
+tabbar .start-action,
+tabbar .end-action {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* libadwaita always shows the current tab's close button; show it on hover
+   only, like the other tabs. It stays clickable while hidden. */
+tabbar tab:selected:not(:hover) button.image-button {
+  opacity: 0;
+}

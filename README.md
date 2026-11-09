@@ -1,6 +1,6 @@
 # Lucius's dotfiles
 
-macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具（zsh、kitty、Starship、邮件、GPG）也各有一份，内容不同。
+macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具（zsh、Starship、邮件、GPG）也各有一份，内容不同。
 
 ## 两边对照
 
@@ -8,7 +8,7 @@ macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具�
 |---|---|---|---|
 | 编辑器 | Emacs (emacs-plus) | Emacs (emacs-pgtk) | [.emacs.d](https://github.com/LuciusChen/.emacs.d)、[ashen](https://github.com/LuciusChen/ashen) 主题 |
 | 输入法 | 鼠须管 | Fcitx5 | Rime 方案，经 Dropbox 同步 |
-| 终端 | WezTerm、kitty | kitty | |
+| 终端 | WezTerm、kitty | Ghostty | |
 | 窗口和快捷键 | Karabiner + Hammerspoon | labwc + kanata + [keydock](https://github.com/LuciusChen/keydock) | |
 | 桌面 | | Noctalia | |
 | 命令行 | zsh、Starship | zsh、Starship | |
@@ -36,7 +36,7 @@ cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
 ```
 arch/
 ├── home/             # zsh、邮件 (mbsync, msmtp)、GPG
-├── home/.config/     # labwc, Noctalia, Kanshi, kitty, Fcitx5, keydock 等
+├── home/.config/     # labwc, Noctalia, Kanshi, Ghostty, Fcitx5, keydock 等
 ├── home/.local/      # Fcitx5 主题、Noctalia 插件和 GUI 设置等
 ├── etc/              # 系统级配置 (greetd, kanata, sing-box, sysctl.d 等)
 ├── usr/local/        # labwc 会话入口、sudo 的 PAM 辅助脚本
@@ -130,7 +130,7 @@ done
 状态栏的主题按钮或 `noctalia msg theme-mode-toggle` 切换整个桌面，Emacs、Fcitx5 和 Firefox 跟随系统。
 
 - 手动设置：Firefox 启用 “System theme — auto”，Dark Reader 设为跟随系统；登录界面需要时运行 `noctalia greeter-sync`。
-- 配色抄自 [Ashen](https://github.com/LuciusChen/ashen)，改了要同步 `Ashen.json` 和两个 OriHope 主题。kitty 的浅色背景故意和 Emacs 差一级。
+- 配色抄自 [Ashen](https://github.com/LuciusChen/ashen)，改了要同步 `Ashen.json` 和两个 OriHope 主题。终端的浅色背景故意和 Emacs 差一级，让终端里的 Emacs 不透明。
 
 ### 微信
 

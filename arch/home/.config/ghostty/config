@@ -1,0 +1,16 @@
+# PragmataPro, with LXGW WenKai for what it lacks (CJK) and Nerd Font icons
+# instead of PragmataPro's own.
+font-family = PragmataPro Mono Liga
+font-family = LXGW WenKai
+font-size = 12
+font-codepoint-map = U+E5FA-U+E6B7,U+E700-U+E8EF,U+ED00-U+F2FF,U+E200-U+E2A9,U+F0001-U+F1AF0,U+E300-U+E3E3,U+F400-U+F533,U+2665,U+26A1,U+E000-U+E00A,U+EA60-U+EC1E=Symbols Nerd Font Mono
+
+# Only the default background is translucent, so Emacs's light background,
+# one step away from the terminal's, stays opaque.
+background-opacity = 0.9
+
+# A shorter tab bar than libadwaita's default.
+gtk-custom-css = tabs.css
+
+# Written by Noctalia from the active palette.
+theme = noctalia

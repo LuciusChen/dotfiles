@@ -8,7 +8,7 @@ macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具�
 |---|---|---|---|
 | 编辑器 | Emacs (emacs-plus) | Emacs (emacs-pgtk) | [.emacs.d](https://github.com/LuciusChen/.emacs.d)、[ashen](https://github.com/LuciusChen/ashen) 主题 |
 | 输入法 | 鼠须管 | Fcitx5 | Rime 方案，经 Dropbox 同步 |
-| 终端 | WezTerm、kitty | Ghostty | |
+| 终端 | Ghostty、WezTerm、kitty | Ghostty | |
 | 窗口和快捷键 | Karabiner + Hammerspoon | labwc + kanata + [keydock](https://github.com/LuciusChen/keydock) | |
 | 桌面 | | Noctalia | |
 | 命令行 | zsh、Starship | zsh、Starship | |

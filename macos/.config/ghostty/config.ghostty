@@ -11,6 +11,10 @@ background-opacity = 0.7
 background-blur = 15
 
 macos-option-as-alt = true
+
+# Ignore OSC 9;4 progress bars (the blue bar that sweeps across the titlebar)
+progress-style = false
+
 # Tabs merged into the titlebar, like the Linux config
 macos-titlebar-style = tabs
 

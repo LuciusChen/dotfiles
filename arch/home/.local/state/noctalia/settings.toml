@@ -1,4 +1,4 @@
-config_version = 16
+config_version = 19
 
 [battery]
 warning_threshold = 20
@@ -173,7 +173,6 @@ lang = "en"
 [theme]
 builtin = "Gruvbox"
 custom_palette = "Ashen"
-mode = "dark"
 source = "custom"
 
 [wallpaper.default]

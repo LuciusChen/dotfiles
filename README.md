@@ -114,7 +114,8 @@ done
 9. Rime：把 `~/Dropbox/Squirrel/rime-rice/` 中除 `installation.yaml` 外的文件复制到 `~/.local/share/fcitx5/rime/`，`installation.yaml` 设 `installation_id: "rime-rice"` 和 `sync_dir: "/home/lucius/Dropbox/Squirrel"` 后同步。同步只导回词库，`*.custom.yaml` 要手动复制。
 10. 克隆 [.emacs.d](https://github.com/LuciusChen/.emacs.d) 到 `~/.emacs.d`，首次启动 Emacs 时 straight 会装好其余的包。
 11. 克隆 [keydock](https://github.com/LuciusChen/keydock) 到 `~/Projects/keydock`，构建并安装到 `~/.local/bin/keydock`（见其 README）。
-12. 用 `fprintd-enroll` 重新录入指纹。
+12. 登录界面用 [noctalia-greeter](https://github.com/LuciusChen/noctalia-greeter) 的 `fix/initial-configure-scale` 分支（首帧带上缩放、光标居中后才显示）：`meson setup build --buildtype=release && meson compile -C build`，再把 `build/noctalia-greeter-compositor` 装到 `/usr/local/bin`。greetd 的配置通过 `NOCTALIA_GREETER_COMPOSITOR_BIN` 指向它，上游合并后可去掉这一步。
+13. 用 `fprintd-enroll` 重新录入指纹。
 
 ### 按键
 

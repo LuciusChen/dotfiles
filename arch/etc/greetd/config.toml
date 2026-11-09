@@ -2,5 +2,5 @@
 vt = 1
 
 [default_session]
-command = "/usr/bin/noctalia-greeter-session -- --session labwc --user lucius"
+command = "env NOCTALIA_GREETER_COMPOSITOR_BIN=/usr/local/bin/noctalia-greeter-compositor /usr/bin/noctalia-greeter-session -- --session labwc --user lucius"
 user = "greeter"

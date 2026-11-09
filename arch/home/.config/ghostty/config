@@ -14,6 +14,10 @@ background-opacity = 0.9
 window-decoration = client
 gtk-titlebar-style = tabs
 
+# On GTK the indeterminate progress bar moves only when a report arrives,
+# so it looks frozen; hide it.
+progress-style = false
+
 # A shorter tab bar than libadwaita's default.
 gtk-custom-css = tabs.css
 

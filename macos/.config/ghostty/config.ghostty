@@ -1,0 +1,40 @@
+# Mirrors ~/.config/kitty/kitty.conf (+ adwaita.conf).
+
+# PragmataPro, with LXGW WenKai for what it lacks (CJK) and Nerd Font icons
+# instead of PragmataPro's own, as in the Linux config.
+font-family = PragmataPro Mono Liga
+font-family = LXGW WenKai
+font-size = 14
+font-codepoint-map = U+E5FA-U+E6B7,U+E700-U+E8EF,U+ED00-U+F2FF,U+E200-U+E2A9,U+F0001-U+F1AF0,U+E300-U+E3E3,U+F400-U+F533,U+2665,U+26A1,U+E000-U+E00A,U+EA60-U+EC1E=Symbols Nerd Font Mono
+
+background-opacity = 0.7
+background-blur = 15
+
+macos-option-as-alt = true
+# Tabs merged into the titlebar, like the Linux config
+macos-titlebar-style = tabs
+
+# Adwaita dark
+background = #1d1d1d
+foreground = #deddda
+selection-background = #303030
+selection-foreground = #c0bfbc
+cursor-color = #deddda
+cursor-text = #1d1d1d
+
+palette = 0=#1d1d1d
+palette = 1=#ed333b
+palette = 2=#57e389
+palette = 3=#ff7800
+palette = 4=#62a0ea
+palette = 5=#9141ac
+palette = 6=#5bc8af
+palette = 7=#deddda
+palette = 8=#9a9996
+palette = 9=#f66151
+palette = 10=#8ff0a4
+palette = 11=#ffa348
+palette = 12=#99c1f1
+palette = 13=#dc8add
+palette = 14=#93ddc2
+palette = 15=#f6f5f4

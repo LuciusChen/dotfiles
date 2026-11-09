@@ -20,7 +20,7 @@ Emacs 在两边都跟随系统深浅色，代码在 `.emacs.d` 的 `lib/lib-ui.e
 ```
 macos/
 ├── .zshrc 等         # zsh、邮件 (mbsync, msmtp)、git、vim、Maven
-├── .config/          # Karabiner, WezTerm, kitty, Starship, btop, emacs-plus
+├── .config/          # Karabiner, WezTerm, kitty, Ghostty, Starship, btop, emacs-plus
 ├── .hammerspoon/     # 窗口管理、快捷键、自动化
 ├── .gnupg/           # GPG agent
 └── brew.sh           # Homebrew 包

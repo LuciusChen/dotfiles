@@ -23,6 +23,9 @@ selection-background = #303030
 selection-foreground = #c0bfbc
 cursor-color = #deddda
 cursor-text = #1d1d1d
+# Block cursor; keep shell integration from switching it back to a bar
+cursor-style = block
+shell-integration-features = no-cursor
 
 palette = 0=#1d1d1d
 palette = 1=#ed333b

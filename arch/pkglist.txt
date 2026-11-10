@@ -49,7 +49,6 @@ jdk21-openjdk
 jdk8-openjdk
 jenv
 kanshi
-kitty-terminfo
 kvantum
 labwc
 libappindicator

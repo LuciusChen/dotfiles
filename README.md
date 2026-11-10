@@ -8,7 +8,7 @@ macOS 和 Arch Linux 的个人配置。两边没有共享文件：同名工具�
 |---|---|---|---|
 | 编辑器 | Emacs (emacs-plus) | Emacs (emacs-pgtk) | [.emacs.d](https://github.com/LuciusChen/.emacs.d)、[ashen](https://github.com/LuciusChen/ashen) 主题 |
 | 输入法 | 鼠须管 | Fcitx5 | Rime 方案，经 Dropbox 同步 |
-| 终端 | Ghostty、WezTerm | Ghostty | |
+| 终端 | Ghostty | Ghostty | |
 | 窗口和快捷键 | Karabiner + Hammerspoon | labwc + kanata + [keydock](https://github.com/LuciusChen/keydock) | |
 | 桌面 | | Noctalia | |
 | 命令行 | zsh、Starship | zsh、Starship | |
@@ -20,7 +20,7 @@ Emacs 在两边都跟随系统深浅色，代码在 `.emacs.d` 的 `lib/lib-ui.e
 ```
 macos/
 ├── .zshrc 等         # zsh、邮件 (mbsync, msmtp)、git、vim、Maven
-├── .config/          # Karabiner, WezTerm, Ghostty, Starship, btop, emacs-plus
+├── .config/          # Karabiner, Ghostty, Starship, btop, emacs-plus
 ├── .hammerspoon/     # 窗口管理、快捷键、自动化
 ├── .gnupg/           # GPG agent
 └── brew.sh           # Homebrew 包

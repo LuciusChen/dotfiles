@@ -14,6 +14,9 @@ background-opacity = 0.9
 window-decoration = client
 gtk-titlebar-style = tabs
 
+# Keep the block cursor at the prompt; shell integration would make it a bar.
+shell-integration-features = no-cursor
+
 # On GTK the indeterminate progress bar moves only when a report arrives,
 # so it looks frozen; hide it.
 progress-style = false

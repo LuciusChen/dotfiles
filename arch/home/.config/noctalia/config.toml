@@ -126,6 +126,10 @@ enabled = true
 
 [widget.tray]
 colorize_icons = true
+# Use the icon theme's symbolic icons (e.g. qq-symbolic), not app pixmaps.
+# Fcitx keeps its own icons, which show the input method state.
+icon_type = "symbolic"
+icon_override_blacklist = ["Fcitx"]
 
 [widget.workspaces]
 colorize_icons = true

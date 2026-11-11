@@ -11,7 +11,9 @@ if [ -d "$repo_dir/.git" ]; then
     echo "Unexpected origin for $repo_dir: $current_origin" >&2
     exit 1
   fi
-  git -C "$repo_dir" pull --ff-only
+  # The fork is rebased onto upstream, so match it instead of pulling.
+  git -C "$repo_dir" fetch origin
+  git -C "$repo_dir" reset --hard origin/master
 else
   git clone "$repo_url" "$repo_dir"
 fi

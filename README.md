@@ -31,6 +31,8 @@ cp -a ~/repos/dotfiles/macos/.config/. ~/.config/
 cp -a ~/repos/dotfiles/macos/.hammerspoon ~/.hammerspoon
 ```
 
+Moshi 等 SSH 客户端传入 `TERM=xterm-ghostty` 时，`.zshrc` 会将其改为 `xterm-256color`，使用 macOS 自带的终端定义。更新配置后重新连接，或执行 `exec zsh`。
+
 ## Arch
 
 ```

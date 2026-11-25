@@ -1,3 +1,8 @@
+# Use macOS's built-in terminal definition for Ghostty-based SSH clients.
+if [[ -n "$SSH_CONNECTION" && "$TERM" == xterm-ghostty ]]; then
+    export TERM=xterm-256color
+fi
+
 export PATH=$PATH:/usr/local/git/bin:/usr/local/bin
 # starship
 eval "$(starship init zsh)"
